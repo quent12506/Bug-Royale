@@ -58,7 +58,7 @@ out/
 bin/
 
 # NetBeans
-nbproject/private/
+nbproject/
 build/
 nbbuild/
 dist/
