@@ -9,11 +9,10 @@ package Jeu;
  * @author hmas
  */
 
+import ig.EcouteurClavier;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -25,13 +24,14 @@ import javax.swing.Timer;
  *
  * @author guillaume.laurent
  */
-public class FenetreDeJeu extends JFrame implements ActionListener, KeyListener {
+public class FenetreDeJeu extends JFrame implements ActionListener {
 
     private BufferedImage framebuffer;
     private Graphics2D contexte;
     private JLabel jLabel1;
     private Jeu jeu;
     private Timer timer;
+    private EcouteurClavier ecouteurClavier;
 
     public FenetreDeJeu() {
         // initialisation de la fenetre
@@ -42,6 +42,9 @@ public class FenetreDeJeu extends JFrame implements ActionListener, KeyListener 
         this.jLabel1.setPreferredSize(new java.awt.Dimension(380, 430));
         this.setContentPane(this.jLabel1);
         this.pack();
+        
+        this.ecouteurClavier = new EcouteurClavier();
+        this.addKeyListener(ecouteurClavier);
 
         // Creation du buffer pour l'affichage du jeu et recuperation du contexte graphique
         this.framebuffer = new BufferedImage(this.jLabel1.getWidth(), this.jLabel1.getHeight(), BufferedImage.TYPE_INT_ARGB);
@@ -54,9 +57,6 @@ public class FenetreDeJeu extends JFrame implements ActionListener, KeyListener 
         // Creation du timer
         this.timer = new Timer(40, this);
         this.timer.start();
-        
-        // Ajout d’un ecouteur clavier
-        this.addKeyListener(this);
     }
     
     @Override
@@ -69,45 +69,6 @@ public class FenetreDeJeu extends JFrame implements ActionListener, KeyListener 
             this.timer.stop();
         }
     }
-    
-    @Override
-    public void keyTyped(KeyEvent evt) {
-    }
-
-    @Override
-    public void keyPressed(KeyEvent evt) {
-        if (evt.getKeyCode() == evt.VK_RIGHT) {
-            this.jeu.getJoueur().setDroite(true);
-            }
-        if (evt.getKeyCode() == evt.VK_LEFT) {
-            this.jeu.getJoueur().setGauche(true);
-            }
-        if (evt.getKeyCode() == evt.VK_UP) {
-            this.jeu.getJoueur().setHaut(true);
-            }
-        if (evt.getKeyCode() == evt.VK_DOWN) {
-            this.jeu.getJoueur().setBas(true);
-            }
-    }
-
-    @Override
-    public void keyReleased(KeyEvent evt) {
-        if (evt.getKeyCode() == evt.VK_RIGHT) {
-            this.jeu.getJoueur().setDroite(false);
-        }
-        if (evt.getKeyCode() == evt.VK_LEFT) {
-            this.jeu.getJoueur().setGauche(false);
-        }
-        if (evt.getKeyCode() == evt.VK_UP) {
-            this.jeu.getJoueur().setHaut(false);
-            }
-        if (evt.getKeyCode() == evt.VK_DOWN) {
-            this.jeu.getJoueur().setBas(false);
-            }
-    }
-    
-        
-
     public static void main(String[] args) {
         FenetreDeJeu fenetre = new FenetreDeJeu();
         fenetre.setVisible(true);

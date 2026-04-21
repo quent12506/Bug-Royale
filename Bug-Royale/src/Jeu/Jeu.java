@@ -26,7 +26,7 @@ public class Jeu {
     
     private BufferedImage decor;
     private int score;
-    private Joueur joueur;
+    private Joueur joueurLocal;
 
     public Jeu() {
         try {
@@ -36,25 +36,21 @@ public class Jeu {
             Logger.getLogger(Jeu.class.getName()).log(Level.SEVERE, null, ex);
         }
         this.score = 0;
-        this.joueur= new Joueur();
+        this.joueurLocal= new Joueur();
     }
 
-    public Joueur getJoueur() {
-        return joueur;
+    public Joueur getJoueurLocal() {
+        return joueurLocal;
     }
     
     public void rendu (Graphics2D contexte){
         contexte.drawImage(this.decor, 0, 0, null);
-        this.joueur.rendu(contexte);
+        this.joueurLocal.rendu(contexte);
         contexte.drawString("Score : " + this.score, 10, 20);
     }
     
     public void miseAJour (){
-        this.joueur.miseAJour();
-        /*if (this.collisionEntreAvatarEtBanane()){
-            this.score++;
-            this.uneBanane.lancer();
-        }*/
+        this.joueurLocal.miseAJour();
     }
     
     public boolean estTermine (){
