@@ -11,7 +11,7 @@ package sql;
 
 import java.sql.*;
 import outils.OutilsJDBC;
-import moteur.Joueur;
+import joueur.Joueur;
 
 public class JoueurSQL {
     
@@ -47,11 +47,12 @@ public class JoueurSQL {
        //Voilà un exemple (va utiliser INSERT dans sa requête SQL), admettons qu'on a un Joueur J caractérisé par : son nom, son score, sa position X, sa position Y. On va ajouter cerre
 	//ligne à notre table JOUEUR !
         try {
-            PreparedStatement requete = connexion.prepareStatement("INSERT INTO Joueur VALUES (?, ?, ?, ?)");
-            requete.setString(1, J.getNom());
-            requete.setInt(2, J.getScore());
-            requete.setInt(3, J.getPositionX());
-            requete.setBoolean(4, getPositionY());
+            PreparedStatement requete = connexion.prepareStatement("INSERT INTO Joueur VALUES (?, ?, ?, ?, ?)");
+            requete.setDouble(1, J.getX());
+            requete.setDouble(2, J.getY());
+            requete.setInt(3, J.getHP()); 
+            requete.setString(4, J.getEspece());
+            requete.setString(5, J.getNom());
             System.out.println(requete);
             int nombreDAjouts = requete.executeUpdate();
             System.out.println(nombreDAjouts + " enregistrement(s) ajoute(s)");
@@ -69,8 +70,8 @@ public class JoueurSQL {
         try {
             PreparedStatement requete = connexion.prepareStatement("UPDATE Joueur SET X = ?, Y = ?, HP = ?, Espece = ? WHERE Nom = ?");
             
-            requete.setInt(1, J.getX());
-            requete.setInt(2, J.getY());
+            requete.setDouble(1, J.getX());
+            requete.setDouble(2, J.getY());
             requete.setInt(3, J.getHP()); 
             requete.setString(4, J.getEspece());
             requete.setString(5, J.getNom());
