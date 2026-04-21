@@ -21,6 +21,7 @@ public class EcouteurClavier implements KeyListener {
     public void keyPressed(KeyEvent evt) {
         
         if (evt.getKeyCode() == evt.VK_RIGHT) {
+            System.out.println("Droite");
             this.est=true;
             }
         if (evt.getKeyCode() == evt.VK_LEFT) {
@@ -55,4 +56,22 @@ public class EcouteurClavier implements KeyListener {
             this.sud=false;
             }
     }
+
+    public boolean isNord() {
+        return nord;
+    }
+
+    public boolean isSud() {
+        return sud;
+    }
+
+    public boolean isEst() {
+        return est;
+    }
+
+    public boolean isOuest() {
+        return ouest;
+    }
+    
+    
 }

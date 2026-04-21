@@ -17,6 +17,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import joueur.Joueur;
+import sql.JoueurSQL;
 
 /**
  *
@@ -25,8 +26,9 @@ import joueur.Joueur;
 public class Jeu {
     
     private BufferedImage decor;
-    private int score;
     private Joueur joueurLocal;
+    private int n;
+    private JoueurSQL lienSQL;
 
     public Jeu() {
         try {
@@ -35,26 +37,38 @@ public class Jeu {
         catch (IOException ex) {
             Logger.getLogger(Jeu.class.getName()).log(Level.SEVERE, null, ex);
         }
-        this.score = 0;
         this.joueurLocal= new Joueur("joueur1","insecte",50);
+        this.n = 0;
+        this.lienSQL = new JoueurSQL();
+        this.lienSQL.creerJoueur(this.joueurLocal);
     }
 
     public Joueur getJoueurLocal() {
         return joueurLocal;
     }
+
+    public int getN() {
+        return n;
+    }
+
+    public void setJoueurLocal(Joueur joueurLocal) {
+        this.joueurLocal = joueurLocal;
+    }
     
     public void rendu (Graphics2D contexte){
         contexte.drawImage(this.decor, 0, 0, null);
         this.joueurLocal.rendu(contexte);
-        contexte.drawString("Score : " + this.score, 10, 20);
     }
     
     public void miseAJour (){
+        this.n +=1;
+        this.joueurLocal=this.lienSQL.voirJoueur(this.joueurLocal); //On update le joueur local
         this.joueurLocal.miseAJour();
+        this.lienSQL.modifierJoueur(this.joueurLocal); //on update la table après modification
     }
     
-    public boolean estTermine (){
-        return (true);
+    public boolean estTermine (int n){
+        return (n==500);
     }
     
     /*public boolean collisionEntreAvatarEtBanane() {

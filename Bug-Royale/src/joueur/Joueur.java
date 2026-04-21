@@ -55,12 +55,16 @@ public class Joueur {
     
 
     public void miseAJour() {
+        System.out.println(this.toucheE);
         Coordonnee direction = new Coordonnee(
             (toucheE ? 1 : 0) - (toucheO ? 1 : 0),
             (toucheS ? 1 : 0) - (toucheN ? 1 : 0)
         );
-
+        //System.out.println(direction.toString());
+        
         position = position.add(direction.normalize().mult(VITESSE));
+        
+        
 
 //        if (position.getx() > 380 - sprite.getWidth()) {
 //            position = new Coordonnee(380 - sprite.getWidth(), position.gety());
@@ -129,6 +133,8 @@ public class Joueur {
     public void setHP(int HP) {
         this.HP = HP;
     }
+    
+    
     
     
 }

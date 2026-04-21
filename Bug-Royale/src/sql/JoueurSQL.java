@@ -9,7 +9,12 @@ package sql;
  * @author abriton
  */
 
-import java.sql.*;
+//import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import outils.OutilsJDBC;
 import joueur.Joueur;
 
@@ -33,7 +38,6 @@ public class JoueurSQL {
 	//Vous avez vu que, avant de faire une requête, il fallait se connecter à la BD, ce que je te propose c'est de te connecter/déco UNE seule fois, et pas à 
 	//chaque fois que tu fais une requête : La connection à la BD prend du TEMPS, si tu fais plusieurs co/déco, ça va être long :)
 	try {
-	
 	this.connexion = DriverManager.getConnection(this.adresseBase, this.user, this.motdepasse);
 	
 	} catch (SQLException ex) {
@@ -53,9 +57,9 @@ public class JoueurSQL {
             requete.setDouble(3, J.getY());
             requete.setInt(4, J.getHP());
             requete.setString(5, J.getEspece());
-            System.out.println(requete);
+            //System.out.println(requete);
             int nombreDAjouts = requete.executeUpdate();
-            System.out.println(nombreDAjouts + " enregistrement(s) ajoute(s)");
+            //System.out.println(nombreDAjouts + " enregistrement(s) ajoute(s)");
 
             requete.close();
 
@@ -68,7 +72,7 @@ public class JoueurSQL {
      public void modifierJoueur(Joueur J){
        
         try {
-            PreparedStatement requete = connexion.prepareStatement("UPDATE Joueur SET X = ?, Y = ?, HP = ?, Espece = ? WHERE Nom = ?");
+            PreparedStatement requete = connexion.prepareStatement("UPDATE Joueur SET X = ?, Y = ?, HP = ?, Espece = ? WHERE Name = ?");
             
             requete.setString(1, J.getNom());
             requete.setDouble(2, J.getX());
@@ -77,7 +81,7 @@ public class JoueurSQL {
             requete.setString(5, J.getEspece());
            
             int nombreDeModifications = requete.executeUpdate();
-            System.out.println(nombreDeModifications + " enregistrement(s) modifie(s)");
+            //System.out.println(nombreDeModifications + " enregistrement(s) modifie(s)");
 
             requete.close();
 
@@ -90,13 +94,13 @@ public class JoueurSQL {
      
 public void supprimerJoueur(Joueur J){
         try {
-            PreparedStatement requete = connexion.prepareStatement("DELETE FROM Joueur WHERE Nom = ?");
+            PreparedStatement requete = connexion.prepareStatement("DELETE FROM Joueur WHERE Name = ?");
             requete.setString(1, J.getNom());
-            System.out.println(requete);
+            //System.out.println(requete);
             
             // On exécute la requête (executeUpdate est utilisé pour INSERT, UPDATE et DELETE)
             int nombreDeSuppressions = requete.executeUpdate();
-            System.out.println(nombreDeSuppressions + " joueur(s) supprime(s) de la base de données.");
+            //System.out.println(nombreDeSuppressions + " joueur(s) supprime(s) de la base de données.");
 
             requete.close();
 
@@ -110,7 +114,7 @@ public void supprimerJoueur(Joueur J){
         Joueur JOut = new Joueur();
     
     try {
-        PreparedStatement requete = connexion.prepareStatement("SELECT * FROM Joueur WHERE nom = ?");
+        PreparedStatement requete = connexion.prepareStatement("SELECT * FROM Joueur WHERE Name = ?");
         requete.setString(1, J.getNom());
         
         ResultSet resultat = requete.executeQuery();
@@ -141,7 +145,7 @@ public void supprimerJoueur(Joueur J){
        // Dans le jeu, il y a de fortes chances que tu le fasses à la fin de la partie.
         try {
             this.connexion.close();
-            System.out.println("Connexion à la base de données fermée.");
+            //System.out.println("Connexion à la base de données fermée.");
         } catch (SQLException ex) {
             ex.printStackTrace();
         }

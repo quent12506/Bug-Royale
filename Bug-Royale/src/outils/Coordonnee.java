@@ -21,6 +21,11 @@ public class Coordonnee { // Déclaration de la classe Coordonnee
         return this.y; // Retourne l'ordonnée
     }
 
+    @Override
+    public String toString() {
+        return "Coordonnee{" + "x=" + x + ", y=" + y + '}';
+    }
+
     public Coordonnee add(Coordonnee b) { // Additionne deux coordonnées
         return new Coordonnee(this.x + b.x, this.y + b.y); // Retourne la somme
     }

@@ -61,17 +61,25 @@ public class FenetreDeJeu extends JFrame implements ActionListener {
     
     @Override
     public void actionPerformed(ActionEvent e){
+        actionListened();
         this.jeu.miseAJour();
         this.jeu.rendu(contexte);
         this.jLabel1.repaint();
         
-        if (this.jeu.estTermine()){
+        if (this.jeu.estTermine(this.jeu.getN())){
             this.timer.stop();
         }
     }
     public static void main(String[] args) {
         FenetreDeJeu fenetre = new FenetreDeJeu();
         fenetre.setVisible(true);
+    }
+    
+    public void actionListened(){
+        this.jeu.getJoueurLocal().setToucheEst(this.ecouteurClavier.isEst());
+        this.jeu.getJoueurLocal().setToucheOuest(this.ecouteurClavier.isOuest());
+        this.jeu.getJoueurLocal().setToucheNord(this.ecouteurClavier.isNord());
+        this.jeu.getJoueurLocal().setToucheSud(this.ecouteurClavier.isSud());
     }
 
 }
