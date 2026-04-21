@@ -104,28 +104,32 @@ public void supprimerJoueur(Joueur J){
         }
     }
     
-    public Object[][] voirJoueur(Joueur J){
-    	try (PreparedStatement requete = connexion.prepareStatement("SELECT * FROM Joueur WHERE nom = ?")) {
-        	requete.setString(1, J.getNom());
+    public Joueur voirJoueur(Joueur J) {
+    Joueur J = new Joueur;
+    
+    try {
+        PreparedStatement requete = connexion.prepareStatement("SELECT * FROM Joueur WHERE nom = ?");
+        requete.setString(1, J.getNom());
+        System.out.println(requete);
+        ResultSet resultat = requete.executeQuery();
         
-        try (ResultSet resultat = requete.executeQuery()) {
-            if (resultat.next()) {
-                // Créer une matrice 1 ligne x nombre de colonnes
-                Object[][] donnees = new Object[1][resultat.getMetaData().getColumnCount()];
-                
-                // Remplir la première ligne avec les données
-                for (int i = 1; i <= resultat.getMetaData().getColumnCount(); i++) {
-                    donnees[0][i-1] = resultat.getObject(i);
-                }
-                
-                return donnees;
-            }
+        // If a result is found, create a new Joueur object with the retrieved data
+        if (resultat.next()) {
+                resultat.getString("name");
+                resultat.getInt("X");           
+                resultat.getInt("Y");
+                resultat.getString("Espece");       
+            
+            // Add other fields as necessary based on your Joueur class
         }
+        
+        requete.close();
         
     } catch (SQLException ex) {
         ex.printStackTrace();
     }
-    return new Object[0][0];  // Retourner une matrice vide si aucun joueur trouvé
+    
+    return J;
 }
    
     public void closeTable(){
