@@ -69,8 +69,8 @@ public class JoueurSQL {
         try {
             PreparedStatement requete = connexion.prepareStatement("UPDATE Joueur SET X = ?, Y = ?, HP = ?, Espece = ? WHERE Nom = ?");
             
-            requete.setInt(1, J.getX());
-            requete.setInt(2, J.getY());
+            requete.setDouble(1, J.getX());
+            requete.setDouble(2, J.getY());
             requete.setInt(3, J.getHP()); 
             requete.setString(4, J.getEspece());
             requete.setString(5, J.getNom());
@@ -105,30 +105,33 @@ public void supprimerJoueur(Joueur J){
     }
     
     public Joueur voirJoueur(Joueur J) {
-    Joueur J = new Joueur;
+    Joueur J = null;
     
     try {
         PreparedStatement requete = connexion.prepareStatement("SELECT * FROM Joueur WHERE nom = ?");
         requete.setString(1, J.getNom());
-        System.out.println(requete);
+        
         ResultSet resultat = requete.executeQuery();
         
-        // If a result is found, create a new Joueur object with the retrieved data
+        // Si data trouvée : creer un nouveau joueur
         if (resultat.next()) {
-                resultat.getString("name");
-                resultat.getInt("X");           
-                resultat.getInt("Y");
+            J = new Joueur();
+            
+                resultat.getString("Name");
+                resultat.getDouble("X");           
+                resultat.getDouble("Y");
+                resultat.getInt("HP");
                 resultat.getString("Espece");       
             
             // Add other fields as necessary based on your Joueur class
         }
         
+        resultat.close();
         requete.close();
         
     } catch (SQLException ex) {
-        ex.printStackTrace();
+        ex.printStackTrace();  
     }
-    
     return J;
 }
    
