@@ -62,7 +62,10 @@ public class Jeu {
     
     public void miseAJour (){
         this.n +=1;
-        this.joueurLocal=this.lienSQL.voirJoueur(this.joueurLocal); //On update le joueur local
+        Joueur joueurLocalBDD = this.lienSQL.voirJoueur(this.joueurLocal); //on récupère les infos du joueur local stockés sur la bdd
+        this.joueurLocal.setPosition(joueurLocalBDD.getX(), joueurLocalBDD.getY()); //On update les infos variables du joueur local
+        this.joueurLocal.setHP(joueurLocalBDD.getHP());
+        System.out.println(this.joueurLocal.getToucheEst());
         this.joueurLocal.miseAJour();
         this.lienSQL.modifierJoueur(this.joueurLocal); //on update la table après modification
     }

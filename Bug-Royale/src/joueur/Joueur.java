@@ -55,7 +55,7 @@ public class Joueur {
     
 
     public void miseAJour() {
-        System.out.println(this.toucheE);
+        
         Coordonnee direction = new Coordonnee(
             (toucheE ? 1 : 0) - (toucheO ? 1 : 0),
             (toucheS ? 1 : 0) - (toucheN ? 1 : 0)
@@ -94,6 +94,10 @@ public class Joueur {
     }
     public void setToucheSud(boolean etat)   { 
         this.toucheS = etat; 
+    }
+    
+    public boolean getToucheEst(){
+        return this.toucheE;
     }
 
     public double getX() { 
