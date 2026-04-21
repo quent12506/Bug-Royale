@@ -104,22 +104,29 @@ public void supprimerJoueur(Joueur J){
         }
     }
     
-    public void voirJoueur(Joueur J){
-        try {
-            PreparedStatement requete = connexion.prepareStatement("SELECT * FROM Joueur WHERE nom = ?");
-            requete.setString(1, J.getNom());
-            System.out.println(requete);
-            
-            // executeQuery est utilisé spécifiquement pour les SELECT car il retourne un résultat
-            ResultSet resultat = requete.executeQuery();
-            OutilsJDBC.afficherResultSet(resultat);
-
-            requete.close();
-
-        } catch (SQLException ex) {
-            ex.printStackTrace();
+    public Object[][] voirJoueur(Joueur J){
+    	try (PreparedStatement requete = connexion.prepareStatement("SELECT * FROM Joueur WHERE nom = ?")) {
+        	requete.setString(1, J.getNom());
+        
+        try (ResultSet resultat = requete.executeQuery()) {
+            if (resultat.next()) {
+                // Créer une matrice 1 ligne x nombre de colonnes
+                Object[][] donnees = new Object[1][resultat.getMetaData().getColumnCount()];
+                
+                // Remplir la première ligne avec les données
+                for (int i = 1; i <= resultat.getMetaData().getColumnCount(); i++) {
+                    donnees[0][i-1] = resultat.getObject(i);
+                }
+                
+                return donnees;
+            }
         }
+        
+    } catch (SQLException ex) {
+        ex.printStackTrace();
     }
+    return new Object[0][0];  // Retourner une matrice vide si aucun joueur trouvé
+}
    
     public void closeTable(){
        // On a lancé la connexion dans le Constructeur, il faut donc fermer la connexion quand tout est fini.
