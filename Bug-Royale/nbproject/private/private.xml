@@ -3,11 +3,16 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file://HERMES/EDU$/hmas/Documents/1%20-%20Vert/Info/Bug-Royale-main/Bug-Royale-main/Bug-Royale/src/joueur/Joueur.java</file>
-            <file>file://HERMES/EDU$/hmas/Documents/1%20-%20Vert/Info/Bug-Royale-main/Bug-Royale-main/Bug-Royale/src/outils/OutilsJDBC.java</file>
-            <file>file://HERMES/EDU$/hmas/Documents/1%20-%20Vert/Info/Bug-Royale-main/Bug-Royale-main/Bug-Royale/src/sql/JoueurSQL.java</file>
-            <file>file://HERMES/EDU$/hmas/Documents/1%20-%20Vert/Info/Bug-Royale-main/Bug-Royale-main/Bug-Royale/src/Jeu/Jeu.java</file>
-            <file>file://HERMES/EDU$/hmas/Documents/1%20-%20Vert/Info/Bug-Royale-main/Bug-Royale-main/Bug-Royale/src/Jeu/FenetreDeJeu.java</file>
+            <file>file:/C:/Users/hugom/Documents/GitHub/Bug-Royale/Bug-Royale/src/outils/Coordonnee.java</file>
+            <file>file:/C:/Users/hugom/Documents/GitHub/Bug-Royale/Bug-Royale/src/sql/JoueurSQL.java</file>
+            <file>file:/C:/Users/hugom/Documents/GitHub/Bug-Royale/Bug-Royale/src/joueur/Joueur.java</file>
+            <file>file:/C:/Users/hugom/Documents/GitHub/Bug-Royale/Bug-Royale/src/Jeu/Jeu.java</file>
+            <file>file:/C:/Users/hugom/Documents/GitHub/Bug-Royale/Bug-Royale/src/Jeu/FenetreDeJeu.java</file>
+            <file>file:/C:/Users/hugom/Documents/GitHub/Bug-Royale/Bug-Royale/src/ig/EcouteurClavier.java</file>
+            <file>file:/C:/Users/hugom/Documents/GitHub/Bug-Royale/Bug-Royale/src/ig/EcouteurSouris.java</file>
+            <file>file:/C:/Users/hugom/Documents/GitHub/Bug-Royale/Bug-Royale/src/ig/TestEcouteurs.java</file>
+            <file>file:/C:/Users/hugom/Documents/GitHub/Bug-Royale/Bug-Royale/src/outils/OutilsJDBC.java</file>
+            <file>file:/C:/Users/hugom/Documents/GitHub/Bug-Royale/Bug-Royale/src/outils/SingletonJDBC.java</file>
         </group>
     </open-files>
 </project-private>
