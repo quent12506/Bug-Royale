@@ -18,7 +18,7 @@ public class Joueur {
     
     protected BufferedImage sprite;
     protected double x, y;
-    private boolean toucheGauche, toucheDroite;
+    private boolean toucheO, toucheE, toucheN, toucheS;
 
     public Joueur() {
         try {
@@ -28,35 +28,51 @@ public class Joueur {
         }
         this.x = 170;
         this.y = 320;
-        this.toucheGauche = false;
-        this.toucheDroite = false;
+        this.toucheO = false;
+        this.toucheE = false;
+        this.toucheN = false;
+        this.toucheS = false;
     }
 
     public void miseAJour() {
-        if (this.toucheGauche) {
+        if (this.toucheO) {
             x -= 5;
-           }
-        if (this.toucheDroite) {
+        }
+        if (this.toucheE) {
             x += 5;
         }
-        if (x > 380 - sprite.getWidth()) { // collision avec le bord droit de la scene
-            x = 380 - sprite.getWidth();
+        if (this.toucheN) {
+            y -= 5;
         }
-        if (x < 0) { // collision avec le bord gauche de la scene
-            x = 0;
+        if (this.toucheS) {
+            y -= 5;
         }
+//        if (x > 380 - sprite.getWidth()) { // collision avec le bord droit de la scene
+//            x = 380 - sprite.getWidth();
+//        }
+//        if (x < 0) { // collision avec le bord gauche de la scene
+//            x = 0;
+//        }
     }
 
     public void rendu(Graphics2D contexte) {
         contexte.drawImage(this.sprite, (int) x, (int) y, null);
     }
     
-    public void setToucheGauche(boolean etat) {
-        this.toucheGauche = etat;
+    public void setToucheOuest(boolean etat) {
+        this.toucheO = etat;
     }
     
-    public void setToucheDroite(boolean etat) {
-        this.toucheDroite = etat;
+    public void setToucheEst(boolean etat) {
+        this.toucheE = etat;
+    }
+    
+    public void setToucheNord(boolean etat) {
+        this.toucheN = etat;
+    }
+    
+    public void setToucheSud(boolean etat) {
+        this.toucheS = etat;
     }
 
     public double getX() {
