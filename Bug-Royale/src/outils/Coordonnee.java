@@ -1,4 +1,4 @@
-package joueur; // Définit le package du projet
+package outils; // Définit le package du projet
 
 /**
  * Classe représentant une coordonnée 2D
