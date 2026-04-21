@@ -19,8 +19,11 @@ public class Joueur {
     protected BufferedImage sprite;
     protected Coordonnee position;
     private boolean toucheO, toucheE, toucheN, toucheS;
+    private String nom;
+    private String espece;
+    private int HP;
 
-    public Joueur() {
+    public Joueur(String nom, String espece, int HP) {
         try {
             this.sprite = ImageIO.read(getClass().getResource("../resources/donkeyKong.png"));
         } catch (IOException ex) {
@@ -31,7 +34,25 @@ public class Joueur {
         this.toucheE = false;
         this.toucheN = false;
         this.toucheS = false;
+        this.nom = nom;
+        this.espece = espece;
+        this.HP = HP;
+        
     }
+
+    public Joueur() {
+        try {
+            this.sprite = ImageIO.read(getClass().getResource("../resources/donkeyKong.png"));
+        } catch (IOException ex) {
+            Logger.getLogger(Joueur.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        this.toucheO = false;
+        this.toucheE = false;
+        this.toucheN = false;
+        this.toucheS = false;
+    }
+    
+    
 
     public void miseAJour() {
         Coordonnee direction = new Coordonnee(
@@ -51,6 +72,10 @@ public class Joueur {
 
     public void rendu(Graphics2D contexte) {
         contexte.drawImage(this.sprite, (int) position.getx(), (int) position.gety(), null);
+    }
+
+    public void setPosition(double x, double y) {
+        this.position = new Coordonnee(x,y);
     }
 
     public void setToucheOuest(boolean etat) { 
@@ -80,4 +105,30 @@ public class Joueur {
     public double getHauteur() { 
         return sprite.getHeight(); 
     }
+
+    public String getNom() {
+        return nom;
+    }
+
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
+
+    public String getEspece() {
+        return espece;
+    }
+
+    public void setEspece(String espece) {
+        this.espece = espece;
+    }
+
+    public int getHP() {
+        return HP;
+    }
+
+    public void setHP(int HP) {
+        this.HP = HP;
+    }
+    
+    
 }

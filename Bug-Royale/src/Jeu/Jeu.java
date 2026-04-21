@@ -36,7 +36,7 @@ public class Jeu {
             Logger.getLogger(Jeu.class.getName()).log(Level.SEVERE, null, ex);
         }
         this.score = 0;
-        this.joueurLocal= new Joueur();
+        this.joueurLocal= new Joueur("joueur1","insecte",50);
     }
 
     public Joueur getJoueurLocal() {
