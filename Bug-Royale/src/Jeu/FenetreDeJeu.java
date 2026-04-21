@@ -82,6 +82,12 @@ public class FenetreDeJeu extends JFrame implements ActionListener, KeyListener 
         if (evt.getKeyCode() == evt.VK_LEFT) {
             this.jeu.getJoueur().setGauche(true);
             }
+        if (evt.getKeyCode() == evt.VK_UP) {
+            this.jeu.getJoueur().setHaut(true);
+            }
+        if (evt.getKeyCode() == evt.VK_DOWN) {
+            this.jeu.getJoueur().setBas(true);
+            }
     }
 
     @Override
@@ -92,6 +98,12 @@ public class FenetreDeJeu extends JFrame implements ActionListener, KeyListener 
         if (evt.getKeyCode() == evt.VK_LEFT) {
             this.jeu.getJoueur().setGauche(false);
         }
+        if (evt.getKeyCode() == evt.VK_UP) {
+            this.jeu.getJoueur().setHaut(false);
+            }
+        if (evt.getKeyCode() == evt.VK_DOWN) {
+            this.jeu.getJoueur().setBas(false);
+            }
     }
     
         
