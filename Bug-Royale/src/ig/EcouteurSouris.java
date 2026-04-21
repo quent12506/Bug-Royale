@@ -14,6 +14,7 @@ public class EcouteurSouris implements MouseListener {
     public void mouseClicked(MouseEvent event){
         //"event" vous donne des infos sur là où vous avez cliqué ! Ici, je peux choper les coordonnées X,Y (en pixel...) de là où j'ai cliqué ! :)
         System.out.println("La souris a cliqué aux coordonnées (" + event.getX() + ", " + event.getY() +")"); 
+       
         System.out.flush();
         
         //Ici du coup, rien interdit que si vos cordonnés se trouvent dans la partie gauche de la fenêtre, vous faites un truc... Et si c'est la partie droite, vous faites un autre truc ! Essayez ! ;)
