@@ -6,18 +6,18 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
+import outils.Coordonnee;
 
 /**
  *
  * @author florentgausin
  */
-
-// Ajouter méthodes miseAJour et Rendu
-// Ajouter methode setGauche et setDroite
 public class Joueur {
-    
+
+    private static final double VITESSE = 5.0;
+
     protected BufferedImage sprite;
-    protected double x, y;
+    protected Coordonnee position;
     private boolean toucheO, toucheE, toucheN, toucheS;
 
     public Joueur() {
@@ -26,8 +26,7 @@ public class Joueur {
         } catch (IOException ex) {
             Logger.getLogger(Joueur.class.getName()).log(Level.SEVERE, null, ex);
         }
-        this.x = 170;
-        this.y = 320;
+        this.position = new Coordonnee(170, 320);
         this.toucheO = false;
         this.toucheE = false;
         this.toucheN = false;
@@ -35,61 +34,50 @@ public class Joueur {
     }
 
     public void miseAJour() {
-        if (this.toucheO) {
-            x -= 5;
-        }
-        if (this.toucheE) {
-            x += 5;
-        }
-        if (this.toucheN) {
-            y -= 5;
-        }
-        if (this.toucheS) {
-            y -= 5;
-        }
-//        if (x > 380 - sprite.getWidth()) { // collision avec le bord droit de la scene
-//            x = 380 - sprite.getWidth();
+        Coordonnee direction = new Coordonnee(
+            (toucheE ? 1 : 0) - (toucheO ? 1 : 0),
+            (toucheS ? 1 : 0) - (toucheN ? 1 : 0)
+        );
+
+        position = position.add(direction.normalize().mult(VITESSE));
+
+//        if (position.getx() > 380 - sprite.getWidth()) {
+//            position = new Coordonnee(380 - sprite.getWidth(), position.gety());
 //        }
-//        if (x < 0) { // collision avec le bord gauche de la scene
-//            x = 0;
+//        if (position.getx() < 0) {
+//            position = new Coordonnee(0, position.gety());
 //        }
     }
 
     public void rendu(Graphics2D contexte) {
-        contexte.drawImage(this.sprite, (int) x, (int) y, null);
-    }
-    
-    public void setToucheOuest(boolean etat) {
-        this.toucheO = etat;
-    }
-    
-    public void setToucheEst(boolean etat) {
-        this.toucheE = etat;
-    }
-    
-    public void setToucheNord(boolean etat) {
-        this.toucheN = etat;
-    }
-    
-    public void setToucheSud(boolean etat) {
-        this.toucheS = etat;
+        contexte.drawImage(this.sprite, (int) position.getx(), (int) position.gety(), null);
     }
 
-    public double getX() {
-        return x;
-    }
-
-    public double getY() {
-        return y;
+    public void setToucheOuest(boolean etat) { 
+        this.toucheO = etat; 
     }
     
-    public double getLargeur() {
-        return sprite.getHeight();
+    public void setToucheEst(boolean etat)   { 
+        this.toucheE = etat; 
+    }
+    public void setToucheNord(boolean etat)  { 
+        this.toucheN = etat; 
+    }
+    public void setToucheSud(boolean etat)   { 
+        this.toucheS = etat; 
     }
 
-    public double getHauteur() {
-        return sprite.getWidth();
+    public double getX() { 
+        return position.getx(); 
     }
-    
+    public double getY() { 
+        return position.gety(); 
+    }
+
+    public double getLargeur() { 
+        return sprite.getWidth(); 
+    }
+    public double getHauteur() { 
+        return sprite.getHeight(); 
+    }
 }
-
