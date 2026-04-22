@@ -1,16 +1,6 @@
 # Bug-Royale
 
-coucou !
-quelqu'un a ChatGPT premium svp ?
 
-Oui tqt
-ttttttt
-dgdfgdgd
-Khglhjfktd
-le project owner est relou en vrai non? en plus apparement on est pas payé ?
 carte possible je veux juste verifier que ca peut marcher https://pixelcrux.com/Brawl\_Stars/Map\_Designer/
 
-
-
-salut l'équipe
-
+Pour jouer en multi à la V1 : mettre en commentaire les lignes 45, 79 et 80.
