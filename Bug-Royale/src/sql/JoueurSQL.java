@@ -15,6 +15,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import outils.OutilsJDBC;
 import joueur.Joueur;
 
@@ -72,16 +73,23 @@ public class JoueurSQL {
      public void modifierJoueur(Joueur J){
        
         try {
+            
+            
             PreparedStatement requete = connexion.prepareStatement("UPDATE Joueur SET X = ?, Y = ?, HP = ?, Espece = ? WHERE Name = ?");
             
-            requete.setString(1, J.getNom());
-            requete.setDouble(2, J.getX());
-            requete.setDouble(3, J.getY());
-            requete.setInt(4, J.getHP());
-            requete.setString(5, J.getEspece());
+            
+            requete.setDouble(1, J.getX());
+            requete.setDouble(2, J.getY());
+            requete.setInt(3, J.getHP());
+            requete.setString(4, J.getEspece());
+            requete.setString(5, J.getNom());
            
+            System.out.println(requete);
+            
+            voirTable();
+            
             int nombreDeModifications = requete.executeUpdate();
-            //System.out.println(nombreDeModifications + " enregistrement(s) modifie(s)");
+            System.out.println(nombreDeModifications + " enregistrement(s) modifie(s)");
 
             requete.close();
 
@@ -126,7 +134,7 @@ public void supprimerJoueur(Joueur J){
                 JOut.setNom(resultat.getString("Name"));
                 JOut.setPosition(resultat.getDouble("X"),resultat.getDouble("Y"));
                 JOut.setHP(resultat.getInt("HP"));
-                JOut.setEspece(resultat.getString("Espece")); 
+                JOut.setEspece(resultat.getString("Espece"));
             
             // Add other fields as necessary based on your Joueur class
         }
@@ -138,7 +146,52 @@ public void supprimerJoueur(Joueur J){
         ex.printStackTrace();  
     }
     return JOut;
-}
+    }
+    
+    public Joueur voirJoueurNom(String nom) {
+        
+        Joueur JOut = new Joueur();
+    
+    try {
+        PreparedStatement requete = connexion.prepareStatement("SELECT * FROM Joueur WHERE Name = ?");
+        requete.setString(1, nom);
+        
+        ResultSet resultat = requete.executeQuery();
+        
+        // Si data trouvée : creer un nouveau joueur
+        if (resultat.next()) {
+            
+            
+                JOut.setNom(resultat.getString("Name"));
+                JOut.setPosition(resultat.getDouble("X"),resultat.getDouble("Y"));
+                JOut.setHP(resultat.getInt("HP"));
+                JOut.setEspece(resultat.getString("Espece"));
+            
+            // Add other fields as necessary based on your Joueur class
+        }
+        
+        resultat.close();
+        requete.close();
+        
+    } catch (SQLException ex) {
+        ex.printStackTrace();  
+    }
+    return JOut;
+    }
+    
+    public void voirTable(){
+        try {
+            PreparedStatement requete = connexion.prepareStatement("SELECT * FROM Joueur");
+            System.out.println(requete);
+            ResultSet resultat = requete.executeQuery();
+            OutilsJDBC.afficherResultSet(resultat);
+
+            requete.close();
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
    
     public void closeTable(){
        // On a lancé la connexion dans le Constructeur, il faut donc fermer la connexion quand tout est fini.
@@ -150,6 +203,26 @@ public void supprimerJoueur(Joueur J){
             ex.printStackTrace();
         }
     }   
+    
+    public ArrayList<String> listeNom(){
+        ArrayList<String> listeNom = new ArrayList<String>();
+        try {
+            PreparedStatement requete = connexion.prepareStatement("SELECT Name FROM Joueur");
+            System.out.println(requete);
+            ResultSet resultat = requete.executeQuery();
+            
+            while(resultat.next()){
+                listeNom.add(resultat.getString("Name"));
+            }
+
+            resultat.close();
+            requete.close();
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return listeNom;
+    }
 }
     
    //Si tu as une autre table, tu dois créer une autre classe similaire à celle-ci ! A présent, ton collègue qui travaille sur le moteur pourra

@@ -21,7 +21,6 @@ public class EcouteurClavier implements KeyListener {
     public void keyPressed(KeyEvent evt) {
         
         if (evt.getKeyCode() == evt.VK_RIGHT) {
-            System.out.println("Droite");
             this.est=true;
             }
         if (evt.getKeyCode() == evt.VK_LEFT) {

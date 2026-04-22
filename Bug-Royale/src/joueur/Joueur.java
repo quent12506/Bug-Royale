@@ -23,13 +23,13 @@ public class Joueur {
     private String espece;
     private int HP;
 
-    public Joueur(String nom, String espece, int HP) {
+    public Joueur(String nom, String espece, int HP, double x, double y) {
         try {
             this.sprite = ImageIO.read(getClass().getResource("../resources/donkeyKong.png"));
         } catch (IOException ex) {
             Logger.getLogger(Joueur.class.getName()).log(Level.SEVERE, null, ex);
         }
-        this.position = new Coordonnee(170, 320);
+        this.position = new Coordonnee(x, y);
         this.toucheO = false;
         this.toucheE = false;
         this.toucheN = false;
@@ -72,6 +72,16 @@ public class Joueur {
 //        if (position.getx() < 0) {
 //            position = new Coordonnee(0, position.gety());
 //        }
+    }
+    
+    public Joueur miseAJourTestMulti(Joueur J3){
+        if (J3.getX()<150){
+            J3.setPosition(J3.getX(), J3.getY()+10);
+        }
+        else{
+            J3.setPosition(J3.getX(), J3.getY()-10);
+        }
+        return J3;
     }
 
     public void rendu(Graphics2D contexte) {
@@ -136,6 +146,11 @@ public class Joueur {
 
     public void setHP(int HP) {
         this.HP = HP;
+    }
+
+    @Override
+    public String toString() {
+        return "Joueur{" + "position=" + position + ", nom=" + nom + ", espece=" + espece + ", HP=" + HP + '}';
     }
     
     

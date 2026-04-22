@@ -13,6 +13,7 @@ import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -37,10 +38,11 @@ public class Jeu {
         catch (IOException ex) {
             Logger.getLogger(Jeu.class.getName()).log(Level.SEVERE, null, ex);
         }
-        this.joueurLocal= new Joueur("joueur1","insecte",50);
+        this.joueurLocal= new Joueur("joueur1","insecte",50,170,320);
         this.n = 0;
         this.lienSQL = new JoueurSQL();
         this.lienSQL.creerJoueur(this.joueurLocal);
+        initialisationTestMulti();
     }
 
     public Joueur getJoueurLocal() {
@@ -57,7 +59,13 @@ public class Jeu {
     
     public void rendu (Graphics2D contexte){
         contexte.drawImage(this.decor, 0, 0, null);
-        this.joueurLocal.rendu(contexte);
+        //this.joueurLocal.rendu(contexte);
+        ArrayList<String> listeNom = this.lienSQL.listeNom();
+        for (int i=0;i<listeNom.size();i++){
+            Joueur joueurARendre = this.lienSQL.voirJoueurNom(listeNom.get(i));
+            joueurARendre.rendu(contexte);
+        }
+        
     }
     
     public void miseAJour (){
@@ -65,8 +73,12 @@ public class Jeu {
         Joueur joueurLocalBDD = this.lienSQL.voirJoueur(this.joueurLocal); //on récupère les infos du joueur local stockés sur la bdd
         this.joueurLocal.setPosition(joueurLocalBDD.getX(), joueurLocalBDD.getY()); //On update les infos variables du joueur local
         this.joueurLocal.setHP(joueurLocalBDD.getHP());
-        System.out.println(this.joueurLocal.getToucheEst());
+        
         this.joueurLocal.miseAJour();
+        
+        Joueur joueur3 = this.joueurLocal.miseAJourTestMulti(this.lienSQL.voirJoueurNom("joueur3"));
+        this.lienSQL.modifierJoueur(joueur3);
+        
         this.lienSQL.modifierJoueur(this.joueurLocal); //on update la table après modification
     }
     
@@ -84,5 +96,12 @@ public class Jeu {
             return true;
         }
     }*/
+    
+    public void initialisationTestMulti(){
+        Joueur joueur2=new Joueur("joueur2","scarab",60,50,50);
+        Joueur joueur3=new Joueur("joueur3","fourmi",170,50,50);
+        this.lienSQL.creerJoueur(joueur2);
+        this.lienSQL.creerJoueur(joueur3);
+    }
     
 }
