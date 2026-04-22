@@ -35,11 +35,11 @@ public class FenetreDeJeu extends JFrame implements ActionListener {
 
     public FenetreDeJeu() {
         // initialisation de la fenetre
-        this.setSize(380, 430);
+        this.setSize(380, 430); //MODIFIER LA FENETRE GRAPHIQUE EN FONCTION DE LA TAILLE DE LA MAP
         this.setResizable(false);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.jLabel1 = new JLabel();
-        this.jLabel1.setPreferredSize(new java.awt.Dimension(380, 430));
+        this.jLabel1.setPreferredSize(new java.awt.Dimension(380, 430)); 
         this.setContentPane(this.jLabel1);
         this.pack();
         
@@ -60,7 +60,7 @@ public class FenetreDeJeu extends JFrame implements ActionListener {
     }
     
     @Override
-    public void actionPerformed(ActionEvent e){
+    public void actionPerformed(ActionEvent e){ //"tour de jeu" -> tout les 40 ms on actualise le jeu et on l'affiche
         actionListened();
         this.jeu.miseAJour();
         this.jeu.rendu(contexte);
@@ -70,12 +70,12 @@ public class FenetreDeJeu extends JFrame implements ActionListener {
             this.timer.stop();
         }
     }
-    public static void main(String[] args) {
+    public static void main(String[] args) { //affichage fenetre de jeu
         FenetreDeJeu fenetre = new FenetreDeJeu();
         fenetre.setVisible(true);
     }
     
-    public void actionListened(){
+    public void actionListened(){ //Lien entre l'écouteur de clavier et le joueur local
         this.jeu.getJoueurLocal().setToucheEst(this.ecouteurClavier.isEst());
         this.jeu.getJoueurLocal().setToucheOuest(this.ecouteurClavier.isOuest());
         this.jeu.getJoueurLocal().setToucheNord(this.ecouteurClavier.isNord());

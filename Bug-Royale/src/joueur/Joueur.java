@@ -23,7 +23,7 @@ public class Joueur {
     private String espece;
     private int HP;
 
-    public Joueur(String nom, String espece, int HP, double x, double y) {
+    public Joueur(String nom, String espece, int HP, double x, double y) { //Création manuelle d'un joueur, tout les attributs de la BDD à rentrer
         try {
             this.sprite = ImageIO.read(getClass().getResource("../resources/donkeyKong.png"));
         } catch (IOException ex) {
@@ -40,7 +40,7 @@ public class Joueur {
         
     }
 
-    public Joueur() {
+    public Joueur() { //Création d'un joueur par défaut
         try {
             this.sprite = ImageIO.read(getClass().getResource("../resources/donkeyKong.png"));
         } catch (IOException ex) {
@@ -51,43 +51,8 @@ public class Joueur {
         this.toucheN = false;
         this.toucheS = false;
     }
-    
-    
-
-    public void miseAJour() {
-        
-        Coordonnee direction = new Coordonnee(
-            (toucheE ? 1 : 0) - (toucheO ? 1 : 0),
-            (toucheS ? 1 : 0) - (toucheN ? 1 : 0)
-        );
-        //System.out.println(direction.toString());
-        
-        position = position.add(direction.normalize().mult(VITESSE));
-        
-        
-
-//        if (position.getx() > 380 - sprite.getWidth()) {
-//            position = new Coordonnee(380 - sprite.getWidth(), position.gety());
-//        }
-//        if (position.getx() < 0) {
-//            position = new Coordonnee(0, position.gety());
-//        }
-    }
-    
-    public Joueur miseAJourTestMulti(Joueur J3){
-        if (J3.getX()<150){
-            J3.setPosition(J3.getX(), J3.getY()+10);
-        }
-        else{
-            J3.setPosition(J3.getX(), J3.getY()-10);
-        }
-        return J3;
-    }
-
-    public void rendu(Graphics2D contexte) {
-        contexte.drawImage(this.sprite, (int) position.getx(), (int) position.gety(), null);
-    }
-
+   
+    //Ensembles de getter, setter et toString
     public void setPosition(double x, double y) {
         this.position = new Coordonnee(x,y);
     }
@@ -152,6 +117,38 @@ public class Joueur {
     public String toString() {
         return "Joueur{" + "position=" + position + ", nom=" + nom + ", espece=" + espece + ", HP=" + HP + '}';
     }
+
+    public void miseAJour() { //déplacement du joueur local
+        
+        Coordonnee direction = new Coordonnee(
+            (toucheE ? 1 : 0) - (toucheO ? 1 : 0),
+            (toucheS ? 1 : 0) - (toucheN ? 1 : 0)
+        );
+        
+        position = position.add(direction.normalize().mult(VITESSE));
+    }
+    
+    public Joueur miseAJourTestMulti(Joueur J3){ //Classe de test pour vérifier que le programme actualise tout les joueurs présents
+        if ((J3.getY()<150)&&(J3.getX()==100)){
+            J3.setPosition(J3.getX(), J3.getY()+10);
+        }
+        if ((J3.getY()>50)&&(J3.getX()==110)){
+            J3.setPosition(J3.getX(), J3.getY()-10);
+        }
+        if (J3.getY()==150){
+            J3.setPosition(J3.getX()+10, J3.getY());
+        }
+        if (J3.getY()==50){
+            J3.setPosition(J3.getX()-10, J3.getY());
+        }
+        return J3;
+    }
+
+    public void rendu(Graphics2D contexte) { //affichage d'un joueur
+        contexte.drawImage(this.sprite, (int) position.getx(), (int) position.gety(), null);
+    }
+
+    
     
     
     

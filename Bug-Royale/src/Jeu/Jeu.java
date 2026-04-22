@@ -31,20 +31,20 @@ public class Jeu {
     private int n;
     private JoueurSQL lienSQL;
 
-    public Jeu() {
+    public Jeu() { //Initialisation du jeu
         try {
-            this.decor = ImageIO.read(getClass().getResource("../resources/jungle.png"));
+            this.decor = ImageIO.read(getClass().getResource("../resources/jungle.png")); //Remplacer "jungle.png" par notre carte
         }
         catch (IOException ex) {
             Logger.getLogger(Jeu.class.getName()).log(Level.SEVERE, null, ex);
         }
-        this.joueurLocal= new Joueur("joueur1","insecte",50,170,320);
-        this.n = 0;
-        this.lienSQL = new JoueurSQL();
-        this.lienSQL.creerJoueur(this.joueurLocal);
-        initialisationTestMulti();
+        this.joueurLocal= new Joueur("joueur1","insecte",50,170,320); //LIGNE A MODIFIER POUR DEFINIR SON JOUEUR
+        this.n = 0; //Fin de jeu avec un compteur, solution temporaire
+        this.lienSQL = new JoueurSQL(); //initialisation lien local-BDD
+        this.lienSQL.creerJoueur(this.joueurLocal); //Crétion du joueur local dans la BDD -> entrée en multi
+        initialisationTestMulti(); //Ligne d'initialisation du test multi sur 1 pc
     }
-
+    //Getter et setter
     public Joueur getJoueurLocal() {
         return joueurLocal;
     }
@@ -57,10 +57,10 @@ public class Jeu {
         this.joueurLocal = joueurLocal;
     }
     
-    public void rendu (Graphics2D contexte){
-        contexte.drawImage(this.decor, 0, 0, null);
-        //this.joueurLocal.rendu(contexte);
-        ArrayList<String> listeNom = this.lienSQL.listeNom();
+    public void rendu (Graphics2D contexte){ //Rendu du jeu
+        contexte.drawImage(this.decor, 0, 0, null); //Background
+        
+        ArrayList<String> listeNom = this.lienSQL.listeNom(); //affichage de l'ensemble des joueurs présent en multi
         for (int i=0;i<listeNom.size();i++){
             Joueur joueurARendre = this.lienSQL.voirJoueurNom(listeNom.get(i));
             joueurARendre.rendu(contexte);
@@ -68,22 +68,23 @@ public class Jeu {
         
     }
     
-    public void miseAJour (){
+    public void miseAJour (){ //synchronisation avec la DDD, mise à jour du joueur local, localement et dans la BDD
         this.n +=1;
         Joueur joueurLocalBDD = this.lienSQL.voirJoueur(this.joueurLocal); //on récupère les infos du joueur local stockés sur la bdd
-        this.joueurLocal.setPosition(joueurLocalBDD.getX(), joueurLocalBDD.getY()); //On update les infos variables du joueur local
+        this.joueurLocal.setPosition(joueurLocalBDD.getX(), joueurLocalBDD.getY()); //On update les infos variables du joueur local à partir des infos de la BDD
         this.joueurLocal.setHP(joueurLocalBDD.getHP());
         
-        this.joueurLocal.miseAJour();
+        this.joueurLocal.miseAJour(); //On effectue la mise a jour local du joueur locale : action effectuees
         
-        Joueur joueur3 = this.joueurLocal.miseAJourTestMulti(this.lienSQL.voirJoueurNom("joueur3"));
-        this.lienSQL.modifierJoueur(joueur3);
+        Joueur joueur3 = this.joueurLocal.miseAJourTestMulti(this.lienSQL.voirJoueurNom("joueur3")); // Deplacement pnj pour tester le multi avec 1 pc
+        this.lienSQL.modifierJoueur(joueur3); //on update la bdd du pnj
         
         this.lienSQL.modifierJoueur(this.joueurLocal); //on update la table après modification
     }
     
-    public boolean estTermine (int n){
-        return (n==500);
+    public boolean estTermine (int n){ //Fonctiuon pour mettre fin au jeu
+        this.lienSQL.supprimerJoueur(joueurLocal);
+        return (n==200);
     }
     
     /*public boolean collisionEntreAvatarEtBanane() {
@@ -97,9 +98,9 @@ public class Jeu {
         }
     }*/
     
-    public void initialisationTestMulti(){
+    public void initialisationTestMulti(){ //fonction pour créer 2 pnj pour tester le multi avec 1 pc
         Joueur joueur2=new Joueur("joueur2","scarab",60,50,50);
-        Joueur joueur3=new Joueur("joueur3","fourmi",170,50,50);
+        Joueur joueur3=new Joueur("joueur3","fourmi",170,100,50);
         this.lienSQL.creerJoueur(joueur2);
         this.lienSQL.creerJoueur(joueur3);
     }
