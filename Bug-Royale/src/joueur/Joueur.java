@@ -1,5 +1,6 @@
 package joueur;
 
+import espece.Espece;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -15,20 +16,14 @@ import outils.Coordonnee;
 public class Joueur {
 
     private static final double VITESSE = 5.0;
-
-    protected BufferedImage sprite;
     protected Coordonnee position;
     private boolean toucheO, toucheE, toucheN, toucheS;
     private String nom;
-    private String espece;
+    private Espece espece;
     private int HP;
 
-    public Joueur(String nom, String espece, int HP, double x, double y) { //Création manuelle d'un joueur, tout les attributs de la BDD à rentrer
-        try {
-            this.sprite = ImageIO.read(getClass().getResource("../resources/donkeyKong.png"));
-        } catch (IOException ex) {
-            Logger.getLogger(Joueur.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    public Joueur(String nom, Espece espece, double x, double y) { //Création manuelle d'un joueur, tout les attributs de la BDD à rentrer
+        
         this.position = new Coordonnee(x, y);
         this.toucheO = false;
         this.toucheE = false;
@@ -36,16 +31,12 @@ public class Joueur {
         this.toucheS = false;
         this.nom = nom;
         this.espece = espece;
-        this.HP = HP;
+        this.HP = espece.getHPParDefaut();
         
     }
 
     public Joueur() { //Création d'un joueur par défaut
-        try {
-            this.sprite = ImageIO.read(getClass().getResource("../resources/donkeyKong.png"));
-        } catch (IOException ex) {
-            Logger.getLogger(Joueur.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        
         this.toucheO = false;
         this.toucheE = false;
         this.toucheN = false;
@@ -82,13 +73,6 @@ public class Joueur {
         return position.gety(); 
     }
 
-    public double getLargeur() { 
-        return sprite.getWidth(); 
-    }
-    public double getHauteur() { 
-        return sprite.getHeight(); 
-    }
-
     public String getNom() {
         return nom;
     }
@@ -97,11 +81,11 @@ public class Joueur {
         this.nom = nom;
     }
 
-    public String getEspece() {
+    public Espece getEspece() {
         return espece;
     }
 
-    public void setEspece(String espece) {
+    public void setEspece(Espece espece) {
         this.espece = espece;
     }
 
@@ -115,7 +99,7 @@ public class Joueur {
 
     @Override
     public String toString() {
-        return "Joueur{" + "position=" + position + ", nom=" + nom + ", espece=" + espece + ", HP=" + HP + '}';
+        return "Joueur{" + "position=" + position + ", nom=" + nom + ", espece=" + espece.getStringEspece() + ", HP=" + HP + '}';
     }
 
     public void miseAJour() { //déplacement du joueur local
@@ -145,7 +129,7 @@ public class Joueur {
     }
 
     public void rendu(Graphics2D contexte) { //affichage d'un joueur
-        contexte.drawImage(this.sprite, (int) position.getx(), (int) position.gety(), null);
+        contexte.drawImage(this.espece.getSprite(), (int) position.getx(), (int) position.gety(), null);
     }
 
     

@@ -8,8 +8,11 @@ package Jeu;
  *
  * @author hmas
  */
-import java.awt.Color;
-import java.awt.Font;
+
+import espece.Araignee;
+import espece.Cafard;
+import espece.Espece;
+import espece.Sauterelle;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -33,12 +36,13 @@ public class Jeu {
 
     public Jeu() { //Initialisation du jeu
         try {
-            this.decor = ImageIO.read(getClass().getResource("../resources/jungle.png")); //Remplacer "jungle.png" par notre carte
+            this.decor = ImageIO.read(getClass().getResource("../resources/grass.png")); //Remplacer "jungle.png" par notre carte
         }
         catch (IOException ex) {
             Logger.getLogger(Jeu.class.getName()).log(Level.SEVERE, null, ex);
         }
-        this.joueurLocal= new Joueur("joueur1","insecte",50,170,320); //LIGNE A MODIFIER POUR DEFINIR SON JOUEUR
+        Espece especeJoueurLocal = new Araignee();
+        this.joueurLocal= new Joueur("joueur1",especeJoueurLocal,170,320); //LIGNE A MODIFIER POUR DEFINIR SON JOUEUR
         this.n = 0; //Fin de jeu avec un compteur, solution temporaire
         this.lienSQL = new JoueurSQL(); //initialisation lien local-BDD
         this.lienSQL.creerJoueur(this.joueurLocal); //Crétion du joueur local dans la BDD -> entrée en multi
@@ -83,7 +87,7 @@ public class Jeu {
     }
     
     public boolean estTermine (int n){ //Fonctiuon pour mettre fin au jeu
-        this.lienSQL.supprimerJoueur(joueurLocal);
+        //this.lienSQL.supprimerJoueur(joueurLocal);
         return (n==200);
     }
     
@@ -99,8 +103,10 @@ public class Jeu {
     }*/
     
     public void initialisationTestMulti(){ //fonction pour créer 2 pnj pour tester le multi avec 1 pc
-        Joueur joueur2=new Joueur("joueur2","scarab",60,50,50);
-        Joueur joueur3=new Joueur("joueur3","fourmi",170,100,50);
+        Espece especeJoueur2 = new Sauterelle();
+        Espece especeJoueur3 = new Cafard();
+        Joueur joueur2=new Joueur("joueur2",especeJoueur2,50,50);
+        Joueur joueur3=new Joueur("joueur3",especeJoueur3,100,50);
         this.lienSQL.creerJoueur(joueur2);
         this.lienSQL.creerJoueur(joueur3);
     }

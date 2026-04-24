@@ -10,6 +10,11 @@ package sql;
  */
 
 //import java.sql.*;
+import espece.Araignee;
+import espece.Cafard;
+import espece.Espece;
+import espece.Sauterelle;
+import espece.ScarabeeRhinoceros;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -49,7 +54,7 @@ public class JoueurSQL {
             requete.setDouble(2, J.getX());
             requete.setDouble(3, J.getY());
             requete.setInt(4, J.getHP());
-            requete.setString(5, J.getEspece());
+            requete.setString(5, J.getEspece().getStringEspece());
             
             int nombreDAjouts = requete.executeUpdate();
          
@@ -68,7 +73,7 @@ public class JoueurSQL {
             requete.setDouble(1, J.getX());
             requete.setDouble(2, J.getY());
             requete.setInt(3, J.getHP());
-            requete.setString(4, J.getEspece());
+            requete.setString(4, J.getEspece().getStringEspece());
             requete.setString(5, J.getNom());
            
             //voirTable();
@@ -113,7 +118,23 @@ public void supprimerJoueur(Joueur J){ //Suppression d'un joueur dans la BDD à 
                 JOut.setNom(resultat.getString("Name"));
                 JOut.setPosition(resultat.getDouble("X"),resultat.getDouble("Y"));
                 JOut.setHP(resultat.getInt("HP"));
-                JOut.setEspece(resultat.getString("Espece"));
+                if ("ScarabeeRhinoceros".equals(resultat.getString("Espece"))){
+                    Espece especeJOut=new ScarabeeRhinoceros();
+                    JOut.setEspece(especeJOut);
+                }
+                if ("Araignee".equals(resultat.getString("Espece"))){
+                    Espece especeJOut=new Araignee();
+                    JOut.setEspece(especeJOut);
+                }
+                if ("Cafard".equals(resultat.getString("Espece"))){
+                    Espece especeJOut=new Cafard();
+                    JOut.setEspece(especeJOut);
+                }
+                if ("Sauterelle".equals(resultat.getString("Espece"))){
+                    Espece especeJOut=new Sauterelle();
+                    JOut.setEspece(especeJOut);
+                }
+                
         }
         
         resultat.close();
@@ -140,7 +161,22 @@ public void supprimerJoueur(Joueur J){ //Suppression d'un joueur dans la BDD à 
                 JOut.setNom(resultat.getString("Name"));
                 JOut.setPosition(resultat.getDouble("X"),resultat.getDouble("Y"));
                 JOut.setHP(resultat.getInt("HP"));
-                JOut.setEspece(resultat.getString("Espece"));
+                if ("ScarabeeRhinoceros".equals(resultat.getString("Espece"))){
+                    Espece especeJOut=new ScarabeeRhinoceros();
+                    JOut.setEspece(especeJOut);
+                }
+                if ("Araignee".equals(resultat.getString("Espece"))){
+                    Espece especeJOut=new Araignee();
+                    JOut.setEspece(especeJOut);
+                }
+                if ("Cafard".equals(resultat.getString("Espece"))){
+                    Espece especeJOut=new Cafard();
+                    JOut.setEspece(especeJOut);
+                }
+                if ("Sauterelle".equals(resultat.getString("Espece"))){
+                    Espece especeJOut=new Sauterelle();
+                    JOut.setEspece(especeJOut);
+                }
         }
         
         resultat.close();
