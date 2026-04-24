@@ -15,7 +15,7 @@ import outils.Coordonnee;
  */
 public class Joueur {
 
-    private static final double VITESSE = 5.0;
+    private double vitesse;
     protected Coordonnee position;
     private boolean toucheO, toucheE, toucheN, toucheS;
     private String nom;
@@ -32,6 +32,7 @@ public class Joueur {
         this.nom = nom;
         this.espece = espece;
         this.HP = espece.getHPParDefaut();
+        this.vitesse = espece.getVitesseDeplacement();
         
     }
 
@@ -109,7 +110,7 @@ public class Joueur {
             (toucheS ? 1 : 0) - (toucheN ? 1 : 0)
         );
         
-        position = position.add(direction.normalize().mult(VITESSE));
+        position = position.add(direction.normalize().mult(vitesse));
     }
     
     public Joueur miseAJourTestMultiJ3(Joueur J3){ //Classe de test pour vérifier que le programme actualise tout les joueurs présents

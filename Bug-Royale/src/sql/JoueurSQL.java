@@ -79,7 +79,6 @@ public class JoueurSQL {
             //voirTable();
             
             int nombreDeModifications = requete.executeUpdate();
-            System.out.println(nombreDeModifications + " enregistrement(s) modifie(s)");
 
             requete.close();
             
@@ -191,7 +190,6 @@ public void supprimerJoueur(Joueur J){ //Suppression d'un joueur dans la BDD à 
     public void voirTable(){ //Affichage de l'ensemble de la table dans le terminal
         try {
             PreparedStatement requete = connexion.prepareStatement("SELECT * FROM Joueur");
-            System.out.println(requete);
             ResultSet resultat = requete.executeQuery();
             OutilsJDBC.afficherResultSet(resultat);
 
@@ -206,7 +204,6 @@ public void supprimerJoueur(Joueur J){ //Suppression d'un joueur dans la BDD à 
         ArrayList<String> listeNom = new ArrayList<String>();
         try {
             PreparedStatement requete = connexion.prepareStatement("SELECT Name FROM Joueur");
-            System.out.println(requete);
             ResultSet resultat = requete.executeQuery();
             
             while(resultat.next()){
