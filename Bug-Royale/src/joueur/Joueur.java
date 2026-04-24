@@ -112,17 +112,49 @@ public class Joueur {
         position = position.add(direction.normalize().mult(VITESSE));
     }
     
-    public Joueur miseAJourTestMulti(Joueur J3){ //Classe de test pour vérifier que le programme actualise tout les joueurs présents
+    public Joueur miseAJourTestMultiJ3(Joueur J3){ //Classe de test pour vérifier que le programme actualise tout les joueurs présents
         if ((J3.getY()<150)&&(J3.getX()==100)){
-            J3.setPosition(J3.getX(), J3.getY()+10);
+            J3.setPosition(J3.getX(), J3.getY()+J3.getEspece().getVitesseDeplacement());
         }
         if ((J3.getY()>50)&&(J3.getX()==110)){
-            J3.setPosition(J3.getX(), J3.getY()-10);
+            J3.setPosition(J3.getX(), J3.getY()-J3.getEspece().getVitesseDeplacement());
         }
-        if (J3.getY()==150){
+        if (J3.getY()>=150){
             J3.setPosition(J3.getX()+10, J3.getY());
         }
-        if (J3.getY()==50){
+        if (J3.getY()<=50){
+            J3.setPosition(J3.getX()-10, J3.getY());
+        }
+        return J3;
+    }
+    
+    public Joueur miseAJourTestMultiJ2(Joueur J2){ //Classe de test pour vérifier que le programme actualise tout les joueurs présents
+        if ((J2.getY()<150)&&(J2.getX()==50)){
+            J2.setPosition(J2.getX(), J2.getY()+J2.getEspece().getVitesseDeplacement());
+        }
+        if ((J2.getY()>50)&&(J2.getX()==60)){
+            J2.setPosition(J2.getX(), J2.getY()-J2.getEspece().getVitesseDeplacement());
+        }
+        if (J2.getY()>=150){
+            J2.setPosition(J2.getX()+10, J2.getY());
+        }
+        if (J2.getY()<=50){
+            J2.setPosition(J2.getX()-10, J2.getY());
+        }
+        return J2;
+    }
+    
+    public Joueur miseAJourTestMultiJ4(Joueur J3){ //Classe de test pour vérifier que le programme actualise tout les joueurs présents
+        if ((J3.getY()<150)&&(J3.getX()==150)){
+            J3.setPosition(J3.getX(), J3.getY()+J3.getEspece().getVitesseDeplacement());
+        }
+        if ((J3.getY()>50)&&(J3.getX()==160)){
+            J3.setPosition(J3.getX(), J3.getY()-J3.getEspece().getVitesseDeplacement());
+        }
+        if (J3.getY()>=150){
+            J3.setPosition(J3.getX()+10, J3.getY());
+        }
+        if (J3.getY()<=50){
             J3.setPosition(J3.getX()-10, J3.getY());
         }
         return J3;

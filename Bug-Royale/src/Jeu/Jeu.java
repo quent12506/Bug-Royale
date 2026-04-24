@@ -13,6 +13,7 @@ import espece.Araignee;
 import espece.Cafard;
 import espece.Espece;
 import espece.Sauterelle;
+import espece.ScarabeeRhinoceros;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -80,8 +81,12 @@ public class Jeu {
         
         this.joueurLocal.miseAJour(); //On effectue la mise a jour local du joueur locale : action effectuees
         
-        Joueur joueur3 = this.joueurLocal.miseAJourTestMulti(this.lienSQL.voirJoueurNom("joueur3")); // Deplacement pnj pour tester le multi avec 1 pc
-        this.lienSQL.modifierJoueur(joueur3); //on update la bdd du pnj
+        Joueur joueur2 = this.joueurLocal.miseAJourTestMultiJ2(this.lienSQL.voirJoueurNom("joueur2")); // Deplacement pnj pour tester le multi avec 1 pc
+        this.lienSQL.modifierJoueur(joueur2); //on update la bdd du pnj
+        Joueur joueur3 = this.joueurLocal.miseAJourTestMultiJ3(this.lienSQL.voirJoueurNom("joueur3")); // Deplacement pnj pour tester le multi avec 1 pc
+        this.lienSQL.modifierJoueur(joueur3);
+        Joueur joueur4 = this.joueurLocal.miseAJourTestMultiJ4(this.lienSQL.voirJoueurNom("joueur4")); // Deplacement pnj pour tester le multi avec 1 pc
+        this.lienSQL.modifierJoueur(joueur4);
         
         this.lienSQL.modifierJoueur(this.joueurLocal); //on update la table après modification
     }
@@ -105,10 +110,13 @@ public class Jeu {
     public void initialisationTestMulti(){ //fonction pour créer 2 pnj pour tester le multi avec 1 pc
         Espece especeJoueur2 = new Sauterelle();
         Espece especeJoueur3 = new Cafard();
+        Espece especeJoueur4 = new ScarabeeRhinoceros();
         Joueur joueur2=new Joueur("joueur2",especeJoueur2,50,50);
         Joueur joueur3=new Joueur("joueur3",especeJoueur3,100,50);
+        Joueur joueur4=new Joueur("joueur4",especeJoueur4,150,50);
         this.lienSQL.creerJoueur(joueur2);
         this.lienSQL.creerJoueur(joueur3);
+        this.lienSQL.creerJoueur(joueur4);
     }
     
 }
