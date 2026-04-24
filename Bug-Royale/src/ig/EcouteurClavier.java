@@ -49,11 +49,11 @@ public class EcouteurClavier implements KeyListener {
             }
     }
 
-    /*@Override
-    public void keyTyped(KeyEvent event) {
+    @Override
+    public void keyTyped(KeyEvent event) { //Toutes les touches non définies sont notifiées dans le terminal lorsque pressée
         System.out.println("La touche " + event.getKeyCode() + " a été appuyée, le caractère correspondant est " + event.getKeyChar());
         System.out.flush();
-    }*/
+    }
 
     @Override
     public void keyReleased(KeyEvent evt) { //detection d'une touche relachée, stockage de l'info dans les attributs de la classe
