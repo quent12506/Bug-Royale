@@ -10,6 +10,7 @@ package Jeu;
  */
 
 import ig.EcouteurClavier;
+import ig.EcouteurSouris;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -18,6 +19,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.Timer;
+import joueur.Projectile;
+import outils.Coordonnee;
 
 /**
  * Exemple de fenetre de jeu en utilisant uniquement des commandes
@@ -32,6 +35,7 @@ public class FenetreDeJeu extends JFrame implements ActionListener {
     private Jeu jeu;
     private Timer timer;
     private EcouteurClavier ecouteurClavier;
+    private EcouteurSouris ecouteurSouris;
 
     public FenetreDeJeu() {
         // initialisation de la fenetre
@@ -45,6 +49,9 @@ public class FenetreDeJeu extends JFrame implements ActionListener {
         
         this.ecouteurClavier = new EcouteurClavier();
         this.addKeyListener(ecouteurClavier);
+        
+        this.ecouteurSouris = new EcouteurSouris();
+        this.addMouseListener(ecouteurSouris);
 
         // Creation du buffer pour l'affichage du jeu et recuperation du contexte graphique
         this.framebuffer = new BufferedImage(this.jLabel1.getWidth(), this.jLabel1.getHeight(), BufferedImage.TYPE_INT_ARGB);
@@ -80,6 +87,14 @@ public class FenetreDeJeu extends JFrame implements ActionListener {
         this.jeu.getJoueurLocal().setToucheOuest(this.ecouteurClavier.isOuest());
         this.jeu.getJoueurLocal().setToucheNord(this.ecouteurClavier.isNord());
         this.jeu.getJoueurLocal().setToucheSud(this.ecouteurClavier.isSud());
+        
+        if (this.ecouteurSouris.isClick()){
+            Coordonnee cible = new Coordonnee(this.ecouteurSouris.getX(),this.ecouteurSouris.getY());
+            Projectile projectile = new Projectile(this.jeu.getJoueurLocal().getPosition(),cible,5);
+            this.jeu.getJoueurLocal().setProjectileTire(projectile);
+            this.ecouteurSouris.setClick(false);
+        }
+        
     }
 
 }

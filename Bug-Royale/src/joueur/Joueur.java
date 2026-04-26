@@ -17,10 +17,11 @@ public class Joueur {
 
     private double vitesse;
     protected Coordonnee position;
-    private boolean toucheO, toucheE, toucheN, toucheS;
+    private boolean toucheO, toucheE, toucheN, toucheS, tirJoueur;
     private String nom;
     private Espece espece;
     private int HP;
+    private Projectile projectileTire;
 
     public Joueur(String nom, Espece espece, double x, double y) { //Création manuelle d'un joueur, tout les attributs de la BDD à rentrer
         
@@ -29,6 +30,7 @@ public class Joueur {
         this.toucheE = false;
         this.toucheN = false;
         this.toucheS = false;
+        this.tirJoueur = false;
         this.nom = nom;
         this.espece = espece;
         this.HP = espece.getHPParDefaut();
@@ -42,11 +44,32 @@ public class Joueur {
         this.toucheE = false;
         this.toucheN = false;
         this.toucheS = false;
+        this.tirJoueur = false;
     }
    
     //Ensembles de getter, setter et toString
     public void setPosition(double x, double y) {
         this.position = new Coordonnee(x,y);
+    }
+
+    public boolean isTirJoueur() {
+        return tirJoueur;
+    }
+
+    public void setTirJoueur(boolean tirJoueur) {
+        this.tirJoueur = tirJoueur;
+    }
+
+    public Projectile getProjectileTire() {
+        return projectileTire;
+    }
+
+    public void setProjectileTire(Projectile projectileTire) {
+        this.projectileTire = projectileTire;
+    }
+
+    public Coordonnee getPosition() {
+        return position;
     }
 
     public void setToucheOuest(boolean etat) { 
@@ -103,14 +126,22 @@ public class Joueur {
         return "Joueur{" + "position=" + position + ", nom=" + nom + ", espece=" + espece.getStringEspece() + ", HP=" + HP + '}';
     }
 
-    public void miseAJour() { //déplacement du joueur local
+    public void miseAJour() { 
         
-        Coordonnee direction = new Coordonnee(
+        Coordonnee direction = new Coordonnee( //déplacement du joueur local
             (toucheE ? 1 : 0) - (toucheO ? 1 : 0),
             (toucheS ? 1 : 0) - (toucheN ? 1 : 0)
         );
         
         position = position.add(direction.normalize().mult(vitesse));
+        
+        this.projectileTire.MAJ(1);
+        
+//        if (this.tirJoueur){
+//            Coordonnee cible = new Coordonnee();
+//            cible.setX(vitesse);
+//            this.projectileTire = new Projectile(this.position,cible);
+//        }
     }
     
     public Joueur miseAJourTestMultiJ3(Joueur J3){ //Classe de test pour vérifier que le programme actualise tout les joueurs présents
@@ -163,6 +194,9 @@ public class Joueur {
 
     public void rendu(Graphics2D contexte) { //affichage d'un joueur
         contexte.drawImage(this.espece.getSprite(), (int) position.getx(), (int) position.gety(), null);
+        if (this.projectileTire.isActif()){
+            contexte.drawImage(this.projectileTire.getSprite(), (int) this.projectileTire.getPosition().getx(), (int) this.projectileTire.getPosition().gety(), null);
+        }
     }
 
     

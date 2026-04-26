@@ -1,5 +1,11 @@
 package joueur;
 
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import outils.Coordonnee;
 
 /**
@@ -14,8 +20,9 @@ public class Projectile {
     private double rayon;             // Rayon du projectile pour les collisions
     private boolean actif;            // Si le projectile est encore en vol
     private double temps;             // Temps écoulé depuis le lancement
+    protected BufferedImage sprite;
 
-    public Projectile(Coordonnee position, Coordonnee direction, double rayon) {
+    public Projectile(Coordonnee position, Coordonnee cible, double rayon) {
         this.position = position;
         this.cible = cible;
         Coordonnee d = new Coordonnee();
@@ -23,6 +30,20 @@ public class Projectile {
         this.rayon = rayon;
         this.actif = true;
         this.temps = 0;
+        this.vitesse = 5;
+        try {
+            this.sprite = ImageIO.read(getClass().getResource("../resources/bdf.png"));
+        } catch (IOException ex) {
+            Logger.getLogger(Joueur.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public BufferedImage getSprite() {
+        return sprite;
+    }
+
+    public void setSprite(BufferedImage sprite) {
+        this.sprite = sprite;
     }
 
     public Coordonnee getPosition() {
@@ -67,7 +88,7 @@ public class Projectile {
         this.actif = true;
     }
 
-    public void MAJ(double deltaT) { //A MODIFIER
+    public void MAJ(double deltaT) {
         if (!actif){
             return;
         }
@@ -107,6 +128,10 @@ public class Projectile {
         this.actif = false;
         this.vitesse = 0;
     }
+    
+//    public void rendu(Graphics2D contexte) { //affichage d'un joueur
+//        contexte.drawImage(sprite, (int) position.getx(), (int) position.gety(), null);
+//    }
 
     @Override
     public String toString() {

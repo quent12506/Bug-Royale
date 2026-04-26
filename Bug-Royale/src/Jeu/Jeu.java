@@ -89,6 +89,8 @@ public class Jeu {
         this.lienSQL.modifierJoueur(joueur4);
         
         this.lienSQL.modifierJoueur(this.joueurLocal); //on update la table après modification
+        
+        
     }
     
     public boolean estTermine (int n){ //Fonctiuon pour mettre fin au jeu
