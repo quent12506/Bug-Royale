@@ -22,10 +22,6 @@ public class EcouteurSouris implements MouseListener {
         X = event.getX();
         Y = event.getY();
         click=true;
-        
-        System.out.println("La souris a cliqué aux coordonnées (" + event.getX() + ", " + event.getY() +")"); 
-       
-        System.out.flush();
     }
 
     public boolean isClick() {
@@ -55,14 +51,10 @@ public class EcouteurSouris implements MouseListener {
     @Override
     //Le clic peut être vu comme la décomposition de deux mouvements : vous pressez, puis pvous relachez. Si vous avez besoin de faire cette distinction, complétez ici !
     public void mousePressed(MouseEvent event) {
-        System.out.println("Vous avez pressé aux coordonnées : " + event.getPoint().toString()); //Vous pouvez récupérer les coordonnés sous forme de Point aussii, (plutôt que X puis Y...)
-        System.out.flush();
     }
 
     @Override
     public void mouseReleased(MouseEvent event) {
-        System.out.println("Vous avez cliqué " + event.getClickCount() + " fois !"); //On peut même récupérer le nombre de clic !
-        System.out.flush();
     }
     
     @Override
