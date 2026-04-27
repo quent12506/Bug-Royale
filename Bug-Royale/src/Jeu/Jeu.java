@@ -70,7 +70,7 @@ public class Jeu {
             Joueur joueurARendre = this.lienSQL.voirJoueurNom(listeNom.get(i));
             joueurARendre.rendu(contexte);
         }
-        if (this.joueurLocal.getProjectileTire()!=null){
+        if ((this.joueurLocal.getProjectileTire()!=null)&&(this.joueurLocal.getProjectileTire().isActif())){
             this.joueurLocal.renduProjectile(contexte);
         }
     }

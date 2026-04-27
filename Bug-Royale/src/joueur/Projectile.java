@@ -96,6 +96,9 @@ public class Projectile {
         position = position.add(deplacement);
 
         temps += deltaT;
+        if (temps>=100){
+            actif=false;
+        }
     }
 
 
