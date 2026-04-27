@@ -135,7 +135,10 @@ public class Joueur {
         
         position = position.add(direction.normalize().mult(vitesse));
         
-        this.projectileTire.MAJ(1);
+        if (this.projectileTire!=null){
+            this.projectileTire.MAJ(1);
+
+        }
         
 //        if (this.tirJoueur){
 //            Coordonnee cible = new Coordonnee();
@@ -194,9 +197,10 @@ public class Joueur {
 
     public void rendu(Graphics2D contexte) { //affichage d'un joueur
         contexte.drawImage(this.espece.getSprite(), (int) position.getx(), (int) position.gety(), null);
-        if (this.projectileTire.isActif()){
-            contexte.drawImage(this.projectileTire.getSprite(), (int) this.projectileTire.getPosition().getx(), (int) this.projectileTire.getPosition().gety(), null);
-        }
+    }
+    
+    public void renduProjectile(Graphics2D contexte) {
+        contexte.drawImage(this.projectileTire.getSprite(), (int) this.projectileTire.getPosition().getx(), (int) this.projectileTire.getPosition().gety(), null);
     }
 
     

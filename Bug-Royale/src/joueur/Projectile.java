@@ -135,11 +135,11 @@ public class Projectile {
 
     @Override
     public String toString() {
-        return String.format("Projectile{pos=(%f,%f), dir=(%f,%f), vitesse=(%f,%f), rayon=%f, actif=%b}",
+        return String.format("Projectile{pos=(%f,%f), cible=(%f,%f), direction=(%f,%f), vitesse=%f, actif=%b}",
                 position.getx(), position.gety(),
                 cible.getx(), cible.gety(),
                 direction.getx(), direction.gety(),
                 
-                rayon, actif);
+                vitesse, actif);
     }
 }

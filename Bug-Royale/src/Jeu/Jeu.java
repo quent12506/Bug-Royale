@@ -70,7 +70,9 @@ public class Jeu {
             Joueur joueurARendre = this.lienSQL.voirJoueurNom(listeNom.get(i));
             joueurARendre.rendu(contexte);
         }
-        
+        if (this.joueurLocal.getProjectileTire()!=null){
+            this.joueurLocal.renduProjectile(contexte);
+        }
     }
     
     public void miseAJour (){ //synchronisation avec la DDD, mise à jour du joueur local, localement et dans la BDD
