@@ -12,7 +12,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import outils.OutilsJDBC;
-import projectile.Projectile;
+import joueur.Projectile;
+import outils.Coordonnee;
 
 public class ProjectileSQL {
     
@@ -36,12 +37,13 @@ public class ProjectileSQL {
 
     }
     
-    public void creerProjectile(Projectile P){ 
+    public void creerProjectile(Projectile P){
+        try {
             PreparedStatement requete = connexion.prepareStatement("INSERT INTO Projectiles VALUES (?, ?, ?)");
             
-            requete.setString(1, P.getProprietaire());
-            requete.setDouble(2, P.getX());
-            requete.setDouble(3, P.getY());
+            requete.setString(1, P.getProprietaire().getNom());
+            requete.setDouble(2, P.getPosition().getx());
+            requete.setDouble(3, P.getPosition().gety());
             
             int nombreDAjouts = requete.executeUpdate();
          
@@ -57,9 +59,9 @@ public class ProjectileSQL {
         try {
             PreparedStatement requete = connexion.prepareStatement("UPDATE Projectiles SET Proprietaire = ?, X = ?, Y = ? WHERE Proprietaire = ?");
             
-            requete.setString(1, P.getProprietaire());
-            requete.setDouble(2, P.getX());
-            requete.setDouble(3, P.getY());
+            requete.setString(1, P.getProprietaire().getNom());
+            requete.setDouble(2, P.getPosition().getx());
+            requete.setDouble(3, P.getPosition().gety());
             requete.setString(4, ancienProprietaire);
            
             int nombreDeModifications = requete.executeUpdate();
@@ -75,9 +77,9 @@ public class ProjectileSQL {
         try {
             PreparedStatement requete = connexion.prepareStatement("DELETE FROM Projectiles WHERE Proprietaire = ? AND X = ? AND Y = ?");
             
-            requete.setString(1, P.getProprietaire());
-            requete.setDouble(2, P.getX());
-            requete.setDouble(3, P.getY());
+            requete.setString(1, P.getProprietaire().getNom());
+            requete.setDouble(2, P.getPosition().getx());
+            requete.setDouble(3, P.getPosition().gety());
             
             int nombreDeSuppressions = requete.executeUpdate();
 
@@ -94,16 +96,20 @@ public class ProjectileSQL {
     
     try {
         PreparedStatement requete = connexion.prepareStatement("SELECT * FROM Projectiles WHERE Proprietaire = ? AND X = ? AND Y = ?");
-        requete.setString(1, P.getProprietaire());
-        requete.setDouble(2, P.getX());
-        requete.setDouble(3, P.getY());
+            requete.setString(1, P.getProprietaire().getNom());
+            requete.setDouble(2, P.getPosition().getx());
+            requete.setDouble(3, P.getPosition().gety());
         
         ResultSet resultat = requete.executeQuery();
+        JoueurSQL lienSQL = new JoueurSQL();
         
         if (resultat.next()) {
             
-                POut.setProprietaire(resultat.getString("Proprietaire"));
-                POut.setPosition(resultat.getDouble("X"), resultat.getDouble("Y"));
+                POut.setProprietaire(lienSQL.voirJoueurNom(resultat.getString("Proprietaire")));
+                Coordonnee pos = new Coordonnee();
+                pos.setX(resultat.getDouble("X"));
+                pos.setY(resultat.getDouble("Y"));
+                POut.setPosition(pos);
                 
         }
         
@@ -125,12 +131,17 @@ public class ProjectileSQL {
         requete.setString(1, proprietaire);
         
         ResultSet resultat = requete.executeQuery();
+        JoueurSQL lienSQL = new JoueurSQL();
         
         while (resultat.next()) {
             
                 Projectile P = new Projectile();
-                P.setProprietaire(resultat.getString("Proprietaire"));
-                P.setPosition(resultat.getDouble("X"), resultat.getDouble("Y"));
+                
+                P.setProprietaire(lienSQL.voirJoueurNom(resultat.getString("Proprietaire")));
+                Coordonnee pos = new Coordonnee();
+                pos.setX(resultat.getDouble("X"));
+                pos.setY(resultat.getDouble("Y"));
+                P.setPosition(pos);
                 listeProjectiles.add(P);
                 
         }

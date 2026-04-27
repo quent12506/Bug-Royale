@@ -75,6 +75,17 @@ public class Jeu {
         }
     }
     
+    public void testProjectileTouche(){
+        ArrayList<String> listeNom = this.lienSQL.listeNom(); //affichage de l'ensemble des joueurs présent en multi
+        for (int i=0;i<listeNom.size();i++){
+            Joueur joueurATester = this.lienSQL.voirJoueurNom(listeNom.get(i));
+            if(this.joueurLocal.getProjectileTire().joueurTouche(joueurATester)){
+                joueurATester.setHP(0);
+                this.lienSQL.modifierJoueur(joueurATester);
+            }
+        }
+    }
+    
     public void miseAJour (){ //synchronisation avec la DDD, mise à jour du joueur local, localement et dans la BDD
         this.n +=1;
         Joueur joueurLocalBDD = this.lienSQL.voirJoueur(this.joueurLocal); //on récupère les infos du joueur local stockés sur la bdd

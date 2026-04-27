@@ -20,6 +20,7 @@ public class Projectile {
     private double rayon;             // Rayon du projectile pour les collisions
     private boolean actif;            // Si le projectile est encore en vol
     private double temps;             // Temps écoulé depuis le lancement
+    private Joueur proprietaire;
     protected BufferedImage sprite;
 
     public Projectile(Coordonnee position, Coordonnee cible, double rayon) {
@@ -38,6 +39,13 @@ public class Projectile {
         }
     }
 
+    public Projectile() {
+    }
+
+    public void setPosition(Coordonnee position) {
+        this.position = position;
+    }
+
     public BufferedImage getSprite() {
         return sprite;
     }
@@ -45,6 +53,16 @@ public class Projectile {
     public void setSprite(BufferedImage sprite) {
         this.sprite = sprite;
     }
+
+    public Joueur getProprietaire() {
+        return proprietaire;
+    }
+
+    public void setProprietaire(Joueur proprietaire) {
+        this.proprietaire = proprietaire;
+    }
+    
+    
 
     public Coordonnee getPosition() {
         return position;
@@ -101,9 +119,19 @@ public class Projectile {
         }
     }
 
+    public boolean joueurTouche(Joueur JoueurATester){ //Joueur touche si le centre du projectile est dans la hitbox de l'insecte (taille du sprite)
+        double xMin=JoueurATester.getPosition().getx();
+        double xMax=JoueurATester.getPosition().getx()+JoueurATester.getEspece().getSprite().getWidth();
+        double yMin=JoueurATester.getPosition().gety();
+        double yMax=JoueurATester.getPosition().gety()+JoueurATester.getEspece().getSprite().getHeight();
+        return ((xMin<=this.position.getx()+this.sprite.getWidth()/2)&&
+                (xMax>=this.position.getx()+this.sprite.getWidth()/2)&&
+                (yMin<=this.position.gety()+this.sprite.getHeight()/2)&&
+                (yMax>=this.position.gety()+this.sprite.getHeight()/2));
+    }
 
     public boolean detecteCollisionCercle(Coordonnee centre, double rayon) {
-        Coordonnee positionSuivante = position.add(direction.mult(0.016*vitesse)); // ~16ms pour 60 FPS
+        Coordonnee positionSuivante = position.add(direction.mult(vitesse)); // pour l'instant, le deltaT de déplacement vaut 1
         return Coordonnee.segmentIntercepteCercle(position, positionSuivante, centre, rayon + this.rayon);
     }
 
