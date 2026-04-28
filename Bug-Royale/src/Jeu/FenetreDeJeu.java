@@ -21,6 +21,8 @@ import javax.swing.JLabel;
 import javax.swing.Timer;
 import joueur.Projectile;
 import outils.Coordonnee;
+import sql.JoueurSQL;
+import sql.ProjectileSQL;
 
 /**
  * Exemple de fenetre de jeu en utilisant uniquement des commandes
@@ -73,7 +75,8 @@ public class FenetreDeJeu extends JFrame implements ActionListener {
         this.jeu.rendu(contexte);
         this.jLabel1.repaint();
         
-        if (this.jeu.estTermine(this.jeu.getN())){
+        if (this.jeu.estTermine()){
+            this.jeu.getJoueurLocal().joueurMort();
             this.timer.stop();
         }
     }
@@ -90,9 +93,11 @@ public class FenetreDeJeu extends JFrame implements ActionListener {
         
         if (this.ecouteurSouris.isClick()){
             Coordonnee cible = new Coordonnee(this.ecouteurSouris.getX(),this.ecouteurSouris.getY());
-            Projectile projectile = new Projectile(this.jeu.getJoueurLocal().getPosition(),cible,5);
+            Projectile projectile = new Projectile(this.jeu.getJoueurLocal(), this.jeu.getJoueurLocal().getPosition(),cible,5);
             this.jeu.getJoueurLocal().setProjectileTire(projectile);
             this.ecouteurSouris.setClick(false);
+            ProjectileSQL projectileSQL = new ProjectileSQL();
+            projectileSQL.creerProjectile(projectile);
         }
         
     }

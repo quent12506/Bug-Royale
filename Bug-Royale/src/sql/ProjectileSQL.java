@@ -155,6 +155,38 @@ public class ProjectileSQL {
     return listeProjectiles;
     }
     
+    public ArrayList<Projectile> voirEnsembleProjectiles() { //Extraction de tous les projectiles de la table dans une liste
+        
+        ArrayList<Projectile> listeProjectiles = new ArrayList<Projectile>();
+    
+    try {
+        PreparedStatement requete = connexion.prepareStatement("SELECT * FROM Projectiles");
+        
+        ResultSet resultat = requete.executeQuery();
+        JoueurSQL lienSQL = new JoueurSQL();
+        
+        while (resultat.next()) {
+            
+                Projectile P = new Projectile();
+                
+                P.setProprietaire(lienSQL.voirJoueurNom(resultat.getString("Proprietaire")));
+                Coordonnee pos = new Coordonnee();
+                pos.setX(resultat.getDouble("X"));
+                pos.setY(resultat.getDouble("Y"));
+                P.setPosition(pos);
+                listeProjectiles.add(P);
+                
+        }
+        
+        resultat.close();
+        requete.close();
+        
+    } catch (SQLException ex) {
+        ex.printStackTrace();  
+    }
+    return listeProjectiles;
+    }
+    
     public void voirTable(){ //Affichage de l'ensemble de la table dans le terminal
         try {
             PreparedStatement requete = connexion.prepareStatement("SELECT * FROM Projectiles");

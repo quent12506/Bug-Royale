@@ -7,6 +7,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import outils.Coordonnee;
+import sql.ProjectileSQL;
 
 /**
  * Classe représentant un projectile avec physique 2D (vitesse constante)
@@ -23,7 +24,7 @@ public class Projectile {
     private Joueur proprietaire;
     protected BufferedImage sprite;
 
-    public Projectile(Coordonnee position, Coordonnee cible, double rayon) {
+    public Projectile(Joueur proprietaire, Coordonnee position, Coordonnee cible, double rayon) {
         this.position = position;
         this.cible = cible;
         Coordonnee d = new Coordonnee();
@@ -32,6 +33,7 @@ public class Projectile {
         this.actif = true;
         this.temps = 0;
         this.vitesse = 5;
+        this.proprietaire = proprietaire;
         try {
             this.sprite = ImageIO.read(getClass().getResource("../resources/bdf.png"));
         } catch (IOException ex) {
@@ -40,6 +42,11 @@ public class Projectile {
     }
 
     public Projectile() {
+        try {
+            this.sprite = ImageIO.read(getClass().getResource("../resources/bdf.png"));
+        } catch (IOException ex) {
+            Logger.getLogger(Joueur.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public void setPosition(Coordonnee position) {
@@ -107,16 +114,24 @@ public class Projectile {
     }
 
     public void MAJ(double deltaT) {
-        if (!actif){
+        if (!actif){ //on met a jour seulement les projectiles actifs
             return;
         }
+        //Deplacement du projectile
         Coordonnee deplacement = direction.mult(vitesse*deltaT); // p = p0 + v*dt
         position = position.add(deplacement);
 
+        //Update BDD
+        ProjectileSQL projectileSQL = new ProjectileSQL();
+        projectileSQL.modifierProjectile(this, this.getProprietaire().getNom());
+        projectileSQL.closeTable();
+        
         temps += deltaT;
-        if (temps>=100){
+        if (temps>=50){
             actif=false;
+            projectileSQL.supprimerProjectile(this);
         }
+        
     }
 
     public boolean joueurTouche(Joueur JoueurATester){ //Joueur touche si le centre du projectile est dans la hitbox de l'insecte (taille du sprite)
@@ -160,9 +175,9 @@ public class Projectile {
         this.vitesse = 0;
     }
     
-//    public void rendu(Graphics2D contexte) { //affichage d'un joueur
-//        contexte.drawImage(sprite, (int) position.getx(), (int) position.gety(), null);
-//    }
+    public void rendu(Graphics2D contexte) { //affichage d'un joueur
+        contexte.drawImage(sprite, (int) position.getx(), (int) position.gety(), null);
+    }
 
     @Override
     public String toString() {

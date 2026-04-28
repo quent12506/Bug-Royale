@@ -8,6 +8,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import outils.Coordonnee;
+import sql.JoueurSQL;
 
 /**
  *
@@ -145,6 +146,11 @@ public class Joueur {
 //            cible.setX(vitesse);
 //            this.projectileTire = new Projectile(this.position,cible);
 //        }
+    }
+    
+    public void joueurMort(){
+        JoueurSQL lienSQL = new JoueurSQL();
+        lienSQL.supprimerJoueur(this);
     }
     
     public Joueur miseAJourTestMultiJ3(Joueur J3){ //Classe de test pour vérifier que le programme actualise tout les joueurs présents

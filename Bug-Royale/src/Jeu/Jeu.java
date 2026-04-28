@@ -22,7 +22,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import joueur.Joueur;
+import joueur.Projectile;
 import sql.JoueurSQL;
+import sql.ProjectileSQL;
 
 /**
  *
@@ -34,6 +36,7 @@ public class Jeu {
     private Joueur joueurLocal;
     private int n;
     private JoueurSQL lienSQL;
+    private ProjectileSQL projectileSQL;
 
     public Jeu() { //Initialisation du jeu
         try {
@@ -45,7 +48,8 @@ public class Jeu {
         Espece especeJoueurLocal = new Araignee();
         this.joueurLocal= new Joueur("joueur1",especeJoueurLocal,170,320); //LIGNE A MODIFIER POUR DEFINIR SON JOUEUR
         this.n = 0; //Fin de jeu avec un compteur, solution temporaire
-        this.lienSQL = new JoueurSQL(); //initialisation lien local-BDD
+        this.lienSQL = new JoueurSQL(); //initialisation lien joueur-BDD
+        this.projectileSQL = new ProjectileSQL(); //initialisation lien projectile-BDD
         this.lienSQL.creerJoueur(this.joueurLocal); //Crétion du joueur local dans la BDD -> entrée en multi
         initialisationTestMulti(); //Ligne d'initialisation du test multi sur 1 pc
     }
@@ -70,8 +74,12 @@ public class Jeu {
             Joueur joueurARendre = this.lienSQL.voirJoueurNom(listeNom.get(i));
             joueurARendre.rendu(contexte);
         }
-        if ((this.joueurLocal.getProjectileTire()!=null)&&(this.joueurLocal.getProjectileTire().isActif())){
-            this.joueurLocal.renduProjectile(contexte);
+//        if ((this.joueurLocal.getProjectileTire()!=null)&&(this.joueurLocal.getProjectileTire().isActif())){
+//            this.joueurLocal.renduProjectile(contexte);
+//        }
+        ArrayList<Projectile> listeProjectile = this.projectileSQL.voirEnsembleProjectiles(); //affichage de l'ensemble des projectiles présent dans la BDD
+        for (int i=0;i<listeProjectile.size();i++){
+            listeProjectile.get(i).rendu(contexte);
         }
     }
     
@@ -79,7 +87,8 @@ public class Jeu {
         ArrayList<String> listeNom = this.lienSQL.listeNom(); //affichage de l'ensemble des joueurs présent en multi
         for (int i=0;i<listeNom.size();i++){
             Joueur joueurATester = this.lienSQL.voirJoueurNom(listeNom.get(i));
-            if(this.joueurLocal.getProjectileTire().joueurTouche(joueurATester)){
+            if((this.joueurLocal.getProjectileTire().joueurTouche(joueurATester))
+                    &&(!(this.joueurLocal.getNom().equals(joueurATester.getNom())))){
                 joueurATester.setHP(0);
                 this.lienSQL.modifierJoueur(joueurATester);
             }
@@ -98,17 +107,19 @@ public class Jeu {
         this.lienSQL.modifierJoueur(joueur2); //on update la bdd du pnj
         Joueur joueur3 = this.joueurLocal.miseAJourTestMultiJ3(this.lienSQL.voirJoueurNom("joueur3")); // Deplacement pnj pour tester le multi avec 1 pc
         this.lienSQL.modifierJoueur(joueur3);
-        Joueur joueur4 = this.joueurLocal.miseAJourTestMultiJ4(this.lienSQL.voirJoueurNom("joueur4")); // Deplacement pnj pour tester le multi avec 1 pc
-        this.lienSQL.modifierJoueur(joueur4);
+//        Joueur joueur4 = this.joueurLocal.miseAJourTestMultiJ4(this.lienSQL.voirJoueurNom("joueur4")); // Deplacement pnj pour tester le multi avec 1 pc
+//        this.lienSQL.modifierJoueur(joueur4);
         
+        if (this.joueurLocal.getProjectileTire()!=null){
+            testProjectileTouche();
+        }
         this.lienSQL.modifierJoueur(this.joueurLocal); //on update la table après modification
         
         
     }
     
-    public boolean estTermine (int n){ //Fonctiuon pour mettre fin au jeu
-        //this.lienSQL.supprimerJoueur(joueurLocal);
-        return (n==200);
+    public boolean estTermine (){ //Fonctiuon pour mettre fin au jeu
+        return (this.joueurLocal.getHP()<=0);
     }
     
     /*public boolean collisionEntreAvatarEtBanane() {
@@ -128,7 +139,7 @@ public class Jeu {
         Espece especeJoueur4 = new ScarabeeRhinoceros();
         Joueur joueur2=new Joueur("joueur2",especeJoueur2,50,50);
         Joueur joueur3=new Joueur("joueur3",especeJoueur3,100,50);
-        Joueur joueur4=new Joueur("joueur4",especeJoueur4,150,50);
+        Joueur joueur4=new Joueur("joueur4",especeJoueur4,150,150);
         this.lienSQL.creerJoueur(joueur2);
         this.lienSQL.creerJoueur(joueur3);
         this.lienSQL.creerJoueur(joueur4);
