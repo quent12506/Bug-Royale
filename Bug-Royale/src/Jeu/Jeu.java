@@ -45,13 +45,13 @@ public class Jeu {
         catch (IOException ex) {
             Logger.getLogger(Jeu.class.getName()).log(Level.SEVERE, null, ex);
         }
-        Espece especeJoueurLocal = new Araignee();
-        this.joueurLocal= new Joueur("joueur1",especeJoueurLocal,170,320); //LIGNE A MODIFIER POUR DEFINIR SON JOUEUR
+        Espece especeJoueurLocal = new Cafard();
+        this.joueurLocal= new Joueur("Quentin",especeJoueurLocal,170,320); //LIGNE A MODIFIER POUR DEFINIR SON JOUEUR
         this.n = 0; //Fin de jeu avec un compteur, solution temporaire
         this.lienSQL = new JoueurSQL(); //initialisation lien joueur-BDD
         this.projectileSQL = new ProjectileSQL(); //initialisation lien projectile-BDD
         this.lienSQL.creerJoueur(this.joueurLocal); //Crétion du joueur local dans la BDD -> entrée en multi
-        initialisationTestMulti(); //Ligne d'initialisation du test multi sur 1 pc
+        //initialisationTestMulti(); //Ligne d'initialisation du test multi sur 1 pc
     }
     //Getter et setter
     public Joueur getJoueurLocal() {
@@ -103,10 +103,10 @@ public class Jeu {
         
         this.joueurLocal.miseAJour(); //On effectue la mise a jour local du joueur locale : action effectuees
         
-        Joueur joueur2 = this.joueurLocal.miseAJourTestMultiJ2(this.lienSQL.voirJoueurNom("joueur2")); // Deplacement pnj pour tester le multi avec 1 pc
-        this.lienSQL.modifierJoueur(joueur2); //on update la bdd du pnj
-        Joueur joueur3 = this.joueurLocal.miseAJourTestMultiJ3(this.lienSQL.voirJoueurNom("joueur3")); // Deplacement pnj pour tester le multi avec 1 pc
-        this.lienSQL.modifierJoueur(joueur3);
+//        Joueur joueur2 = this.joueurLocal.miseAJourTestMultiJ2(this.lienSQL.voirJoueurNom("joueur2")); // Deplacement pnj pour tester le multi avec 1 pc
+//        this.lienSQL.modifierJoueur(joueur2); //on update la bdd du pnj
+//        Joueur joueur3 = this.joueurLocal.miseAJourTestMultiJ3(this.lienSQL.voirJoueurNom("joueur3")); // Deplacement pnj pour tester le multi avec 1 pc
+//        this.lienSQL.modifierJoueur(joueur3);
 //        Joueur joueur4 = this.joueurLocal.miseAJourTestMultiJ4(this.lienSQL.voirJoueurNom("joueur4")); // Deplacement pnj pour tester le multi avec 1 pc
 //        this.lienSQL.modifierJoueur(joueur4);
         
