@@ -58,6 +58,14 @@ public class Jeu {
         return joueurLocal;
     }
 
+    public JoueurSQL getLienSQL() {
+        return lienSQL;
+    }
+
+    public ProjectileSQL getProjectileSQL() {
+        return projectileSQL;
+    }
+
     public int getN() {
         return n;
     }
@@ -101,7 +109,7 @@ public class Jeu {
         this.joueurLocal.setPosition(joueurLocalBDD.getX(), joueurLocalBDD.getY()); //On update les infos variables du joueur local à partir des infos de la BDD
         this.joueurLocal.setHP(joueurLocalBDD.getHP());
         
-        this.joueurLocal.miseAJour(); //On effectue la mise a jour local du joueur locale : action effectuees
+        this.joueurLocal.miseAJour(this.projectileSQL); //On effectue la mise a jour local du joueur locale : action effectuees
         
 //        Joueur joueur2 = this.joueurLocal.miseAJourTestMultiJ2(this.lienSQL.voirJoueurNom("joueur2")); // Deplacement pnj pour tester le multi avec 1 pc
 //        this.lienSQL.modifierJoueur(joueur2); //on update la bdd du pnj

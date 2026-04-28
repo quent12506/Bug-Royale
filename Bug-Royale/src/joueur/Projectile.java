@@ -113,7 +113,7 @@ public class Projectile {
         this.actif = true;
     }
 
-    public void MAJ(double deltaT) {
+    public void MAJ(double deltaT, ProjectileSQL projectileSQL) {
         if (!actif){ //on met a jour seulement les projectiles actifs
             return;
         }
@@ -122,9 +122,7 @@ public class Projectile {
         position = position.add(deplacement);
 
         //Update BDD
-        ProjectileSQL projectileSQL = new ProjectileSQL();
         projectileSQL.modifierProjectile(this, this.getProprietaire().getNom());
-        projectileSQL.closeTable();
         
         temps += deltaT;
         if (temps>=50){

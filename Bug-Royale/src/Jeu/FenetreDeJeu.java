@@ -76,7 +76,7 @@ public class FenetreDeJeu extends JFrame implements ActionListener {
         this.jLabel1.repaint();
         
         if (this.jeu.estTermine()){
-            this.jeu.getJoueurLocal().joueurMort();
+            this.jeu.getJoueurLocal().joueurMort(this.jeu.getLienSQL());
             this.timer.stop();
         }
     }
@@ -96,8 +96,7 @@ public class FenetreDeJeu extends JFrame implements ActionListener {
             Projectile projectile = new Projectile(this.jeu.getJoueurLocal(), this.jeu.getJoueurLocal().getPosition(),cible,5);
             this.jeu.getJoueurLocal().setProjectileTire(projectile);
             this.ecouteurSouris.setClick(false);
-            ProjectileSQL projectileSQL = new ProjectileSQL();
-            projectileSQL.creerProjectile(projectile);
+            this.jeu.getProjectileSQL().creerProjectile(projectile);
         }
         
     }
