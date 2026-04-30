@@ -190,15 +190,15 @@ public void supprimerJoueur(Joueur J){ //Suppression d'un joueur dans la BDD à 
                     Espece especeJOut=new Sauterelle();
                     JOut.setEspece(especeJOut);
                 }
-				if ("coxcinelle".equals(resultat.getString("Espece"))){
+		if ("coxcinelle".equals(resultat.getString("Espece"))){
                     Espece especeJOut=new Coxcinelle();
                     JOut.setEspece(especeJOut);
 				}
-				if ("fourmis".equals(resultat.getString("Espece"))){
+		if ("fourmis".equals(resultat.getString("Espece"))){
                     Espece especeJOut=new Fourmis();
                     JOut.setEspece(especeJOut);
 				}
-				if ("mouche".equals(resultat.getString("Espece"))){
+		if ("mouche".equals(resultat.getString("Espece"))){
                     Espece especeJOut=new Mouche();
                     JOut.setEspece(especeJOut);
         }
