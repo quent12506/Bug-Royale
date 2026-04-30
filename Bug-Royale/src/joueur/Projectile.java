@@ -11,12 +11,12 @@ import sql.ProjectileSQL;
 
 /**
  * Classe représentant un projectile avec physique 2D (vitesse constante)
- * @author Xama66
+ * @author mlopez1
  */
 public class Projectile {
     private Coordonnee position;      // Position du projectile
-    private Coordonnee cible;     // Direction du projectile (définie par l'utilisateur)
-    private Coordonnee direction;       // Vecteur direction normalise
+    private Coordonnee cible;         // Direction du projectile (définie par l'utilisateur)
+    private Coordonnee direction;     // Vecteur direction normalise
     private double vitesse;
     private double rayon;             // Rayon du projectile pour les collisions
     private boolean actif;            // Si le projectile est encore en vol
@@ -27,8 +27,7 @@ public class Projectile {
     public Projectile(Joueur proprietaire, Coordonnee position, Coordonnee cible, double rayon) {
         this.position = position;
         this.cible = cible;
-        Coordonnee d = new Coordonnee();
-        this.direction = d.vecteurDirection(this.position, this.cible);
+        this.direction = this.position.vecteurDirection(this.position, this.cible);
         this.rayon = rayon;
         this.actif = true;
         this.temps = 0;

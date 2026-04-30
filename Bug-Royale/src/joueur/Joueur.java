@@ -22,12 +22,14 @@ public class Joueur {
     private boolean toucheO, toucheE, toucheN, toucheS, tirJoueur;
     private String nom;
     private Espece espece;
+    private Coordonnee direction;
     private int HP;
     private Projectile projectileTire;
 
     public Joueur(String nom, Espece espece, double x, double y) { //Création manuelle d'un joueur, tout les attributs de la BDD à rentrer
         
-        this.position = new Coordonnee(x, y);
+        this.position = new Coordonnee(x, y); 
+        this.direction = new Coordonnee();
         this.toucheO = false;
         this.toucheE = false;
         this.toucheN = false;
@@ -72,6 +74,14 @@ public class Joueur {
 
     public Coordonnee getPosition() {
         return position;
+    }
+    
+    public Coordonnee getDirection(){
+        return direction;
+    }
+    
+    public void setDirection(Coordonnee direction){
+        this.direction = direction;
     }
 
     public void setToucheOuest(boolean etat) { 
