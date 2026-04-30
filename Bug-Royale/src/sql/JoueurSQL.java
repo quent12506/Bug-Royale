@@ -10,11 +10,14 @@ package sql;
  */
 
 //import java.sql.*;
+import espece.Abeille;
 import espece.Araignee;
-import espece.Cafard;
+import espece.Coxcinelle;
+import espece.Fourmis;
+import espece.Mouche;
 import espece.Espece;
 import espece.Sauterelle;
-import espece.ScarabeeRhinoceros;
+import espece.Scarabee;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -172,15 +175,15 @@ public void supprimerJoueur(Joueur J){ //Suppression d'un joueur dans la BDD à 
                 JOut.setPosition(resultat.getDouble("X"),resultat.getDouble("Y"));
                 JOut.setHP(resultat.getInt("HP"));
                 if ("scarabee".equals(resultat.getString("Espece"))){
-                    Espece especeJOut=new scarabee();
+                    Espece especeJOut=new Scarabee();
                     JOut.setEspece(especeJOut);
                 }
                 if ("araignee".equals(resultat.getString("Espece"))){
-                    Espece especeJOut=new araignee();
+                    Espece especeJOut=new Araignee();
                     JOut.setEspece(especeJOut);
                 }
                 if ("abeille".equals(resultat.getString("Espece"))){
-                    Espece especeJOut=new abeille();
+                    Espece especeJOut=new Abeille();
                     JOut.setEspece(especeJOut);
                 }
                 if ("sauterelle".equals(resultat.getString("Espece"))){
@@ -188,21 +191,21 @@ public void supprimerJoueur(Joueur J){ //Suppression d'un joueur dans la BDD à 
                     JOut.setEspece(especeJOut);
                 }
 				if ("coxcinelle".equals(resultat.getString("Espece"))){
-                    Espece especeJOut=new coxcinelle();
+                    Espece especeJOut=new Coxcinelle();
                     JOut.setEspece(especeJOut);
 				}
 				if ("fourmis".equals(resultat.getString("Espece"))){
-                    Espece especeJOut=new fourmis();
+                    Espece especeJOut=new Fourmis();
                     JOut.setEspece(especeJOut);
 				}
 				if ("mouche".equals(resultat.getString("Espece"))){
-                    Espece especeJOut=new mouche();
+                    Espece especeJOut=new Mouche();
                     JOut.setEspece(especeJOut);
         }
         
         resultat.close();
         requete.close();
-        
+        }
     } catch (SQLException ex) {
         ex.printStackTrace();  
     }
