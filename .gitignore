@@ -80,3 +80,4 @@ Thumbs.db
 *.swp
 *~
 Bug-Royale/nbproject/private/private.xml
+*.properties
