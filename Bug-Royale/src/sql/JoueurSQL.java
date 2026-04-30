@@ -117,23 +117,34 @@ public void supprimerJoueur(Joueur J){ //Suppression d'un joueur dans la BDD à 
                 JOut.setNom(resultat.getString("Name"));
                 JOut.setPosition(resultat.getDouble("X"),resultat.getDouble("Y"));
                 JOut.setHP(resultat.getInt("HP"));
-                if ("ScarabeeRhinoceros".equals(resultat.getString("Espece"))){
-                    Espece especeJOut=new ScarabeeRhinoceros();
+                if ("scarabee".equals(resultat.getString("Espece"))){
+                    Espece especeJOut=new scarabee();
                     JOut.setEspece(especeJOut);
                 }
-                if ("Araignee".equals(resultat.getString("Espece"))){
-                    Espece especeJOut=new Araignee();
+                if ("araignee".equals(resultat.getString("Espece"))){
+                    Espece especeJOut=new araignee();
                     JOut.setEspece(especeJOut);
                 }
-                if ("Cafard".equals(resultat.getString("Espece"))){
-                    Espece especeJOut=new Cafard();
+                if ("abeille".equals(resultat.getString("Espece"))){
+                    Espece especeJOut=new abeille();
                     JOut.setEspece(especeJOut);
                 }
-                if ("Sauterelle".equals(resultat.getString("Espece"))){
-                    Espece especeJOut=new Sauterelle();
+                if ("sauterelle".equals(resultat.getString("Espece"))){
+                    Espece especeJOut=new sauterelle();
                     JOut.setEspece(especeJOut);
                 }
-                
+                if ("coxcinelle".equals(resultat.getString("Espece"))){
+                    Espece especeJOut=new coxcinelle();
+                    JOut.setEspece(especeJOut);
+                }
+				if ("fourmis".equals(resultat.getString("Espece"))){
+                    Espece especeJOut=new fourmis();
+                    JOut.setEspece(especeJOut);
+                }
+				if ("mouche".equals(resultat.getString("Espece"))){
+                    Espece especeJOut=new mouche();
+                    JOut.setEspece(especeJOut);
+                }
         }
         
         resultat.close();
@@ -160,22 +171,33 @@ public void supprimerJoueur(Joueur J){ //Suppression d'un joueur dans la BDD à 
                 JOut.setNom(resultat.getString("Name"));
                 JOut.setPosition(resultat.getDouble("X"),resultat.getDouble("Y"));
                 JOut.setHP(resultat.getInt("HP"));
-                if ("ScarabeeRhinoceros".equals(resultat.getString("Espece"))){
-                    Espece especeJOut=new ScarabeeRhinoceros();
+                if ("scarabee".equals(resultat.getString("Espece"))){
+                    Espece especeJOut=new scarabee();
                     JOut.setEspece(especeJOut);
                 }
-                if ("Araignee".equals(resultat.getString("Espece"))){
-                    Espece especeJOut=new Araignee();
+                if ("araignee".equals(resultat.getString("Espece"))){
+                    Espece especeJOut=new araignee();
                     JOut.setEspece(especeJOut);
                 }
-                if ("Cafard".equals(resultat.getString("Espece"))){
-                    Espece especeJOut=new Cafard();
+                if ("abeille".equals(resultat.getString("Espece"))){
+                    Espece especeJOut=new abeille();
                     JOut.setEspece(especeJOut);
                 }
-                if ("Sauterelle".equals(resultat.getString("Espece"))){
-                    Espece especeJOut=new Sauterelle();
+                if ("sauterelle".equals(resultat.getString("Espece"))){
+                    Espece especeJOut=new sauterelle();
                     JOut.setEspece(especeJOut);
                 }
+				if ("coxcinelle".equals(resultat.getString("Espece"))){
+                    Espece especeJOut=new coxcinelle();
+                    JOut.setEspece(especeJOut);
+				}
+				if ("fourmis".equals(resultat.getString("Espece"))){
+                    Espece especeJOut=new fourmis();
+                    JOut.setEspece(especeJOut);
+				}
+				if ("mouche".equals(resultat.getString("Espece"))){
+                    Espece especeJOut=new mouche();
+                    JOut.setEspece(especeJOut);
         }
         
         resultat.close();
