@@ -15,12 +15,12 @@ import joueur.Joueur;
  *
  * @author hugom
  */
-public class ScarabeeRhinoceros extends Espece{
+public class scarabee extends Espece{
 
-    public ScarabeeRhinoceros() {
-        super("ScarabeeRhinoceros", 3.2, 180, null);
+    public scarabee() {
+        super("scarabee", 3.2, 180, null);
         try {
-            this.sprite = ImageIO.read(getClass().getResource("../resources/rhinoceros.png"));
+            this.sprite = ImageIO.read(getClass().getResource("../resources/scarabee.png"));
         } catch (IOException ex) {
             Logger.getLogger(Joueur.class.getName()).log(Level.SEVERE, null, ex);
         }
