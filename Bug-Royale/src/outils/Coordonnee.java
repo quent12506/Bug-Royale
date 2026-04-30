@@ -7,10 +7,23 @@ package outils; // Définit le package du projet
 public class Coordonnee { // Déclaration de la classe Coordonnee
     private double x; // Abscisse de la coordonnée
     private double y; // Ordonnée de la coordonnée
+    
+    public Coordonnee(){
+        this.x=0;
+        this.y=0;
+    }
 
     public Coordonnee(double x, double y) { // Constructeur prenant x et y
         this.x = x; // Initialise l'abscisse
         this.y = y; // Initialise l'ordonnée
+    }
+
+    public void setX(double x) {
+        this.x = x;
+    }
+
+    public void setY(double y) {
+        this.y = y;
     }
 
     public double getx() {
@@ -52,6 +65,13 @@ public class Coordonnee { // Déclaration de la classe Coordonnee
         double nx = this.x * Math.cos(angle) - this.y * Math.sin(angle); // Calcule la nouvelle abscisse
         double ny = this.x * Math.sin(angle) + this.y * Math.cos(angle); // Calcule la nouvelle ordonnée
         return new Coordonnee(nx, ny); // Retourne la nouvelle coordonnée
+    }
+    
+    public Coordonnee vecteurDirection(Coordonnee v1, Coordonnee v2){
+        Coordonnee v3 = new Coordonnee();
+        v3.setX(v2.getx()-v1.getx());
+        v3.setY(v2.gety()-v1.gety());
+        return v3.normalize();
     }
 
     public static boolean segmentIntercepteCercle(Coordonnee A, Coordonnee B, Coordonnee C, double r) { // Détecte l'intersection segment-cercle
