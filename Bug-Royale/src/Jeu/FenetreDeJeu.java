@@ -73,6 +73,10 @@ public class FenetreDeJeu extends JFrame implements ActionListener {
         actionListened();
         this.jeu.miseAJour();
         this.jeu.rendu(contexte);
+        if (this.ecouteurClavier.isFermeConnection()){
+            this.jeu.kill();
+            this.ecouteurClavier.setFermeConnection(false);
+        }
         this.jLabel1.repaint();
         
         if (this.jeu.estTermine()){

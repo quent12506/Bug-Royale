@@ -14,6 +14,7 @@ public class EcouteurClavier implements KeyListener {
     private boolean sud;
     private boolean est;
     private boolean ouest;
+    private boolean fermeConnection=false;
     
     //getter et setter
     public boolean isNord() {
@@ -31,12 +32,23 @@ public class EcouteurClavier implements KeyListener {
     public boolean isOuest() {
         return ouest;
     }
+
+    public boolean isFermeConnection() {
+        return fermeConnection;
+    }
+
+    public void setFermeConnection(boolean fermeConnection) {
+        this.fermeConnection = fermeConnection;
+    }
     
     @Override//Ca c'est quand vous appuyez (rapidement) sur une touche. Même bail, vous pouvez récupérer des infos à travers l'event, comme :
     public void keyPressed(KeyEvent evt) { //detection d'une touche pressée, stockage de l'info dans les attributs de la classe
         
         if (evt.getKeyCode() == evt.VK_RIGHT) {
             this.est=true;
+            }
+        if (evt.getKeyCode() == evt.VK_K) {
+            this.fermeConnection=true;
             }
         if (evt.getKeyCode() == evt.VK_LEFT) {
             this.ouest=true;

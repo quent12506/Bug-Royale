@@ -48,7 +48,7 @@ public class Jeu {
         catch (IOException ex) {
             Logger.getLogger(Jeu.class.getName()).log(Level.SEVERE, null, ex);
         }
-        Espece especeJoueurLocal = new Sauterelle();
+        Espece especeJoueurLocal = new Abeille();
         this.joueurLocal= new Joueur("Max",especeJoueurLocal,170,320); //LIGNE A MODIFIER POUR DEFINIR SON JOUEUR
         this.n = 0; //Fin de jeu avec un compteur, solution temporaire
         this.lienSQL = new JoueurSQL(); //initialisation lien joueur-BDD
@@ -75,6 +75,20 @@ public class Jeu {
 
     public void setJoueurLocal(Joueur joueurLocal) {
         this.joueurLocal = joueurLocal;
+    }
+    
+    public void kill(){
+        ArrayList<String> listeNom = this.lienSQL.listeNom(); //affichage de l'ensemble des joueurs présent en multi
+        for (int i=0;i<listeNom.size();i++){
+            Joueur joueurASupprimer = this.lienSQL.voirJoueurNom(listeNom.get(i));
+            this.lienSQL.supprimerJoueur(joueurASupprimer);
+        }
+        ArrayList<Projectile> listeProjectile = this.projectileSQL.voirEnsembleProjectiles(); //affichage de l'ensemble des projectiles présent dans la BDD
+        for (int i=0;i<listeProjectile.size();i++){
+            this.projectileSQL.supprimerProjectile(listeProjectile.get(i));
+        }
+        this.lienSQL.closeTable();
+        this.projectileSQL.closeTable();
     }
     
     public void rendu (Graphics2D contexte){ //Rendu du jeu
