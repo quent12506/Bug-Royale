@@ -135,7 +135,7 @@ public class Joueur {
             (toucheS ? 1 : 0) - (toucheN ? 1 : 0)
         );
         
-        position = position.add(direction.normalize().mult(vitesse));
+        position = position.add(direction.normalize().mult(vitesse)); 
         
         if (this.projectileTire!=null){
             this.projectileTire.MAJ(1,projectileSQL);

@@ -43,7 +43,7 @@ public class Jeu {
 
     public Jeu() { //Initialisation du jeu
         try {
-            this.decor = ImageIO.read(getClass().getResource("../resources/grass.png")); //Remplacer "jungle.png" par notre carte
+            this.decor = ImageIO.read(getClass().getResource("../resources/Map.png")); //Remplacer "jungle.png" par notre carte
         }
         catch (IOException ex) {
             Logger.getLogger(Jeu.class.getName()).log(Level.SEVERE, null, ex);
