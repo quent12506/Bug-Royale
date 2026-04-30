@@ -15,9 +15,9 @@ import joueur.Joueur;
  *
  * @author hugom
  */
-public class abeille extends Espece{
+public class Abeille extends Espece{
 
-    public abeille() {
+    public Abeille() {
         super("abeille", 7.5, 75, null);
         try {
             this.sprite = ImageIO.read(getClass().getResource("../resources/abeille.png"));

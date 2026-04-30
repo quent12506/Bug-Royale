@@ -15,9 +15,9 @@ import joueur.Joueur;
  *
  * @author hugom
  */
-public class fourmis extends Espece{
+public class Fourmis extends Espece{
 
-    public fourmis() {
+    public Fourmis() {
         super("fourmis", 7.5, 75, null);
         try {
             this.sprite = ImageIO.read(getClass().getResource("../resources/fourmis.png"));

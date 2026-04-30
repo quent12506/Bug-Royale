@@ -10,10 +10,9 @@ package Jeu;
  */
 
 import espece.Araignee;
-import espece.Cafard;
 import espece.Espece;
 import espece.Sauterelle;
-import espece.ScarabeeRhinoceros;
+import espece.Scarabee;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -143,8 +142,8 @@ public class Jeu {
     
     public void initialisationTestMulti(){ //fonction pour créer 2 pnj pour tester le multi avec 1 pc
         Espece especeJoueur2 = new Sauterelle();
-        Espece especeJoueur3 = new Cafard();
-        Espece especeJoueur4 = new ScarabeeRhinoceros();
+        Espece especeJoueur3 = new Abeille();
+        Espece especeJoueur4 = new Scarabee();
         Joueur joueur2=new Joueur("joueur2",especeJoueur2,50,50);
         Joueur joueur3=new Joueur("joueur3",especeJoueur3,100,50);
         Joueur joueur4=new Joueur("joueur4",especeJoueur4,150,150);

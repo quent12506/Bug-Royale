@@ -15,9 +15,9 @@ import joueur.Joueur;
  *
  * @author hugom
  */
-public class coxcinelle extends Espece{
+public class Coxcinelle extends Espece{
 
-    public coxcinelle() {
+    public Coxcinelle() {
         super("coxcinelle", 7.5, 75, null);
         try {
             this.sprite = ImageIO.read(getClass().getResource("../resources/coxcinelle.png"));

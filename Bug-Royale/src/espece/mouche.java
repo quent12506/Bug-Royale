@@ -15,9 +15,9 @@ import joueur.Joueur;
  *
  * @author hugom
  */
-public class mouche extends Espece{
+public class Mouche extends Espece{
 
-    public mouche() {
+    public Mouche() {
         super("mouche", 7.5, 75, null);
         try {
             this.sprite = ImageIO.read(getClass().getResource("../resources/mouche.png"));

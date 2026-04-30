@@ -15,9 +15,9 @@ import joueur.Joueur;
  *
  * @author hugom
  */
-public class sauterelle extends Espece{
+public class Sauterelle extends Espece{
     
-    public sauterelle() {
+    public Sauterelle() {
         super("sauterelle", 5.2, 80, null);
         try {
             this.sprite = ImageIO.read(getClass().getResource("../resources/sauterelle.png"));
