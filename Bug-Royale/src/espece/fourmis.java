@@ -15,12 +15,12 @@ import joueur.Joueur;
  *
  * @author hugom
  */
-public class Cafard extends Espece{
+public class fourmis extends Espece{
 
-    public Cafard() {
-        super("Cafard", 7.5, 75, null);
+    public fourmis() {
+        super("fourmis", 7.5, 75, null);
         try {
-            this.sprite = ImageIO.read(getClass().getResource("../resources/cafard.png"));
+            this.sprite = ImageIO.read(getClass().getResource("../resources/fourmis.png"));
         } catch (IOException ex) {
             Logger.getLogger(Joueur.class.getName()).log(Level.SEVERE, null, ex);
         }

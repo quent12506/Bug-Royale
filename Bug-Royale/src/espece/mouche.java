@@ -15,14 +15,17 @@ import joueur.Joueur;
  *
  * @author hugom
  */
-public class sauterelle extends Espece{
-    
-    public sauterelle() {
-        super("sauterelle", 5.2, 80, null);
+public class mouche extends Espece{
+
+    public mouche() {
+        super("mouche", 7.5, 75, null);
         try {
-            this.sprite = ImageIO.read(getClass().getResource("../resources/sauterelle.png"));
+            this.sprite = ImageIO.read(getClass().getResource("../resources/mouche.png"));
         } catch (IOException ex) {
             Logger.getLogger(Joueur.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    
+    
 }
