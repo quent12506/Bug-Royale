@@ -244,7 +244,7 @@ public void supprimerJoueur(Joueur J){ //Suppression d'un joueur dans la BDD à 
         return listeNom;
     }
     
-    public void closeTable(){ //Ferleture de la connection
+    public void closeTable(){ //Fermeture de la connection
         try {
             this.connexion.close();
         } catch (SQLException ex) {
