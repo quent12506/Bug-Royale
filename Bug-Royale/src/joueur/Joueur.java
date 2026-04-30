@@ -9,6 +9,7 @@ import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import outils.Coordonnee;
 import sql.JoueurSQL;
+import sql.ProjectileSQL;
 
 /**
  *
@@ -127,7 +128,7 @@ public class Joueur {
         return "Joueur{" + "position=" + position + ", nom=" + nom + ", espece=" + espece.getStringEspece() + ", HP=" + HP + '}';
     }
 
-    public void miseAJour() { 
+    public void miseAJour(ProjectileSQL projectileSQL) { 
         
         Coordonnee direction = new Coordonnee( //déplacement du joueur local
             (toucheE ? 1 : 0) - (toucheO ? 1 : 0),
@@ -137,7 +138,7 @@ public class Joueur {
         position = position.add(direction.normalize().mult(vitesse));
         
         if (this.projectileTire!=null){
-            this.projectileTire.MAJ(1);
+            this.projectileTire.MAJ(1,projectileSQL);
 
         }
         
@@ -148,8 +149,7 @@ public class Joueur {
 //        }
     }
     
-    public void joueurMort(){
-        JoueurSQL lienSQL = new JoueurSQL();
+    public void joueurMort(JoueurSQL lienSQL){
         lienSQL.supprimerJoueur(this);
     }
     
