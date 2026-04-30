@@ -41,11 +41,11 @@ public class FenetreDeJeu extends JFrame implements ActionListener {
 
     public FenetreDeJeu() {
         // initialisation de la fenetre
-        this.setSize(380, 430); //MODIFIER LA FENETRE GRAPHIQUE EN FONCTION DE LA TAILLE DE LA MAP
+        this.setSize(1440, 1464); //MODIFIER LA FENETRE GRAPHIQUE EN FONCTION DE LA TAILLE DE LA MAP
         this.setResizable(false);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.jLabel1 = new JLabel();
-        this.jLabel1.setPreferredSize(new java.awt.Dimension(380, 430)); 
+        this.jLabel1.setPreferredSize(new java.awt.Dimension(1440, 1464)); 
         this.setContentPane(this.jLabel1);
         this.pack();
         
