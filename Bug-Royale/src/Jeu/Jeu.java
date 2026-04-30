@@ -9,7 +9,11 @@ package Jeu;
  * @author hmas
  */
 
+import espece.Abeille;
 import espece.Araignee;
+import espece.Coxcinelle;
+import espece.Fourmis;
+import espece.Mouche;
 import espece.Espece;
 import espece.Sauterelle;
 import espece.Scarabee;

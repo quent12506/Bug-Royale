@@ -118,31 +118,31 @@ public void supprimerJoueur(Joueur J){ //Suppression d'un joueur dans la BDD à 
                 JOut.setPosition(resultat.getDouble("X"),resultat.getDouble("Y"));
                 JOut.setHP(resultat.getInt("HP"));
                 if ("scarabee".equals(resultat.getString("Espece"))){
-                    Espece especeJOut=new scarabee();
+                    Espece especeJOut=new Scarabee();
                     JOut.setEspece(especeJOut);
                 }
                 if ("araignee".equals(resultat.getString("Espece"))){
-                    Espece especeJOut=new araignee();
+                    Espece especeJOut=new Araignee();
                     JOut.setEspece(especeJOut);
                 }
                 if ("abeille".equals(resultat.getString("Espece"))){
-                    Espece especeJOut=new abeille();
+                    Espece especeJOut=new Abeille();
                     JOut.setEspece(especeJOut);
                 }
                 if ("sauterelle".equals(resultat.getString("Espece"))){
-                    Espece especeJOut=new sauterelle();
+                    Espece especeJOut=new Sauterelle();
                     JOut.setEspece(especeJOut);
                 }
                 if ("coxcinelle".equals(resultat.getString("Espece"))){
-                    Espece especeJOut=new coxcinelle();
+                    Espece especeJOut=new Coxcinelle();
                     JOut.setEspece(especeJOut);
                 }
 				if ("fourmis".equals(resultat.getString("Espece"))){
-                    Espece especeJOut=new fourmis();
+                    Espece especeJOut=new Fourmis();
                     JOut.setEspece(especeJOut);
                 }
 				if ("mouche".equals(resultat.getString("Espece"))){
-                    Espece especeJOut=new mouche();
+                    Espece especeJOut=new Mouche();
                     JOut.setEspece(especeJOut);
                 }
         }
@@ -184,7 +184,7 @@ public void supprimerJoueur(Joueur J){ //Suppression d'un joueur dans la BDD à 
                     JOut.setEspece(especeJOut);
                 }
                 if ("sauterelle".equals(resultat.getString("Espece"))){
-                    Espece especeJOut=new sauterelle();
+                    Espece especeJOut=new Sauterelle();
                     JOut.setEspece(especeJOut);
                 }
 				if ("coxcinelle".equals(resultat.getString("Espece"))){
