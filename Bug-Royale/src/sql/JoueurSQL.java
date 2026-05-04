@@ -26,6 +26,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import outils.OutilsJDBC;
 import joueur.Joueur;
+import outils.Coordonnee;
 
 public class JoueurSQL {
     
