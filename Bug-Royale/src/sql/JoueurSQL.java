@@ -85,6 +85,15 @@ public class JoueurSQL {
             requete.setInt(6, J.getHP());
             requete.setString(7, J.getEspece().getStringEspece());
             requete.setString(8, J.getNom());
+
+//            requete.setString(1, J.getNom());
+//            requete.setDouble(2, J.getX());
+//            requete.setDouble(3, J.getY());
+//            requete.setDouble(4, J.getDirection().getx());
+//            requete.setDouble(5, J.getDirection().gety());
+//            requete.setInt(6, J.getHP());
+//            requete.setString(7, J.getEspece().getStringEspece());
+            
             
             System.out.println(requete);
             
@@ -132,19 +141,20 @@ public class JoueurSQL {
                 Coordonnee poseActuelle = new Coordonnee(resultat.getDouble("X"),resultat.getDouble("Y"));
                 JOut.setDirection(poseActuelle.vecteurDirection(new Coordonnee(resultat.getDouble("DX"),resultat.getDouble("DY"))));
                 JOut.setHP(resultat.getInt("HP"));
-                if ("scarabee".equals(resultat.getString("Espece"))){
+                System.out.println(resultat.getString("Espece"));
+                if ("Scarabee".equals(resultat.getString("Espece"))){
                     Espece especeJOut=new Scarabee();
                     JOut.setEspece(especeJOut);
                 }
-                if ("araignee".equals(resultat.getString("Espece"))){
+                if ("Araignee".equals(resultat.getString("Espece"))){
                     Espece especeJOut=new Araignee();
                     JOut.setEspece(especeJOut);
                 }
-                if ("abeille".equals(resultat.getString("Espece"))){
+                if ("Abeille".equals(resultat.getString("Espece"))){
                     Espece especeJOut=new Abeille();
                     JOut.setEspece(especeJOut);
                 }
-                if ("sauterelle".equals(resultat.getString("Espece"))){
+                if ("Sauterelle".equals(resultat.getString("Espece"))){
                     Espece especeJOut=new Sauterelle();
                     JOut.setEspece(especeJOut);
                 }
@@ -152,11 +162,11 @@ public class JoueurSQL {
                     Espece especeJOut=new Coxcinelle();
                     JOut.setEspece(especeJOut);
                 }
-				if ("fourmis".equals(resultat.getString("Espece"))){
+		if ("Fourmis".equals(resultat.getString("Espece"))){
                     Espece especeJOut=new Fourmis();
                     JOut.setEspece(especeJOut);
                 }
-				if ("mouche".equals(resultat.getString("Espece"))){
+		if ("Mouche".equals(resultat.getString("Espece"))){
                     Espece especeJOut=new Mouche();
                     JOut.setEspece(especeJOut);
                 }
@@ -188,34 +198,34 @@ public class JoueurSQL {
                 Coordonnee poseActuelle = new Coordonnee(resultat.getDouble("X"),resultat.getDouble("Y"));
                 JOut.setDirection(poseActuelle.vecteurDirection(new Coordonnee(resultat.getDouble("DX"),resultat.getDouble("DY"))));
                 JOut.setHP(resultat.getInt("HP"));
-                if ("scarabee".equals(resultat.getString("Espece"))){
+                if ("Scarabee".equals(resultat.getString("Espece"))){
                     Espece especeJOut=new Scarabee();
                     JOut.setEspece(especeJOut);
                 }
-                if ("araignee".equals(resultat.getString("Espece"))){
+                if ("Araignee".equals(resultat.getString("Espece"))){
                     Espece especeJOut=new Araignee();
                     JOut.setEspece(especeJOut);
                 }
-                if ("abeille".equals(resultat.getString("Espece"))){
+                if ("Abeille".equals(resultat.getString("Espece"))){
                     Espece especeJOut=new Abeille();
                     JOut.setEspece(especeJOut);
                 }
-                if ("sauterelle".equals(resultat.getString("Espece"))){
+                if ("Sauterelle".equals(resultat.getString("Espece"))){
                     Espece especeJOut=new Sauterelle();
                     JOut.setEspece(especeJOut);
                 }
-		if ("coxcinelle".equals(resultat.getString("Espece"))){
+		if ("Coxcinelle".equals(resultat.getString("Espece"))){
                     Espece especeJOut=new Coxcinelle();
                     JOut.setEspece(especeJOut);
-				}
-		if ("fourmis".equals(resultat.getString("Espece"))){
+		}
+		if ("Fourmis".equals(resultat.getString("Espece"))){
                     Espece especeJOut=new Fourmis();
                     JOut.setEspece(especeJOut);
-				}
-		if ("mouche".equals(resultat.getString("Espece"))){
+		}
+		if ("Mouche".equals(resultat.getString("Espece"))){
                     Espece especeJOut=new Mouche();
                     JOut.setEspece(especeJOut);
-        }
+                }
         
         resultat.close();
         requete.close();

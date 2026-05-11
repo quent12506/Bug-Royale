@@ -48,8 +48,8 @@ public class Jeu {
         catch (IOException ex) {
             Logger.getLogger(Jeu.class.getName()).log(Level.SEVERE, null, ex);
         }
-        Espece especeJoueurLocal = new Abeille();
-        this.joueurLocal= new Joueur("Max",especeJoueurLocal,170,320); //LIGNE A MODIFIER POUR DEFINIR SON JOUEUR
+        Espece especeJoueurLocal = new Araignee();
+        this.joueurLocal= new Joueur("Hugo",especeJoueurLocal,170,320); //LIGNE A MODIFIER POUR DEFINIR SON JOUEUR
         this.n = 0; //Fin de jeu avec un compteur, solution temporaire
         this.lienSQL = new JoueurSQL(); //initialisation lien joueur-BDD
         this.projectileSQL = new ProjectileSQL(); //initialisation lien projectile-BDD
@@ -140,7 +140,6 @@ public class Jeu {
             testProjectileTouche();
         }
         this.lienSQL.modifierJoueur(this.joueurLocal); //on update la table après modification
-//        this.lienSQL.modifierJoueur(this.joueurLocal); //on update la table après modification
         
         //this.lienSQL.voirTable();
         
