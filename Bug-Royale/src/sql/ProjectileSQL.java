@@ -85,6 +85,8 @@ public class ProjectileSQL {
             requete.setDouble(3, P.getPosition().gety());
             
             int nombreDeSuppressions = requete.executeUpdate();
+            
+            System.out.println(nombreDeSuppressions);
 
             requete.close();
 
@@ -175,6 +177,7 @@ public class ProjectileSQL {
                 P.setProprietaire(lienSQL.voirJoueurNom(resultat.getString("Proprietaire")));
                 Coordonnee pos = new Coordonnee();
                 pos.setX(resultat.getDouble("X"));
+                System.out.println(resultat.getDouble("X"));
                 pos.setY(resultat.getDouble("Y"));
                 P.setPosition(pos);
                 listeProjectiles.add(P);
@@ -220,6 +223,21 @@ public class ProjectileSQL {
             ex.printStackTrace();
         }
         return listeProprietaires;
+    }
+    
+    public void viderTable(){
+        try {
+            PreparedStatement requete = connexion.prepareStatement("DELETE FROM Projectiles WHERE 1");
+           
+            int nombreDeSuppressions = requete.executeUpdate();
+            
+            System.out.println(nombreDeSuppressions);
+
+            requete.close();
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
     }
     
     public void closeTable(){ //Fermeture de la connection

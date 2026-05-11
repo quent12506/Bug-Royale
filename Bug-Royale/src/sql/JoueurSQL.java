@@ -75,7 +75,8 @@ public class JoueurSQL {
     
     public void modifierJoueur(Joueur J){ //Modification d'un joueur dans la BDD à partir d'un joueur existant localement
         try {
-            PreparedStatement requete = connexion.prepareStatement("UPDATE Joueur SET Name = ?, X = ?, Y = ?, Dx = ?, Dy = Y, HP = ?, Espece = ? WHERE Name = ?");
+            PreparedStatement requete = connexion.prepareStatement("UPDATE Joueur SET Name = ?, X = ?, Y = ?, Dx = ?, Dy = ?, HP = ?, Espece = ? WHERE Name = ?");
+//            PreparedStatement requete = connexion.prepareStatement("UPDATE Joueur SET Name = ?, X = ?, Y = ?, Dx = ?, Dy = Y, HP = ?, Espece = ? WHERE 1");
             
             requete.setString(1, J.getNom());
             requete.setDouble(2, J.getX());
@@ -95,10 +96,10 @@ public class JoueurSQL {
 //            requete.setString(7, J.getEspece().getStringEspece());
             
             
-            System.out.println(requete);
+            //System.out.println(requete);
             
             int nombreDeModifications = requete.executeUpdate();
-            System.out.println(nombreDeModifications + " enregistrement(s) ajoute(s)");
+            //System.out.println(nombreDeModifications + " enregistrement(s) ajoute(s)");
 
             requete.close();
             
@@ -141,7 +142,6 @@ public class JoueurSQL {
                 Coordonnee poseActuelle = new Coordonnee(resultat.getDouble("X"),resultat.getDouble("Y"));
                 JOut.setDirection(poseActuelle.vecteurDirection(new Coordonnee(resultat.getDouble("DX"),resultat.getDouble("DY"))));
                 JOut.setHP(resultat.getInt("HP"));
-                System.out.println(resultat.getString("Espece"));
                 if ("Scarabee".equals(resultat.getString("Espece"))){
                     Espece especeJOut=new Scarabee();
                     JOut.setEspece(especeJOut);

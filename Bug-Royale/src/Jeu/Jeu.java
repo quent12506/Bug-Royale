@@ -83,10 +83,11 @@ public class Jeu {
             Joueur joueurASupprimer = this.lienSQL.voirJoueurNom(listeNom.get(i));
             this.lienSQL.supprimerJoueur(joueurASupprimer);
         }
-        ArrayList<Projectile> listeProjectile = this.projectileSQL.voirEnsembleProjectiles(); //affichage de l'ensemble des projectiles présent dans la BDD
-        for (int i=0;i<listeProjectile.size();i++){
-            this.projectileSQL.supprimerProjectile(listeProjectile.get(i));
-        }
+        this.projectileSQL.viderTable();
+//        ArrayList<Projectile> listeProjectile = this.projectileSQL.voirEnsembleProjectiles(); //affichage de l'ensemble des projectiles présent dans la BDD
+//        for (int i=0;i<listeProjectile.size();i++){
+//            this.projectileSQL.supprimerProjectile(listeProjectile.get(i));
+//        }
         this.lienSQL.closeTable();
         this.projectileSQL.closeTable();
     }
