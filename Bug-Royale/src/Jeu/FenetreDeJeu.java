@@ -95,13 +95,13 @@ public class FenetreDeJeu extends JFrame implements ActionListener {
         this.jeu.getJoueurLocal().setToucheNord(this.ecouteurClavier.isNord());
         this.jeu.getJoueurLocal().setToucheSud(this.ecouteurClavier.isSud());
         
-//        if (this.ecouteurSouris.isClick()){
-//            Coordonnee cible = new Coordonnee(this.ecouteurSouris.getX(),this.ecouteurSouris.getY());
-//            Projectile projectile = new Projectile(this.jeu.getJoueurLocal(), this.jeu.getJoueurLocal().getPosition(),cible,5);
-//            this.jeu.getJoueurLocal().setProjectileTire(projectile);
-//            this.ecouteurSouris.setClick(false);
-//            this.jeu.getProjectileSQL().creerProjectile(projectile);
-//        }
+        if (this.ecouteurSouris.isClick()){
+            Coordonnee cible = new Coordonnee(this.ecouteurSouris.getX(),this.ecouteurSouris.getY());
+            Projectile projectile = new Projectile(this.jeu.getJoueurLocal(), this.jeu.getJoueurLocal().getPosition(),cible,5);
+            this.jeu.getJoueurLocal().setProjectileTire(projectile);
+            this.ecouteurSouris.setClick(false);
+            this.jeu.getProjectileSQL().creerProjectile(projectile);
+        }
         
     }
 

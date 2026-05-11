@@ -52,9 +52,8 @@ public class Jeu {
         this.joueurLocal= new Joueur("Hugo",especeJoueurLocal,170,320); //LIGNE A MODIFIER POUR DEFINIR SON JOUEUR
         this.n = 0; //Fin de jeu avec un compteur, solution temporaire
         this.lienSQL = new JoueurSQL(); //initialisation lien joueur-BDD
-        //this.projectileSQL = new ProjectileSQL(); //initialisation lien projectile-BDD
+        this.projectileSQL = new ProjectileSQL(); //initialisation lien projectile-BDD
         this.lienSQL.creerJoueur(this.joueurLocal); //Crétion du joueur local dans la BDD -> entrée en multi
-    //    initialisationTestMulti(); //Ligne d'initialisation du test multi sur 1 pc
     }
     //Getter et setter
     public Joueur getJoueurLocal() {
@@ -100,13 +99,13 @@ public class Jeu {
             Joueur joueurARendre = this.lienSQL.voirJoueurNom(listeNom.get(i));
             joueurARendre.rendu(contexte);
         }
-//        if ((this.joueurLocal.getProjectileTire()!=null)&&(this.joueurLocal.getProjectileTire().isActif())){
-//            this.joueurLocal.renduProjectile(contexte);
-//        }
-//        ArrayList<Projectile> listeProjectile = this.projectileSQL.voirEnsembleProjectiles(); //affichage de l'ensemble des projectiles présent dans la BDD
-//        for (int i=0;i<listeProjectile.size();i++){
-//            listeProjectile.get(i).rendu(contexte);
-//        }
+        if ((this.joueurLocal.getProjectileTire()!=null)&&(this.joueurLocal.getProjectileTire().isActif())){
+            this.joueurLocal.renduProjectile(contexte);
+        }
+        ArrayList<Projectile> listeProjectile = this.projectileSQL.voirEnsembleProjectiles(); //affichage de l'ensemble des projectiles présent dans la BDD
+        for (int i=0;i<listeProjectile.size();i++){
+            listeProjectile.get(i).rendu(contexte);
+        }
     }
     
     public void testProjectileTouche(){
@@ -128,8 +127,7 @@ public class Jeu {
         this.joueurLocal.setDirection(joueurLocalBDD.getDirection());
         this.joueurLocal.setHP(joueurLocalBDD.getHP());
         
-        //this.joueurLocal.miseAJour(this.projectileSQL); //On effectue la mise a jour local du joueur locale : action effectuees
-        this.joueurLocal.miseAJour();
+        this.joueurLocal.miseAJour(this.projectileSQL); //On effectue la mise a jour local du joueur locale : action effectuees
 //        Joueur joueur2 = this.joueurLocal.miseAJourTestMultiJ2(this.lienSQL.voirJoueurNom("joueur2")); // Deplacement pnj pour tester le multi avec 1 pc
 //        this.lienSQL.modifierJoueur(joueur2); //on update la bdd du pnj
 //        Joueur joueur3 = this.joueurLocal.miseAJourTestMultiJ3(this.lienSQL.voirJoueurNom("joueur3")); // Deplacement pnj pour tester le multi avec 1 pc

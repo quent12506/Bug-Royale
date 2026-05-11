@@ -64,10 +64,10 @@ public class ProjectileSQL {
             requete.setDouble(3, P.getPosition().gety());
             requete.setString(4, ancienProprietaire);
            
-            System.out.println(requete);
+            //System.out.println(requete);
             
             int nombreDeModifications = requete.executeUpdate();
-            System.out.println(nombreDeModifications + " enregistrement(s) ajoute(s)");
+            //System.out.println(nombreDeModifications + " enregistrement(s) ajoute(s)");
 
             requete.close();
             
@@ -86,7 +86,7 @@ public class ProjectileSQL {
             
             int nombreDeSuppressions = requete.executeUpdate();
             
-            System.out.println(nombreDeSuppressions);
+            //System.out.println(nombreDeSuppressions);
 
             requete.close();
 
@@ -177,7 +177,6 @@ public class ProjectileSQL {
                 P.setProprietaire(lienSQL.voirJoueurNom(resultat.getString("Proprietaire")));
                 Coordonnee pos = new Coordonnee();
                 pos.setX(resultat.getDouble("X"));
-                System.out.println(resultat.getDouble("X"));
                 pos.setY(resultat.getDouble("Y"));
                 P.setPosition(pos);
                 listeProjectiles.add(P);
@@ -231,7 +230,7 @@ public class ProjectileSQL {
            
             int nombreDeSuppressions = requete.executeUpdate();
             
-            System.out.println(nombreDeSuppressions);
+            //System.out.println(nombreDeSuppressions);
 
             requete.close();
 

@@ -138,8 +138,7 @@ public class Joueur {
         return "Joueur{" + "position=" + position + ", nom=" + nom + ", espece=" + espece.getStringEspece() + ", HP=" + HP + '}';
     }
 
-    //public void miseAJour(ProjectileSQL projectileSQL) {
-    public void miseAJour() {
+    public void miseAJour(ProjectileSQL projectileSQL) {
         
         this.direction = new Coordonnee( //déplacement du joueur local
             (toucheE ? 1 : 0) - (toucheO ? 1 : 0),
@@ -148,10 +147,9 @@ public class Joueur {
         
         position = position.add(this.direction.normalize().mult(vitesse));
         
-//        if (this.projectileTire!=null){
-//            this.projectileTire.MAJ(1,projectileSQL);
-//
-//        }
+        if (this.projectileTire!=null){
+            this.projectileTire.MAJ(1,projectileSQL);
+        }
         
 //        if (this.tirJoueur){
 //            Coordonnee cible = new Coordonnee();

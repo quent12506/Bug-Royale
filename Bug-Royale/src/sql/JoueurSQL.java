@@ -55,7 +55,7 @@ public class JoueurSQL {
             requete.setInt(6, J.getHP());
             requete.setString(7, J.getEspece().getStringEspece());
 
-            //int nombreDAjouts = requete.executeUpdate();
+            int nombreDAjouts = requete.executeUpdate();
             requete.close();
 
         } catch (SQLException ex) {
