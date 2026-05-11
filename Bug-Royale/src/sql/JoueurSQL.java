@@ -8,53 +8,45 @@ package sql;
  *
  * @author abriton
  */
-
-//import java.sql.*;
-import espece.Abeille;
-import espece.Araignee;
-import espece.Coxcinelle;
-import espece.Fourmis;
-import espece.Mouche;
-import espece.Espece;
-import espece.Sauterelle;
-import espece.Scarabee;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import espece.*;
+import java.sql.*;
 import java.util.ArrayList;
 import outils.OutilsJDBC;
 import joueur.Joueur;
 import outils.Coordonnee;
 
 public class JoueurSQL {
-    
-    private String adresseBase; 
+
+    private String adresseBase;
     private String user;
     private String motdepasse;
     private Connection connexion;
-    
-    
-    public JoueurSQL(){ //Methode pour connecter le jeu à la BDD
+
+    public JoueurSQL() { //Methode pour connecter le jeu à la BDD
         this.adresseBase = "jdbc:mariadb://nemrod.ens2m.fr:3306/2025-2026_s2_vs1_bug_royale";
         this.user = "etudiant";
         this.motdepasse = "YTDTvj9TR3CDYCmP";
-	
-	try {
-	this.connexion = DriverManager.getConnection(this.adresseBase, this.user, this.motdepasse);
-	
-	} catch (SQLException ex) {
+
+        try {
+            this.connexion = DriverManager.getConnection(this.adresseBase, this.user, this.motdepasse);
+
+        } catch (SQLException ex) {
             ex.printStackTrace();
         }
 
     }
+
+    ///////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////
+    /**
+    * Crée un joueur dans la BDD, d'attibut : Nom, X, Y, Dx, Dy, HP, espèce.
+    * @param J instance de joueur appartenant au moteur
+    */
     
-    public void creerJoueur(Joueur J){ //Création d'un joueur dans la base de donnée à partir d'un joueur existant localement
+    public void creerJoueur(Joueur J) { //Création d'un joueur dans la base de donnée à partir d'un joueur existant localement
         try {
             PreparedStatement requete = connexion.prepareStatement("INSERT INTO Joueur VALUES (?, ?, ?, ?, ?, ?, ?)");
-            
-            
+
             requete.setString(1, J.getNom());
             requete.setDouble(2, J.getX());
             requete.setDouble(3, J.getY());
@@ -62,9 +54,8 @@ public class JoueurSQL {
             requete.setDouble(5, J.getDirection().gety());
             requete.setInt(6, J.getHP());
             requete.setString(7, J.getEspece().getStringEspece());
-            
-            int nombreDAjouts = requete.executeUpdate();
-         
+
+            //int nombreDAjouts = requete.executeUpdate();
             requete.close();
 
         } catch (SQLException ex) {
@@ -72,12 +63,18 @@ public class JoueurSQL {
         }
 
     }
+
+    ///////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////
+    /**
+    * Modification d'un joueur dans la BDD à partir d'un joueur existant localement, d'attibut : Nom, X, Y, Dx, Dy, HP, espèce.
+    * @param J instance de joueur appartenant au moteur
+    */
     
-    public void modifierJoueur(Joueur J){ //Modification d'un joueur dans la BDD à partir d'un joueur existant localement
+    public void modifierJoueur(Joueur J) {
         try {
             PreparedStatement requete = connexion.prepareStatement("UPDATE Joueur SET Name = ?, X = ?, Y = ?, Dx = ?, Dy = ?, HP = ?, Espece = ? WHERE Name = ?");
-//            PreparedStatement requete = connexion.prepareStatement("UPDATE Joueur SET Name = ?, X = ?, Y = ?, Dx = ?, Dy = Y, HP = ?, Espece = ? WHERE 1");
-            
+
             requete.setString(1, J.getNom());
             requete.setDouble(2, J.getX());
             requete.setDouble(3, J.getY());
@@ -87,156 +84,146 @@ public class JoueurSQL {
             requete.setString(7, J.getEspece().getStringEspece());
             requete.setString(8, J.getNom());
 
-//            requete.setString(1, J.getNom());
-//            requete.setDouble(2, J.getX());
-//            requete.setDouble(3, J.getY());
-//            requete.setDouble(4, J.getDirection().getx());
-//            requete.setDouble(5, J.getDirection().gety());
-//            requete.setInt(6, J.getHP());
-//            requete.setString(7, J.getEspece().getStringEspece());
-            
-            
             //System.out.println(requete);
-            
             int nombreDeModifications = requete.executeUpdate();
             //System.out.println(nombreDeModifications + " enregistrement(s) ajoute(s)");
 
             requete.close();
-            
-            //voirTable();
-            
+
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
     }
-     
-    public void supprimerJoueur(Joueur J){ //Suppression d'un joueur dans la BDD à partir d'un joueur existant localement
+
+    ///////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////
+    /**
+    * Suppression d'un joueur dans la BDD à partir d'un joueur existant localement, d'attibut : Nom, X, Y, Dx, Dy, HP, espèce.
+    * @param J instance de joueur appartenant au moteur
+    */
+    public void supprimerJoueur(Joueur J) {
         try {
             PreparedStatement requete = connexion.prepareStatement("DELETE FROM Joueur WHERE Name = ?");
-            
-            requete.setString(1, J.getNom());
-            
-            int nombreDeSuppressions = requete.executeUpdate();
 
+            requete.setString(1, J.getNom());
+
+            //int nombreDeSuppressions = requete.executeUpdate();
             requete.close();
 
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
     }
-    
+
+    ///////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////
+    /**
+    * Extraction d'un joueur dans la BDD à partir d'un joueur existant localement, d'attibut : Nom, X, Y, Dx, Dy, HP, espèce.
+    * @param J instance de joueur appartenant au moteur
+    * @return Joueur une instance de joueur telle qu'il se trouve dans la BDD
+    */
     public Joueur voirJoueur(Joueur J) { //Extraction d'un joueur dans la BDD à partir d'un joueur existant localement
-        
+
         Joueur JOut = new Joueur();
-    
-    try {
-        PreparedStatement requete = connexion.prepareStatement("SELECT * FROM Joueur WHERE Name = ?");
-        requete.setString(1, J.getNom());
-        
-        ResultSet resultat = requete.executeQuery();
-        
-        if (resultat.next()) {
-            
+
+        try {
+            PreparedStatement requete = connexion.prepareStatement("SELECT * FROM Joueur WHERE Name = ?");
+            requete.setString(1, J.getNom());
+
+            ResultSet resultat = requete.executeQuery();
+
+            if (resultat.next()) {
+
                 JOut.setNom(resultat.getString("Name"));
-                JOut.setPosition(resultat.getDouble("X"),resultat.getDouble("Y"));
-                Coordonnee poseActuelle = new Coordonnee(resultat.getDouble("X"),resultat.getDouble("Y"));
-                JOut.setDirection(poseActuelle.vecteurDirection(new Coordonnee(resultat.getDouble("DX"),resultat.getDouble("DY"))));
+                JOut.setPosition(resultat.getDouble("X"), resultat.getDouble("Y"));
+                Coordonnee poseActuelle = new Coordonnee(resultat.getDouble("X"), resultat.getDouble("Y"));
+                JOut.setDirection(poseActuelle.vecteurDirection(new Coordonnee(resultat.getDouble("DX"), resultat.getDouble("DY"))));
                 JOut.setHP(resultat.getInt("HP"));
-                if ("Scarabee".equals(resultat.getString("Espece"))){
-                    Espece especeJOut=new Scarabee();
-                    JOut.setEspece(especeJOut);
+
+                switch (resultat.getString("Espece")) {
+                    case "Scarabee" ->
+                        JOut.setEspece(new Scarabee());
+                    case "Araignee" ->
+                        JOut.setEspece(new Araignee());
+                    case "Abeille" ->
+                        JOut.setEspece(new Abeille());
+                    case "Sauterelle" ->
+                        JOut.setEspece(new Sauterelle());
+                    case "coxcinelle" ->
+                        JOut.setEspece(new Coxcinelle());
+                    case "Fourmis" ->
+                        JOut.setEspece(new Fourmis());
+                    case "Mouche" ->
+                        JOut.setEspece(new Mouche());
+                    default -> throw new IllegalArgumentException("Espèce inconnue : " + resultat.getString("Espece"));
                 }
-                if ("Araignee".equals(resultat.getString("Espece"))){
-                    Espece especeJOut=new Araignee();
-                    JOut.setEspece(especeJOut);
-                }
-                if ("Abeille".equals(resultat.getString("Espece"))){
-                    Espece especeJOut=new Abeille();
-                    JOut.setEspece(especeJOut);
-                }
-                if ("Sauterelle".equals(resultat.getString("Espece"))){
-                    Espece especeJOut=new Sauterelle();
-                    JOut.setEspece(especeJOut);
-                }
-                if ("coxcinelle".equals(resultat.getString("Espece"))){
-                    Espece especeJOut=new Coxcinelle();
-                    JOut.setEspece(especeJOut);
-                }
-		if ("Fourmis".equals(resultat.getString("Espece"))){
-                    Espece especeJOut=new Fourmis();
-                    JOut.setEspece(especeJOut);
-                }
-		if ("Mouche".equals(resultat.getString("Espece"))){
-                    Espece especeJOut=new Mouche();
-                    JOut.setEspece(especeJOut);
-                }
+            }
+
+            requete.close();
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
         }
-        
-        resultat.close();
-        requete.close();
-        
-    } catch (SQLException ex) {
-        ex.printStackTrace();  
+        return JOut;
     }
-    return JOut;
-    }
-    
-    public Joueur voirJoueurNom(String nom) { //Extraction d'un joueur dans la BDD à partir du nom d'un joueur existant localement
-        
+
+    ///////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////
+    /**
+    * Extraction d'un joueur dans la BDD à partir d'un joueur existant localement, d'attibut : Nom, X, Y, Dx, Dy, HP, espèce.
+    * @param nom nom du joueur
+    * @return Joueur une instance de joueur telle qu'il se trouve dans la BDD
+    */
+    public Joueur voirJoueurNom(String nom) {
+
         Joueur JOut = new Joueur();
-    
-    try {
-        PreparedStatement requete = connexion.prepareStatement("SELECT * FROM Joueur WHERE Name = ?");
-        requete.setString(1, nom);
-        
-        ResultSet resultat = requete.executeQuery();
-        
-        if (resultat.next()) {
-            
+
+        try {
+            PreparedStatement requete = connexion.prepareStatement("SELECT * FROM Joueur WHERE Name = ?");
+            requete.setString(1, nom);
+
+            ResultSet resultat = requete.executeQuery();
+
+            if (resultat.next()) {
+
                 JOut.setNom(resultat.getString("Name"));
-                JOut.setPosition(resultat.getDouble("X"),resultat.getDouble("Y"));
-                Coordonnee poseActuelle = new Coordonnee(resultat.getDouble("X"),resultat.getDouble("Y"));
-                JOut.setDirection(poseActuelle.vecteurDirection(new Coordonnee(resultat.getDouble("DX"),resultat.getDouble("DY"))));
+                JOut.setPosition(resultat.getDouble("X"), resultat.getDouble("Y"));
+                Coordonnee poseActuelle = new Coordonnee(resultat.getDouble("X"), resultat.getDouble("Y"));
+                JOut.setDirection(poseActuelle.vecteurDirection(new Coordonnee(resultat.getDouble("DX"), resultat.getDouble("DY"))));
                 JOut.setHP(resultat.getInt("HP"));
-                if ("Scarabee".equals(resultat.getString("Espece"))){
-                    Espece especeJOut=new Scarabee();
-                    JOut.setEspece(especeJOut);
+                
+                switch (resultat.getString("Espece")) {
+                    case "Scarabee" ->
+                        JOut.setEspece(new Scarabee());
+                    case "Araignee" ->
+                        JOut.setEspece(new Araignee());
+                    case "Abeille" ->
+                        JOut.setEspece(new Abeille());
+                    case "Sauterelle" ->
+                        JOut.setEspece(new Sauterelle());
+                    case "coxcinelle" ->
+                        JOut.setEspece(new Coxcinelle());
+                    case "Fourmis" ->
+                        JOut.setEspece(new Fourmis());
+                    case "Mouche" ->
+                        JOut.setEspece(new Mouche());
+                    default -> throw new IllegalArgumentException("Espèce inconnue : " + resultat.getString("Espece"));
                 }
-                if ("Araignee".equals(resultat.getString("Espece"))){
-                    Espece especeJOut=new Araignee();
-                    JOut.setEspece(especeJOut);
-                }
-                if ("Abeille".equals(resultat.getString("Espece"))){
-                    Espece especeJOut=new Abeille();
-                    JOut.setEspece(especeJOut);
-                }
-                if ("Sauterelle".equals(resultat.getString("Espece"))){
-                    Espece especeJOut=new Sauterelle();
-                    JOut.setEspece(especeJOut);
-                }
-		if ("Coxcinelle".equals(resultat.getString("Espece"))){
-                    Espece especeJOut=new Coxcinelle();
-                    JOut.setEspece(especeJOut);
-		}
-		if ("Fourmis".equals(resultat.getString("Espece"))){
-                    Espece especeJOut=new Fourmis();
-                    JOut.setEspece(especeJOut);
-		}
-		if ("Mouche".equals(resultat.getString("Espece"))){
-                    Espece especeJOut=new Mouche();
-                    JOut.setEspece(especeJOut);
-                }
-        
-        resultat.close();
-        requete.close();
+
+                requete.close();
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
         }
-    } catch (SQLException ex) {
-        ex.printStackTrace();  
+        return JOut;
     }
-    return JOut;
-    }
-    
-    public void voirTable(){ //Affichage de l'ensemble de la table dans le terminal
+
+    ///////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////
+    /**
+    * Affichage de l'ensemble de la table dans le terminal
+    */
+    public void voirTable() {
         try {
             PreparedStatement requete = connexion.prepareStatement("SELECT * FROM Joueur");
             ResultSet resultat = requete.executeQuery();
@@ -247,19 +234,24 @@ public class JoueurSQL {
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
-    }   
-    
-    public ArrayList<String> listeNom(){ //Récupération de la liste des noms des joueurs présents
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////
+    /**
+    * Récupération de la liste des noms des joueurs présents
+    * @return ArrayList Liste des joueurs (seulement leur nom)
+    */
+    public ArrayList<String> listeNom() {
         ArrayList<String> listeNom = new ArrayList<String>();
         try {
             PreparedStatement requete = connexion.prepareStatement("SELECT Name FROM Joueur");
             ResultSet resultat = requete.executeQuery();
-            
-            while(resultat.next()){
+
+            while (resultat.next()) {
                 listeNom.add(resultat.getString("Name"));
             }
 
-            resultat.close();
             requete.close();
 
         } catch (SQLException ex) {
@@ -267,8 +259,13 @@ public class JoueurSQL {
         }
         return listeNom;
     }
-    
-    public void closeTable(){ //Fermeture de la connection
+
+    ///////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////
+    /**
+    * Fermeture de la connection
+    */
+    public void closeTable() {
         try {
             this.connexion.close();
         } catch (SQLException ex) {
