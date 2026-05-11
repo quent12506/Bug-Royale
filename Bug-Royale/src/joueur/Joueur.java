@@ -10,6 +10,7 @@ import javax.imageio.ImageIO;
 import outils.Coordonnee;
 import sql.JoueurSQL;
 import sql.ProjectileSQL;
+import java.awt.geom.AffineTransform;
 
 /**
  *
@@ -167,6 +168,37 @@ public class Joueur {
         contexte.drawImage(this.espece.getSprite(), (int) position.getx(), (int) position.gety(), null);
         }
     }
+    
+//    public void rendu(Graphics2D contexte) { //affichage d'un joueur
+//    if (this.espece != null) {
+//        
+//        double X = position.getx();
+//        double Y = position.gety();
+//        double DX = this.direction.getx(); // ou votre getter
+//        double DY = this.direction.gety();
+//        
+//        double angle = Math.atan2(DY, DX);
+//        
+//        // Calcule les dimensions du sprite
+//        int spriteWidth = this.espece.getSprite().getWidth(null);
+//        int spriteHeight = this.espece.getSprite().getHeight(null);
+//        
+//        // Centre du sprite
+//        double centerX = X + spriteWidth / 2.0;
+//        double centerY = Y + spriteHeight / 2.0;
+//        
+//        AffineTransform sauvegardeTransform = contexte.getTransform();
+//        
+//        //translation au centre + rotation + décalage inverse
+//        contexte.translate(centerX, centerY);
+//        contexte.rotate(angle);
+//        contexte.translate(-spriteWidth / 2.0, -spriteHeight / 2.0);
+//        
+//        contexte.drawImage(this.espece.getSprite(), 0, 0, null);
+//
+//        contexte.setTransform(sauvegardeTransform);
+//    }
+//}
     
     public void renduProjectile(Graphics2D contexte) {
         contexte.drawImage(this.projectileTire.getSprite(), (int) this.projectileTire.getPosition().getx(), (int) this.projectileTire.getPosition().gety(), null);

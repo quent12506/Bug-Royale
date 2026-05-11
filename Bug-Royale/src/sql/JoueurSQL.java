@@ -259,6 +259,21 @@ public class JoueurSQL {
         }
         return listeNom;
     }
+    
+    public void mettreAJourDirection(String nom, double dx, double dy) {
+    try {
+        PreparedStatement requete = connexion.prepareStatement("UPDATE Joueur SET Dx = ?, Dy = ? WHERE Name = ?");
+        requete.setDouble(1, dx);
+        requete.setDouble(2, dy);
+        requete.setString(3, nom);
+        
+        requete.executeUpdate();
+        requete.close();
+        
+    } catch (SQLException ex) {
+        ex.printStackTrace();
+    }
+}
 
     ///////////////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////////
