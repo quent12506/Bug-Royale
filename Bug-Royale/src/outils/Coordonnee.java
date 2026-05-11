@@ -73,6 +73,13 @@ public class Coordonnee { // Déclaration de la classe Coordonnee
         v3.setY(v2.gety()-v1.gety());
         return v3.normalize();
     }
+    
+    public Coordonnee vecteurDirection(Coordonnee origine){
+        Coordonnee v3 = new Coordonnee();
+        v3.setX(this.x-origine.getx());
+        v3.setY(this.y-origine.gety());
+        return v3.normalize();
+    }
 
     public static boolean segmentIntercepteCercle(Coordonnee A, Coordonnee B, Coordonnee C, double r) { // Détecte l'intersection segment-cercle
         Coordonnee AB = B.sub(A); // Vecteur AB

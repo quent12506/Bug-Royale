@@ -54,6 +54,7 @@ public class JoueurSQL {
         try {
             PreparedStatement requete = connexion.prepareStatement("INSERT INTO Joueur VALUES (?, ?, ?, ?, ?, ?, ?)");
             
+            
             requete.setString(1, J.getNom());
             requete.setDouble(2, J.getX());
             requete.setDouble(3, J.getY());
@@ -72,30 +73,34 @@ public class JoueurSQL {
 
     }
     
-     public void modifierJoueur(Joueur J){ //Modification d'un joueur dans la BDD à partir d'un joueur existant localement
+    public void modifierJoueur(Joueur J){ //Modification d'un joueur dans la BDD à partir d'un joueur existant localement
         try {
-            PreparedStatement requete = connexion.prepareStatement("UPDATE Joueur SET X = ?, Y = ?, DX = ?, DY = Y, HP = ?, Espece = ? WHERE Name = ?");
+            PreparedStatement requete = connexion.prepareStatement("UPDATE Joueur SET Name = ?, X = ?, Y = ?, Dx = ?, Dy = Y, HP = ?, Espece = ? WHERE Name = ?");
             
-            requete.setDouble(1, J.getX());
-            requete.setDouble(2, J.getY());
-            requete.setInt(3, J.getHP());
+            requete.setString(1, J.getNom());
+            requete.setDouble(2, J.getX());
+            requete.setDouble(3, J.getY());
             requete.setDouble(4, J.getDirection().getx());
             requete.setDouble(5, J.getDirection().gety());
-            requete.setString(6, J.getEspece().getStringEspece());
-            requete.setString(7, J.getNom());
-           
-            //voirTable();
+            requete.setInt(6, J.getHP());
+            requete.setString(7, J.getEspece().getStringEspece());
+            requete.setString(8, J.getNom());
+            
+            System.out.println(requete);
             
             int nombreDeModifications = requete.executeUpdate();
+            System.out.println(nombreDeModifications + " enregistrement(s) ajoute(s)");
 
             requete.close();
+            
+            //voirTable();
             
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
     }
      
-public void supprimerJoueur(Joueur J){ //Suppression d'un joueur dans la BDD à partir d'un joueur existant localement
+    public void supprimerJoueur(Joueur J){ //Suppression d'un joueur dans la BDD à partir d'un joueur existant localement
         try {
             PreparedStatement requete = connexion.prepareStatement("DELETE FROM Joueur WHERE Name = ?");
             
@@ -124,7 +129,8 @@ public void supprimerJoueur(Joueur J){ //Suppression d'un joueur dans la BDD à 
             
                 JOut.setNom(resultat.getString("Name"));
                 JOut.setPosition(resultat.getDouble("X"),resultat.getDouble("Y"));
-                JOut.setDirection(new Coordonnee(resultat.getDouble("X"),resultat.getDouble("Y"),new Coordonnee(resultat.getDouble("DX"),resultat.getDouble("DY"))));
+                Coordonnee poseActuelle = new Coordonnee(resultat.getDouble("X"),resultat.getDouble("Y"));
+                JOut.setDirection(poseActuelle.vecteurDirection(new Coordonnee(resultat.getDouble("DX"),resultat.getDouble("DY"))));
                 JOut.setHP(resultat.getInt("HP"));
                 if ("scarabee".equals(resultat.getString("Espece"))){
                     Espece especeJOut=new Scarabee();
@@ -179,6 +185,8 @@ public void supprimerJoueur(Joueur J){ //Suppression d'un joueur dans la BDD à 
             
                 JOut.setNom(resultat.getString("Name"));
                 JOut.setPosition(resultat.getDouble("X"),resultat.getDouble("Y"));
+                Coordonnee poseActuelle = new Coordonnee(resultat.getDouble("X"),resultat.getDouble("Y"));
+                JOut.setDirection(poseActuelle.vecteurDirection(new Coordonnee(resultat.getDouble("DX"),resultat.getDouble("DY"))));
                 JOut.setHP(resultat.getInt("HP"));
                 if ("scarabee".equals(resultat.getString("Espece"))){
                     Espece especeJOut=new Scarabee();

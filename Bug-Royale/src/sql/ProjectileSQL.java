@@ -64,7 +64,10 @@ public class ProjectileSQL {
             requete.setDouble(3, P.getPosition().gety());
             requete.setString(4, ancienProprietaire);
            
+            System.out.println(requete);
+            
             int nombreDeModifications = requete.executeUpdate();
+            System.out.println(nombreDeModifications + " enregistrement(s) ajoute(s)");
 
             requete.close();
             

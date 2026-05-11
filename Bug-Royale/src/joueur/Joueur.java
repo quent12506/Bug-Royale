@@ -140,12 +140,12 @@ public class Joueur {
 
     public void miseAJour(ProjectileSQL projectileSQL) { 
         
-        Coordonnee direction = new Coordonnee( //déplacement du joueur local
+        this.direction = new Coordonnee( //déplacement du joueur local
             (toucheE ? 1 : 0) - (toucheO ? 1 : 0),
             (toucheS ? 1 : 0) - (toucheN ? 1 : 0)
         );
         
-        position = position.add(direction.normalize().mult(vitesse)); 
+        position = position.add(this.direction.normalize().mult(vitesse));
         
         if (this.projectileTire!=null){
             this.projectileTire.MAJ(1,projectileSQL);
