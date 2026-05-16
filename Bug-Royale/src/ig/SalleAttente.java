@@ -183,6 +183,7 @@ public class SalleAttente extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
     jLabel7.setText("Prêt");
     jTable1.setValueAt("Prêt", 0, 2);// TODO add your handling code here:
+    
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -192,11 +193,14 @@ public class SalleAttente extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    if (!jLabel7.getText().equals("Prêt")) {
+    javax.swing.JOptionPane.showMessageDialog(this, "Vous devez être prêt avant de lancer la partie.");
+} else {
     Jeu.FenetreDeJeu fenetre = new Jeu.FenetreDeJeu();
     fenetre.setVisible(true);
-    this.dispose();    // TODO add your handling code here:
+    this.dispose();
     }//GEN-LAST:event_jButton3ActionPerformed
-
+    }
     /**
      * @param args the command line arguments
      */

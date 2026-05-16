@@ -168,14 +168,16 @@ if (insecte.equals("Mante religieuse")) {
     String pseudo = jTextField1.getText();
     String insecte = jComboBox1.getSelectedItem().toString();
 
-if (pseudo.isEmpty()) {
-    javax.swing.JOptionPane.showMessageDialog(this, "Veuillez entrer un pseudo.");
-} else {
-    Jeu.FenetreDeJeu fenetre = new Jeu.FenetreDeJeu();
-    fenetre.setVisible(true);
-    this.dispose();
+    if (pseudo.isEmpty()) {
+        javax.swing.JOptionPane.showMessageDialog(this, "Veuillez entrer un pseudo.");
+    } else {
+        SalleAttente salle = new SalleAttente(pseudo, insecte);
+        salle.setVisible(true);
+        this.dispose();
+    }
+  
     }//GEN-LAST:event_jButton1ActionPerformed
-    } 
+     
     
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(() -> new ChoixInsecte().setVisible(true));

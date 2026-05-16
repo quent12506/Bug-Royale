@@ -8,7 +8,8 @@ package Jeu;
  *
  * @author hmas
  */
-
+import java.awt.Color;
+import java.awt.Font;
 import espece.Abeille;
 import espece.Araignee;
 import espece.Coxcinelle;
@@ -106,6 +107,18 @@ public class Jeu {
         for (int i=0;i<listeProjectile.size();i++){
             listeProjectile.get(i).rendu(contexte);
         }
+        contexte.drawString("Joueur : " + this.joueurLocal.getNom(), 20, 20);
+        contexte.drawString("Vie : " + this.joueurLocal.getHP(), 20, 40);
+        contexte.drawString("ZQSD : déplacement", 20, 650);
+        contexte.drawString("Clic souris : tir", 20, 670);
+        contexte.setColor(Color.WHITE);
+        contexte.setFont(new Font("Arial", Font.BOLD, 18));
+
+        contexte.drawString("Joueur : " + this.joueurLocal.getNom(), 20, 30);
+        contexte.drawString("Vie : " + this.joueurLocal.getHP(), 20, 55);
+            
+        contexte.drawString("ZQSD : déplacement", 20, 650);
+        contexte.drawString("Clic souris : tir", 20, 675);
     }
     
     public void testProjectileTouche(){
