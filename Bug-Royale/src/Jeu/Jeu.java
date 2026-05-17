@@ -133,6 +133,33 @@ public class Jeu {
         }
     }
     
+    public void testCollisionsJoueurs() {
+        ArrayList<String> listeNom = this.lienSQL.listeNom();
+        
+        // Vérifie les collisions du joueur local avec tous les autres joueurs
+        for (int i = 0; i < listeNom.size(); i++) {
+            Joueur joueurATester = this.lienSQL.voirJoueurNom(listeNom.get(i));
+            
+            // Ne vérifie pas la collision du joueur avec lui-même
+            if (this.joueurLocal.getNom().equals(joueurATester.getNom())) {
+                continue;
+            }
+            
+            // Vérifie s'il y a collision
+            if (this.joueurLocal.estEnCollisionAvec(joueurATester)) {
+                // Les deux joueurs perdent 5 HP en cas de collision
+                int currentHP = this.joueurLocal.getHP();
+                this.joueurLocal.setHP(Math.max(0, currentHP - 5));
+                
+                int otherHP = joueurATester.getHP();
+                joueurATester.setHP(Math.max(0, otherHP - 5));
+                
+                // Met à jour la base de données
+                this.lienSQL.modifierJoueur(joueurATester);
+            }
+        }
+    }
+
     public void miseAJour (){ //synchronisation avec la DDD, mise à jour du joueur local, localement et dans la BDD
         this.n +=1;
         Joueur joueurLocalBDD = this.lienSQL.voirJoueur(this.joueurLocal); //on récupère les infos du joueur local stockés sur la bdd
@@ -141,6 +168,9 @@ public class Jeu {
         this.joueurLocal.setHP(joueurLocalBDD.getHP());
         
         this.joueurLocal.miseAJour(this.projectileSQL); //On effectue la mise a jour local du joueur locale : action effectuees
+        
+        testCollisionsJoueurs();
+        
 //        Joueur joueur2 = this.joueurLocal.miseAJourTestMultiJ2(this.lienSQL.voirJoueurNom("joueur2")); // Deplacement pnj pour tester le multi avec 1 pc
 //        this.lienSQL.modifierJoueur(joueur2); //on update la bdd du pnj
 //        Joueur joueur3 = this.joueurLocal.miseAJourTestMultiJ3(this.lienSQL.voirJoueurNom("joueur3")); // Deplacement pnj pour tester le multi avec 1 pc

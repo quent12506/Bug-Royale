@@ -204,9 +204,24 @@ public class Joueur {
         contexte.drawImage(this.projectileTire.getSprite(), (int) this.projectileTire.getPosition().getx(), (int) this.projectileTire.getPosition().gety(), null);
     }
 
-    
-    
-    
-    
-    
+    public boolean estEnCollisionAvec(Joueur autre) {
+        if (autre == null || autre.getEspece() == null || this.espece == null) {
+            return false;
+        }
+        
+        double this_left = this.position.getx();
+        double this_right = this.position.getx() + this.espece.getLargeur();
+        double this_top = this.position.gety();
+        double this_bottom = this.position.gety() + this.espece.getHauteur();
+        
+        double autre_left = autre.getPosition().getx();
+        double autre_right = autre.getPosition().getx() + autre.getEspece().getLargeur();
+        double autre_top = autre.getPosition().gety();
+        double autre_bottom = autre.getPosition().gety() + autre.getEspece().getHauteur();
+        
+        // Vérifie si les rectangles se chevauchent
+        return !(this_right < autre_left || this_left > autre_right || 
+                 this_bottom < autre_top || this_top > autre_bottom);
+    }
+
 }

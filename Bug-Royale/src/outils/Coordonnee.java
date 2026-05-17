@@ -94,6 +94,12 @@ public class Coordonnee { // Déclaration de la classe Coordonnee
         return new Coordonnee(2 * centre.x - this.x, 2 * centre.y - this.y);
     }
 
+    public double distance(Coordonnee A) { // Calcule la distance euclidienne avec une autre coordonnée
+        double dx = this.x - A.x;
+        double dy = this.y - A.y;
+        return Math.sqrt(dx * dx + dy * dy);
+    }
+
     @Override
     public boolean equals(Object obj) { // Vérifie l'égalité avec un autre objet
         if (this == obj) { // Si c'est le même objet
