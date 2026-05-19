@@ -20,7 +20,7 @@ public class Scarabee extends Espece{
     public Scarabee() {
         super("scarabee", 3.2, 180, null);
         try {
-            this.sprite = ImageIO.read(getClass().getResource("../resources/scarabe.png"));
+            this.sprite = ImageIO.read(getClass().getResource("../resources/scarabee.png"));
         } catch (IOException ex) {
             Logger.getLogger(Joueur.class.getName()).log(Level.SEVERE, null, ex);
         }
