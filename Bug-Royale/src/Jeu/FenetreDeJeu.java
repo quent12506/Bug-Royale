@@ -8,7 +8,7 @@ package Jeu;
  *
  * @author hmas
  */
-
+import ig.FinPartie;
 import ig.EcouteurClavier;
 import ig.EcouteurSouris;
 import java.awt.Graphics2D;
@@ -80,9 +80,13 @@ public class FenetreDeJeu extends JFrame implements ActionListener {
         this.jLabel1.repaint();
         
         if (this.jeu.estTermine()){
-            this.jeu.getJoueurLocal().joueurMort(this.jeu.getLienSQL());
-            this.timer.stop();
-        }
+    this.jeu.getJoueurLocal().joueurMort(this.jeu.getLienSQL());
+    this.timer.stop();
+
+    FinPartie fin = new FinPartie();
+    fin.setVisible(true);
+    this.dispose();
+    }
     }
     public static void main(String[] args) { //affichage fenetre de jeu
         FenetreDeJeu fenetre = new FenetreDeJeu();
