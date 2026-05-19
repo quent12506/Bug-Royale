@@ -40,7 +40,18 @@ public class SalleAttente extends javax.swing.JFrame {
     jTable1.setModel(modele);
 
     actualiserTable();
-
+    
+    
+    
+    
+    
+    System.out.println("Actualisation salle...");
+    System.out.println("Nombre joueurs = " + salleSQL.listeJoueurs().size());
+    
+    
+    
+    
+    
     timerActualisation = new javax.swing.Timer(1000, e -> actualiserTable());
     timerActualisation.start();  
     }
