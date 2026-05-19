@@ -9,33 +9,53 @@ package ig;
  * @author qperise
  */
 import javax.swing.table.DefaultTableModel;
+import sql.SalleAttenteSQL;
+import java.util.ArrayList;
+
 public class SalleAttente extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(SalleAttente.class.getName());
-
+    private SalleAttenteSQL salleSQL;
+    private String pseudoLocal;
+    private DefaultTableModel modele;
+    private javax.swing.Timer timerActualisation;
     /**
      * Creates new form SalleAttente
      */
     public SalleAttente(String Joueur, String insecte) {
     initComponents();
-
+    
+    this.pseudoLocal = Joueur;
+    this.salleSQL = new SalleAttenteSQL();
+    this.salleSQL.ajouterJoueur(Joueur, insecte);
+    
     jLabel5.setText(Joueur);
     jLabel6.setText(insecte);
     jLabel7.setText("Pas prêt");
 
-    DefaultTableModel modele = new DefaultTableModel();
-
+    modele = new DefaultTableModel();
     modele.addColumn("Joueur");
     modele.addColumn("Insecte");
     modele.addColumn("État");
+    jTable1.setModel(modele);
 
-    modele.addRow(new Object[]{Joueur, insecte, "Pas prêt"});
-    modele.addRow(new Object[]{"Joueur 2", "En attente...", "---"});
-    modele.addRow(new Object[]{"Joueur 3", "En attente...", "---"});
-    modele.addRow(new Object[]{"Joueur 4", "En attente...", "---"});
+    actualiserTable();
 
-    jTable1.setModel(modele);    
+    timerActualisation = new javax.swing.Timer(1000, e -> actualiserTable());
+    timerActualisation.start();  
     }
+    
+    private void actualiserTable() {
+    modele.setRowCount(0);
+
+    ArrayList<Object[]> joueurs = salleSQL.listeJoueurs();
+
+    for (Object[] joueur : joueurs) {
+        modele.addRow(joueur);
+    }
+}
+    
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -182,7 +202,8 @@ public class SalleAttente extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
     jLabel7.setText("Prêt");
-    jTable1.setValueAt("Prêt", 0, 2);// TODO add your handling code here:
+    salleSQL.mettrePret(pseudoLocal);
+    actualiserTable();// TODO add your handling code here:
     
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -193,14 +214,22 @@ public class SalleAttente extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-    if (!jLabel7.getText().equals("Prêt")) {
-    javax.swing.JOptionPane.showMessageDialog(this, "Vous devez être prêt avant de lancer la partie.");
-} else {
-    Jeu.FenetreDeJeu fenetre = new Jeu.FenetreDeJeu();
-    fenetre.setVisible(true);
-    this.dispose();
-    }//GEN-LAST:event_jButton3ActionPerformed
+     if (!salleSQL.tousPrets()) {
+        javax.swing.JOptionPane.showMessageDialog(
+                this,
+                "Tous les joueurs ne sont pas encore prêts."
+        );
+    } else {
+        if (timerActualisation != null) {
+            timerActualisation.stop();
+        }
+
+        Jeu.FenetreDeJeu fenetre = new Jeu.FenetreDeJeu();
+        fenetre.setVisible(true);
+        this.dispose();
     }
+    }//GEN-LAST:event_jButton3ActionPerformed
+    
     /**
      * @param args the command line arguments
      */
@@ -224,3 +253,4 @@ public class SalleAttente extends javax.swing.JFrame {
     private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
 }
+
