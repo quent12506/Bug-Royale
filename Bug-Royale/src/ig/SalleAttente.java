@@ -27,6 +27,7 @@ public class SalleAttente extends javax.swing.JFrame {
     
     this.pseudoLocal = Joueur;
     this.salleSQL = new SalleAttenteSQL();
+    this.salleSQL.viderSalle();
     this.salleSQL.ajouterJoueur(Joueur, insecte);
     
     jLabel5.setText(Joueur);
