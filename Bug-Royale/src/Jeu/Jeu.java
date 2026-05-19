@@ -15,7 +15,7 @@ import espece.Araignee;
 import espece.Fourmi;
 import espece.Espece;
 import espece.Sauterelle;
-import espece.Scarabe;
+import espece.Scarabee;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;

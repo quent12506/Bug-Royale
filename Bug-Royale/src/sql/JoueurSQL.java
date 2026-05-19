@@ -141,8 +141,8 @@ public class JoueurSQL {
                 JOut.setHP(resultat.getInt("HP"));
 
                 switch (resultat.getString("Espece")) {
-                    case "scarabe" ->
-                        JOut.setEspece(new Scarabe());
+                    case "scarabee" ->
+                        JOut.setEspece(new Scarabee());
                     case "araignee" ->
                         JOut.setEspece(new Araignee());
                     case "abeille" ->
@@ -189,8 +189,8 @@ public class JoueurSQL {
                 JOut.setHP(resultat.getInt("HP"));
                 
                 switch (resultat.getString("Espece")) {
-                    case "scarabe" ->
-                        JOut.setEspece(new Scarabe());
+                    case "scarabee" ->
+                        JOut.setEspece(new Scarabee());
                     case "araignee" ->
                         JOut.setEspece(new Araignee());
                     case "abeille" ->

@@ -143,16 +143,16 @@ if (insecte.equals("Scarabée")) {
             + "Capacité spéciale : bouclier");
 }
 
-if (insecte.equals("Guêpe")) {
-    jTextArea1.setText("GUEPE\n\n"
+if (insecte.equals("Abeille")) {
+    jTextArea1.setText("ABEILLE\n\n"
             + "Vie : faible\n"
             + "Vitesse : tres rapide\n"
             + "Attaque : projectile a distance\n"
             + "Capacité spéciale : dash");
 }
 
-if (insecte.equals("Mante religieuse")) {
-    jTextArea1.setText("MANTE RELIGIEUSE\n\n"
+if (insecte.equals("Sauterelle")) {
+    jTextArea1.setText("SAUTERELLE\n\n"
             + "Vie : bonne\n"
             + "Vitesse : moyenne\n"
             + "Attaque : grande portee melee\n"
