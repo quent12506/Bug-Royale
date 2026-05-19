@@ -141,20 +141,16 @@ public class JoueurSQL {
                 JOut.setHP(resultat.getInt("HP"));
 
                 switch (resultat.getString("Espece")) {
-                    case "scarabee" ->
-                        JOut.setEspece(new Scarabee());
+                    case "scarabe" ->
+                        JOut.setEspece(new Scarabe());
                     case "araignee" ->
                         JOut.setEspece(new Araignee());
                     case "abeille" ->
                         JOut.setEspece(new Abeille());
                     case "sauterelle" ->
                         JOut.setEspece(new Sauterelle());
-                    case "coxcinelle" ->
-                        JOut.setEspece(new Coxcinelle());
-                    case "fourmis" ->
-                        JOut.setEspece(new Fourmis());
-                    case "mouche" ->
-                        JOut.setEspece(new Mouche());
+                    case "fourmi" ->
+                        JOut.setEspece(new Fourmi());
                     default -> throw new IllegalArgumentException("Espèce inconnue : " + resultat.getString("Espece"));
                 }
             }
@@ -193,20 +189,16 @@ public class JoueurSQL {
                 JOut.setHP(resultat.getInt("HP"));
                 
                 switch (resultat.getString("Espece")) {
-                    case "scarabee" ->
-                        JOut.setEspece(new Scarabee());
+                    case "scarabe" ->
+                        JOut.setEspece(new Scarabe());
                     case "araignee" ->
                         JOut.setEspece(new Araignee());
                     case "abeille" ->
                         JOut.setEspece(new Abeille());
                     case "sauterelle" ->
                         JOut.setEspece(new Sauterelle());
-                    case "coxcinelle" ->
-                        JOut.setEspece(new Coxcinelle());
-                    case "fourmis" ->
-                        JOut.setEspece(new Fourmis());
-                    case "mouche" ->
-                        JOut.setEspece(new Mouche());
+                    case "fourmi" ->
+                        JOut.setEspece(new Fourmi());
                     default -> throw new IllegalArgumentException("Espèce inconnue : " + resultat.getString("Espece"));
                 }
 

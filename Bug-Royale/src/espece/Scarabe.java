@@ -15,17 +15,16 @@ import joueur.Joueur;
  *
  * @author hugom
  */
-public class Mouche extends Espece{
+public class Scarabe extends Espece{
 
-    public Mouche() {
-        super("mouche", 7.5, 75, null);
+    public Scarabe() {
+        super("scarabee", 3.2, 180, null);
         try {
-            this.sprite = ImageIO.read(getClass().getResource("../resources/mouche.png"));
+            this.sprite = ImageIO.read(getClass().getResource("../resources/scarabe.png"));
         } catch (IOException ex) {
             Logger.getLogger(Joueur.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
     
     
 }
