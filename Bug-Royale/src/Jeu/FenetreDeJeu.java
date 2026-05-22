@@ -39,7 +39,7 @@ public class FenetreDeJeu extends JFrame implements ActionListener {
     private EcouteurClavier ecouteurClavier;
     private EcouteurSouris ecouteurSouris;
 
-    public FenetreDeJeu() {
+    public FenetreDeJeu(String pseudo, String insecte) {
         // initialisation de la fenetre
         this.setSize(689, 700); //MODIFIER LA FENETRE GRAPHIQUE EN FONCTION DE LA TAILLE DE LA MAP
         this.setResizable(false);
@@ -61,7 +61,7 @@ public class FenetreDeJeu extends JFrame implements ActionListener {
         this.contexte = this.framebuffer.createGraphics();
         
         // Creation du jeu
-        this.jeu = new Jeu();
+        this.jeu = new Jeu(pseudo, insecte);
         
         // Creation du timer
         this.timer = new Timer(40, this);
@@ -88,9 +88,12 @@ public class FenetreDeJeu extends JFrame implements ActionListener {
     this.dispose();
     }
     }
-    public static void main(String[] args) { //affichage fenetre de jeu
-        FenetreDeJeu fenetre = new FenetreDeJeu();
-        fenetre.setVisible(true);
+    public static void main(String[] args) {
+    FenetreDeJeu fenetre =
+            new FenetreDeJeu("Test", "Araignée");
+
+    fenetre.setVisible(true);
+
     }
     
     public void actionListened(){ //Lien entre l'écouteur de clavier et le joueur local

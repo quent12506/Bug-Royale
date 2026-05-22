@@ -27,7 +27,7 @@ public class Joueur {
     private int HP;
     private Projectile projectileTire;
 
-    public Joueur(String nom, Espece espece, double x, double y) { //Création manuelle d'un joueur, tout les attributs de la BDD à rentrer
+    public Joueur(String nom, Espece espece, double x, double y, int HP) { //Création manuelle d'un joueur, tout les attributs de la BDD à rentrer
         
         this.position = new Coordonnee(x, y); 
         this.direction = new Coordonnee();
@@ -38,7 +38,7 @@ public class Joueur {
         this.tirJoueur = false;
         this.nom = nom;
         this.espece = espece;
-        this.HP = espece.getHPParDefaut();
+        this.HP = HP;
         this.vitesse = espece.getVitesseDeplacement();
         
     }

@@ -236,12 +236,17 @@ public class SalleAttente extends javax.swing.JFrame {
             timerActualisation.stop();
         }
 
-        Jeu.FenetreDeJeu fenetre = new Jeu.FenetreDeJeu();
-        fenetre.setVisible(true);
-        this.dispose();
-    }
+      Jeu.FenetreDeJeu fenetre =
+        new Jeu.FenetreDeJeu(
+                jLabel5.getText(),
+                jLabel6.getText()
+        );
+
+fenetre.setVisible(true);
+this.dispose();
+} 
     }//GEN-LAST:event_jButton3ActionPerformed
-    
+     
     /**
      * @param args the command line arguments
      */
