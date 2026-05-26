@@ -46,10 +46,13 @@ public class FenetreDeJeu extends JFrame implements ActionListener {
     private boolean fermetureEnCours = false;
 
 
-    public FenetreDeJeu(String pseudo, String insecte) {//mini constructeur pour éviter les erreurs d'oubli
-        this(pseudo, insecte, Espece.depuisNom(insecte).getHPParDefaut());
-    }
-
+//    public FenetreDeJeu(String pseudo, String insecte) {//mini constructeur pour éviter les erreurs d'oubli
+//        this(pseudo, insecte, Espece.depuisNom(insecte).getHPParDefaut());
+//    }
+public FenetreDeJeu(String pseudo, String insecte) {
+    this(pseudo, insecte, 100);
+}
+    
     public FenetreDeJeu(String pseudo, String insecte, int HP) {
         // initialisation de la fenetre
         this.setSize(689, 700); //MODIFIER LA FENETRE GRAPHIQUE EN FONCTION DE LA TAILLE DE LA MAP
@@ -109,24 +112,31 @@ public class FenetreDeJeu extends JFrame implements ActionListener {
             this.dispose();
         }
     }
-    public static void main(String[] args) {
-<<<<<<< HEAD
-    FenetreDeJeu fenetre =
-            new FenetreDeJeu("Test", "Abeille");
+//    public static void main(String[] args) {
+//<<<<<<< HEAD
+//    FenetreDeJeu fenetre =
+//            new FenetreDeJeu("Test", "Abeille");
+//
+//    fenetre.setVisible(true);
+//=======
+//        java.awt.EventQueue.invokeLater(() -> {
+//            FenetreDeJeu fenetre = new FenetreDeJeu(
+//                    "TestSolo",
+//                    "Abeille"
+//            );
+//>>>>>>> fd278bfd94a538a1f24fed0bd37e5af42fb76931
+//
+//            fenetre.setVisible(true);
+//        });
+//    }
+public static void main(String[] args) {
+    java.awt.EventQueue.invokeLater(() -> {
+        FenetreDeJeu fenetre =
+                new FenetreDeJeu("Test", "Abeille");
 
-    fenetre.setVisible(true);
-=======
-        java.awt.EventQueue.invokeLater(() -> {
-            FenetreDeJeu fenetre = new FenetreDeJeu(
-                    "TestSolo",
-                    "Abeille"
-            );
->>>>>>> fd278bfd94a538a1f24fed0bd37e5af42fb76931
-
-            fenetre.setVisible(true);
-        });
-    }
-
+        fenetre.setVisible(true);
+    });
+}
     public void actionListened(){ //Lien entre l'écouteur de clavier et le joueur local
         this.jeu.getJoueurLocal().setToucheEst(this.ecouteurClavier.isEst());
         this.jeu.getJoueurLocal().setToucheOuest(this.ecouteurClavier.isOuest());
