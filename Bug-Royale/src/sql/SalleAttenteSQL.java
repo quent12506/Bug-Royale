@@ -43,21 +43,21 @@ public class SalleAttenteSQL {
     }
 
     public void ajouterJoueur(String pseudo, String insecte) {
-        try {
-            PreparedStatement requete = connexion.prepareStatement(
-                    "INSERT INTO Salle_Attente (pseudo, insecte, pret) VALUES (?, ?, false)"
-            );
+    try {
+        PreparedStatement requete = connexion.prepareStatement(
+                "INSERT INTO Salle_Attente (pseudo, insecte, pret) VALUES (?, ?, false)"
+        );
 
-            requete.setString(1, pseudo);
-            requete.setString(2, insecte);
+        requete.setString(1, pseudo);
+        requete.setString(2, insecte);
 
-            requete.executeUpdate();
-            requete.close();
+        requete.executeUpdate();
+        requete.close();
 
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
+    } catch (SQLException ex) {
+        ex.printStackTrace();
     }
+}   
 
     public void mettrePret(String pseudo) {
         try {
