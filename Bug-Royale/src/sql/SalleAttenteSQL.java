@@ -33,9 +33,11 @@ public class SalleAttenteSQL {
     private void creerTableSiBesoin() throws SQLException {
         PreparedStatement requete = connexion.prepareStatement(
                 "CREATE TABLE IF NOT EXISTS Salle_Attente ("
-                + "pseudo VARCHAR(50) PRIMARY KEY,"
-                + "insecte VARCHAR(50),"
-                + "pret BOOLEAN)"
+                        + "pseudo VARCHAR(50) NOT NULL,"
+                        + "insecte VARCHAR(50) NOT NULL,"
+                        + "pret BOOLEAN NOT NULL DEFAULT false,"
+                        + "PRIMARY KEY (pseudo)"
+                        + ")"
         );
         requete.executeUpdate();
         requete.close();
@@ -44,13 +46,12 @@ public class SalleAttenteSQL {
     public void ajouterJoueur(String pseudo, String insecte) {
         try {
             PreparedStatement requete = connexion.prepareStatement(
-                    "INSERT INTO Salle_Attente VALUES (?, ?, false) "
-                    + "ON DUPLICATE KEY UPDATE insecte = ?, pret = false"
+                    "INSERT INTO Salle_Attente (pseudo, insecte, pret) VALUES (?, ?, false) "
+                            + "ON DUPLICATE KEY UPDATE insecte = VALUES(insecte), pret = false"
             );
 
             requete.setString(1, pseudo);
             requete.setString(2, insecte);
-            requete.setString(3, insecte);
 
             requete.executeUpdate();
             requete.close();
