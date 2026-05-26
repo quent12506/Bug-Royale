@@ -4,19 +4,6 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file://HERMES/EDU$/qperise/Documents/info%20vert%20système/Bug-Royale/Bug-Royale/src/ig/Accueil.java</file>
-            <file>file://HERMES/EDU$/qperise/Documents/info%20vert%20système/Bug-Royale/Bug-Royale/src/ig/ChoixInsecte.java</file>
-            <file>file://HERMES/EDU$/qperise/Documents/info%20vert%20système/Bug-Royale/Bug-Royale/src/ig/SalleAttente.java</file>
-            <file>file://HERMES/EDU$/qperise/Documents/info%20vert%20système/Bug-Royale/Bug-Royale/src/Jeu/FenetreDeJeu.java</file>
-            <file>file://HERMES/EDU$/qperise/Documents/info%20vert%20système/Bug-Royale/Bug-Royale/src/Jeu/Jeu.java</file>
-            <file>file://HERMES/EDU$/qperise/Documents/info%20vert%20système/Bug-Royale/Bug-Royale/src/sql/JoueurSQL.java</file>
-            <file>file://HERMES/EDU$/qperise/Documents/info%20vert%20système/Bug-Royale/Bug-Royale/src/joueur/Joueur.java</file>
-            <file>file://HERMES/EDU$/qperise/Documents/info%20vert%20système/Bug-Royale/Bug-Royale/src/ig/FinPartie.java</file>
-            <file>file://HERMES/EDU$/qperise/Documents/info%20vert%20système/Bug-Royale/Bug-Royale/src/sql/SalleAttenteSQL.java</file>
-            <file>file://HERMES/EDU$/qperise/Documents/info%20vert%20système/Bug-Royale/Bug-Royale/src/resources/scarabee.png</file>
-            <file>file://HERMES/EDU$/qperise/Documents/info%20vert%20système/Bug-Royale/Bug-Royale/src/resources/grass.png</file>
-            <file>file://HERMES/EDU$/qperise/Documents/info%20vert%20système/Bug-Royale/Bug-Royale/src/resources/coxcinelle.png</file>
-            <file>file://HERMES/EDU$/qperise/Documents/info%20vert%20système/Bug-Royale/Bug-Royale/src/resources/abeille.png</file>
-            <file>file://HERMES/EDU$/qperise/Documents/info%20vert%20système/Bug-Royale/Bug-Royale/src/Jeu/FenetreDeJeuGUI.java</file>
         </group>
     </open-files>
 </project-private>
