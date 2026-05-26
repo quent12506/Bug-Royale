@@ -11,12 +11,15 @@ package ig;
 import javax.swing.table.DefaultTableModel;
 import sql.SalleAttenteSQL;
 import java.util.ArrayList;
+import espece.Espece;
 
 public class SalleAttente extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(SalleAttente.class.getName());
     private SalleAttenteSQL salleSQL;
     private String pseudoLocal;
+    private String insecteLocal;
+    private int HPlocal;
     private DefaultTableModel modele;
     private javax.swing.Timer timerActualisation;
     /**
@@ -26,6 +29,9 @@ public class SalleAttente extends javax.swing.JFrame {
     initComponents();
     
     this.pseudoLocal = Joueur;
+    this.insecteLocal = insecte;
+    this.HPlocal = Espece.depuisNom(insecte).getHPParDefaut();
+
     this.salleSQL = new SalleAttenteSQL();
     this.salleSQL.viderSalle();
     this.salleSQL.ajouterJoueur(Joueur, insecte);
@@ -41,22 +47,14 @@ public class SalleAttente extends javax.swing.JFrame {
     jTable1.setModel(modele);
 
     actualiserTable();
-    
-    
-    
-    
-    
+
     System.out.println("Actualisation salle...");
     System.out.println("Nombre joueurs = " + salleSQL.listeJoueurs().size());
-    
-    
-    
-    
-    
+
     timerActualisation = new javax.swing.Timer(1000, e -> actualiserTable());
     timerActualisation.start();  
     }
-    
+
     private void actualiserTable() {
     modele.setRowCount(0);
 
@@ -238,13 +236,14 @@ public class SalleAttente extends javax.swing.JFrame {
 
       Jeu.FenetreDeJeu fenetre =
         new Jeu.FenetreDeJeu(
-                jLabel5.getText(),
-                jLabel6.getText()
+                this.pseudoLocal,
+                this.insecteLocal,
+                this.HPlocal
         );
 
 fenetre.setVisible(true);
 this.dispose();
-} 
+}
     }//GEN-LAST:event_jButton3ActionPerformed
      
     /**

@@ -11,6 +11,7 @@ package ig;
 public class ChoixInsecte extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(ChoixInsecte.class.getName());
+    private boolean firstSelection = true;
 
     /**
      * Creates new form ChoixInsecte
@@ -51,7 +52,7 @@ public class ChoixInsecte extends javax.swing.JFrame {
 
         jLabel3.setText("Choisir un insecte :");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Scarabée", "Mante religieuse", "Guêpe", "Fourmi" }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "", "Scarabée", "Abeille", "Sauterelle", "Fourmi" }));
         jComboBox1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBox1ActionPerformed(evt);
@@ -126,6 +127,16 @@ public class ChoixInsecte extends javax.swing.JFrame {
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
     String insecte = jComboBox1.getSelectedItem().toString();
+
+    // Empêcher la sélection de l'option vide
+    if (insecte.isEmpty()) {
+        return;
+    }
+    if (firstSelection) {
+        firstSelection = false;
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Scarabée", "Abeille", "Sauterelle", "Fourmi" }));
+        jComboBox1.setSelectedItem(insecte);
+    }
 
 if (insecte.equals("Fourmi")) {
     jTextArea1.setText("FOURMI\n\n"

@@ -61,6 +61,23 @@ public class Espece {
     public double getHauteur() { 
         return sprite.getHeight(); 
     }
+
+    public static Espece depuisNom(String nomEspece) {
+        return switch (nomEspece) {
+            case "Fourmi", "fourmi" ->
+                    new Fourmi();
+            case "Abeille", "abeille" ->
+                    new Abeille();
+            case "Sauterelle", "sauterelle" ->
+                    new Sauterelle();
+            case "Scarabée", "Scarabee", "scarabée", "scarabee" ->
+                    new Scarabee();
+            case "Araignée", "Araignee", "araignée", "araignee" ->
+                    new Araignee();
+            default ->
+                    new Araignee();
+        };
+    }
     
     
     

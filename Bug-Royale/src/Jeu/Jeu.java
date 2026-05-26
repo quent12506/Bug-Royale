@@ -27,6 +27,8 @@ import joueur.Joueur;
 import joueur.Projectile;
 import sql.JoueurSQL;
 import sql.ProjectileSQL;
+import outils.Coordonnee;
+
 
 /**
  *
@@ -40,39 +42,26 @@ public class Jeu {
     private JoueurSQL lienSQL;
     private ProjectileSQL projectileSQL;
 
-    public Jeu(String pseudo, String insecte) { //Initialisation du jeu
+    public Jeu(String pseudo, String insecte) {
+        this(pseudo, insecte, Espece.depuisNom(insecte).getHPParDefaut());
+    }
+
+    public Jeu(String pseudo, String insecte, int HP) { //Initialisation du jeu
         try {
             this.decor = ImageIO.read(getClass().getResource("../resources/Map.png")); //Remplacer "jungle.png" par notre carte
         }
         catch (IOException ex) {
             Logger.getLogger(Jeu.class.getName()).log(Level.SEVERE, null, ex);
         }
-        Espece especeJoueurLocal;
+        Espece especeJoueurLocal = Espece.depuisNom(insecte);
+        this.n=0;
 
-switch (insecte) {
+        this.lienSQL = new JoueurSQL();
+        this.projectileSQL = new ProjectileSQL();
 
-    case "Fourmi":
-        especeJoueurLocal = new Fourmi();
-        break;
+        Coordonnee spawn = choisirSpawn(pseudo);
 
-    case "Abeille":
-        especeJoueurLocal = new Abeille();
-        break;
-
-    case "Sauterelle":
-        especeJoueurLocal = new Sauterelle();
-        break;
-
-    case "Scarabée":
-        especeJoueurLocal = new Scarabee();
-        break;
-
-    default:
-        especeJoueurLocal = new Araignee();
-        break;
-}
-
-this.joueurLocal = new Joueur(pseudo, especeJoueurLocal, 170, 320,100); //LIGNE A MODIFIER POUR DEFINIR SON JOUEUR
+    this.joueurLocal = new Joueur(pseudo, especeJoueurLocal, spawn.getx(), spawn.gety(), HP);
         this.n = 0; //Fin de jeu avec un compteur, solution temporaire
         this.lienSQL = new JoueurSQL(); //initialisation lien joueur-BDD
         this.projectileSQL = new ProjectileSQL(); //initialisation lien projectile-BDD
@@ -202,6 +191,95 @@ this.joueurLocal = new Joueur(pseudo, especeJoueurLocal, 170, 320,100); //LIGNE 
     
     public boolean estTermine (){ //Fonctiuon pour mettre fin au jeu
         return (this.joueurLocal.getHP()<=0);
+    }
+
+    private Coordonnee choisirSpawn(String pseudo) {
+        ArrayList<Coordonnee> positionsJoueurs = this.lienSQL.listePositionsJoueursSauf(pseudo);
+
+        double largeurMap = 689.0;
+        double hauteurMap = 700.0;
+
+        if (this.decor != null) {
+            largeurMap = this.decor.getWidth();
+            hauteurMap = this.decor.getHeight();
+        }
+
+        ArrayList<Coordonnee> spawnPoints = creerSpawnPoints(largeurMap, hauteurMap);
+
+        double distanceMinimale = 180.0;
+
+        for (Coordonnee spawn : spawnPoints) {
+            if (estAssezLoinDesAutres(spawn, positionsJoueurs, distanceMinimale)) {
+                return spawn;
+            }
+        }
+
+        return trouverSpawnLePlusEloigne(spawnPoints, positionsJoueurs);
+    }
+
+    private ArrayList<Coordonnee> creerSpawnPoints(double largeurMap, double hauteurMap) {
+        ArrayList<Coordonnee> spawnPoints = new ArrayList<>();
+
+        double centreX = largeurMap / 2.0;
+        double centreY = hauteurMap / 2.0;
+
+        double marge = 90.0;
+
+        spawnPoints.add(new Coordonnee(centreX, centreY));
+
+        spawnPoints.add(new Coordonnee(marge, marge));
+        spawnPoints.add(new Coordonnee(largeurMap - marge, marge));
+        spawnPoints.add(new Coordonnee(marge, hauteurMap - marge));
+        spawnPoints.add(new Coordonnee(largeurMap - marge, hauteurMap - marge));
+
+        spawnPoints.add(new Coordonnee(centreX, marge));
+        spawnPoints.add(new Coordonnee(centreX, hauteurMap - marge));
+        spawnPoints.add(new Coordonnee(marge, centreY));
+        spawnPoints.add(new Coordonnee(largeurMap - marge, centreY));
+
+        return spawnPoints;
+    }
+
+    private boolean estAssezLoinDesAutres(Coordonnee spawn, ArrayList<Coordonnee> positionsJoueurs, double distanceMinimale) {
+        for (Coordonnee positionJoueur : positionsJoueurs) {
+            if (spawn.distance(positionJoueur) < distanceMinimale) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private Coordonnee trouverSpawnLePlusEloigne(ArrayList<Coordonnee> spawnPoints, ArrayList<Coordonnee> positionsJoueurs) {
+        if (spawnPoints.isEmpty()) {
+            return new Coordonnee(344, 350);
+        }
+
+        if (positionsJoueurs.isEmpty()) {
+            return spawnPoints.get(0);
+        }
+
+        Coordonnee meilleurSpawn = spawnPoints.get(0);
+        double meilleureDistance = -1.0;
+
+        for (Coordonnee spawn : spawnPoints) {
+            double distanceLaPlusProche = Double.MAX_VALUE;
+
+            for (Coordonnee positionJoueur : positionsJoueurs) {
+                double distance = spawn.distance(positionJoueur);
+
+                if (distance < distanceLaPlusProche) {
+                    distanceLaPlusProche = distance;
+                }
+            }
+
+            if (distanceLaPlusProche > meilleureDistance) {
+                meilleureDistance = distanceLaPlusProche;
+                meilleurSpawn = spawn;
+            }
+        }
+
+        return meilleurSpawn;
     }
     
 }
