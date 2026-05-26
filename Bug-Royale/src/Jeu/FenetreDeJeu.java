@@ -90,7 +90,7 @@ public class FenetreDeJeu extends JFrame implements ActionListener {
     }
     public static void main(String[] args) {
     FenetreDeJeu fenetre =
-            new FenetreDeJeu("Test", "Araignée");
+            new FenetreDeJeu("Test", "Abeille");
 
     fenetre.setVisible(true);
 
