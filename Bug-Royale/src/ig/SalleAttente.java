@@ -26,33 +26,32 @@ public class SalleAttente extends javax.swing.JFrame {
      * Creates new form SalleAttente
      */
     public SalleAttente(String Joueur, String insecte) {
-    initComponents();
-    
-    this.pseudoLocal = Joueur;
-    this.insecteLocal = insecte;
-    this.HPlocal = Espece.depuisNom(insecte).getHPParDefaut();
+        initComponents();
 
-    this.salleSQL = new SalleAttenteSQL();
-    this.salleSQL.viderSalle();
-    this.salleSQL.ajouterJoueur(Joueur, insecte);
-    
-    jLabel5.setText(Joueur);
-    jLabel6.setText(insecte);
-    jLabel7.setText("Pas prêt");
+        this.pseudoLocal = Joueur;
+        this.insecteLocal = insecte;
+        this.HPlocal = Espece.depuisNom(insecte).getHPParDefaut();
 
-    modele = new DefaultTableModel();
-    modele.addColumn("Joueur");
-    modele.addColumn("Insecte");
-    modele.addColumn("État");
-    jTable1.setModel(modele);
+        this.salleSQL = new SalleAttenteSQL();
+        this.salleSQL.ajouterJoueur(Joueur, insecte);
 
-    actualiserTable();
+        jLabel5.setText(Joueur);
+        jLabel6.setText(insecte);
+        jLabel7.setText("Pas prêt");
 
-    System.out.println("Actualisation salle...");
-    System.out.println("Nombre joueurs = " + salleSQL.listeJoueurs().size());
+        modele = new DefaultTableModel();
+        modele.addColumn("Joueur");
+        modele.addColumn("Insecte");
+        modele.addColumn("État");
+        jTable1.setModel(modele);
 
-    timerActualisation = new javax.swing.Timer(1000, e -> actualiserTable());
-    timerActualisation.start();  
+        actualiserTable();
+
+        System.out.println("Actualisation salle...");
+        System.out.println("Nombre joueurs = " + salleSQL.listeJoueurs().size());
+
+        timerActualisation = new javax.swing.Timer(1000, e -> actualiserTable());
+        timerActualisation.start();
     }
 
     private void actualiserTable() {
