@@ -23,6 +23,11 @@ import joueur.Projectile;
 import outils.Coordonnee;
 import sql.JoueurSQL;
 import sql.ProjectileSQL;
+import espece.Espece;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+
+
 
 /**
  * Exemple de fenetre de jeu en utilisant uniquement des commandes
@@ -38,12 +43,20 @@ public class FenetreDeJeu extends JFrame implements ActionListener {
     private Timer timer;
     private EcouteurClavier ecouteurClavier;
     private EcouteurSouris ecouteurSouris;
+    private boolean fermetureEnCours = false;
 
-    public FenetreDeJeu(String pseudo, String insecte) {
+
+    public FenetreDeJeu(String pseudo, String insecte) {//mini constructeur pour éviter les erreurs d'oubli
+        this(pseudo, insecte, Espece.depuisNom(insecte).getHPParDefaut());
+    }
+
+    public FenetreDeJeu(String pseudo, String insecte, int HP) {
         // initialisation de la fenetre
         this.setSize(689, 700); //MODIFIER LA FENETRE GRAPHIQUE EN FONCTION DE LA TAILLE DE LA MAP
         this.setResizable(false);
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+
+
         this.jLabel1 = new JLabel();
         this.jLabel1.setPreferredSize(new java.awt.Dimension(689, 700)); 
         this.setContentPane(this.jLabel1);
@@ -61,8 +74,14 @@ public class FenetreDeJeu extends JFrame implements ActionListener {
         this.contexte = this.framebuffer.createGraphics();
         
         // Creation du jeu
-        this.jeu = new Jeu(pseudo, insecte);
-        
+        this.jeu = new Jeu(pseudo, insecte, HP);
+        this.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                quitterPartie();
+            }
+        });
+
         // Creation du timer
         this.timer = new Timer(40, this);
         this.timer.start();
@@ -79,23 +98,35 @@ public class FenetreDeJeu extends JFrame implements ActionListener {
         }
         this.jLabel1.repaint();
         
-        if (this.jeu.estTermine()){
-    this.jeu.getJoueurLocal().joueurMort(this.jeu.getLienSQL());
-    this.timer.stop();
+        if (this.jeu.estTermine() && !fermetureEnCours) {
+            fermetureEnCours = true;
 
-    FinPartie fin = new FinPartie();
-    fin.setVisible(true);
-    this.dispose();
-    }
+            this.jeu.getJoueurLocal().joueurMort(this.jeu.getLienSQL());
+            this.timer.stop();
+
+            FinPartie fin = new FinPartie();
+            fin.setVisible(true);
+            this.dispose();
+        }
     }
     public static void main(String[] args) {
+<<<<<<< HEAD
     FenetreDeJeu fenetre =
             new FenetreDeJeu("Test", "Abeille");
 
     fenetre.setVisible(true);
+=======
+        java.awt.EventQueue.invokeLater(() -> {
+            FenetreDeJeu fenetre = new FenetreDeJeu(
+                    "TestSolo",
+                    "Abeille"
+            );
+>>>>>>> fd278bfd94a538a1f24fed0bd37e5af42fb76931
 
+            fenetre.setVisible(true);
+        });
     }
-    
+
     public void actionListened(){ //Lien entre l'écouteur de clavier et le joueur local
         this.jeu.getJoueurLocal().setToucheEst(this.ecouteurClavier.isEst());
         this.jeu.getJoueurLocal().setToucheOuest(this.ecouteurClavier.isOuest());
@@ -111,5 +142,34 @@ public class FenetreDeJeu extends JFrame implements ActionListener {
         }
         
     }
+
+    private void quitterPartie() {
+        if (fermetureEnCours) {
+            return;
+        }
+
+        fermetureEnCours = true;
+
+        if (timer != null) {
+            timer.stop();
+        }
+
+        if (jeu != null && jeu.getJoueurLocal() != null && jeu.getLienSQL() != null) {
+            jeu.getJoueurLocal().setHP(0);
+            jeu.getLienSQL().modifierJoueur(jeu.getJoueurLocal());
+            jeu.getJoueurLocal().joueurMort(jeu.getLienSQL());
+        }
+
+        if (jeu != null && jeu.getProjectileSQL() != null) {
+            jeu.getProjectileSQL().closeTable();
+        }
+
+        if (jeu != null && jeu.getLienSQL() != null) {
+            jeu.getLienSQL().closeTable();
+        }
+
+        this.dispose();
+    }
+
 
 }

@@ -30,7 +30,7 @@ public class Joueur {
     public Joueur(String nom, Espece espece, double x, double y, int HP) { //Création manuelle d'un joueur, tout les attributs de la BDD à rentrer
         
         this.position = new Coordonnee(x, y); 
-        this.direction = new Coordonnee();
+        this.direction = new Coordonnee(1,0);
         this.toucheO = false;
         this.toucheE = false;
         this.toucheN = false;
@@ -44,7 +44,8 @@ public class Joueur {
     }
 
     public Joueur() { //Création d'un joueur par défaut
-        
+        this.position = new Coordonnee();
+        this.direction = new Coordonnee(1, 0);
         this.toucheO = false;
         this.toucheE = false;
         this.toucheN = false;
@@ -140,14 +141,19 @@ public class Joueur {
     }
 
     public void miseAJour(ProjectileSQL projectileSQL) {
-        
-        this.direction = new Coordonnee( //déplacement du joueur local
-            (toucheE ? 1 : 0) - (toucheO ? 1 : 0),
-            (toucheS ? 1 : 0) - (toucheN ? 1 : 0)
+
+        Coordonnee deplacement = new Coordonnee(
+                (toucheE ? 1 : 0) - (toucheO ? 1 : 0),
+                (toucheS ? 1 : 0) - (toucheN ? 1 : 0)
         );
-        
-        position = position.add(this.direction.normalize().mult(vitesse));
-        
+
+
+        if (deplacement.norm() > 0) {
+            this.direction = deplacement.normalize();
+            this.position = this.position.add(this.direction.mult(this.vitesse));
+        }
+
+
         if (this.projectileTire!=null){
             this.projectileTire.MAJ(1,projectileSQL);
         }
@@ -163,42 +169,44 @@ public class Joueur {
         lienSQL.supprimerJoueur(this);
     }
 
-    public void rendu(Graphics2D contexte) { //affichage d'un joueur
-        if (this.espece != null){
-        contexte.drawImage(this.espece.getSprite(), (int) position.getx(), (int) position.gety(), null);
-        }
-    }
-    
 //    public void rendu(Graphics2D contexte) { //affichage d'un joueur
-//    if (this.espece != null) {
-//        
-//        double X = position.getx();
-//        double Y = position.gety();
-//        double DX = this.direction.getx(); // ou votre getter
-//        double DY = this.direction.gety();
-//        
-//        double angle = Math.atan2(DY, DX);
-//        
-//        // Calcule les dimensions du sprite
-//        int spriteWidth = this.espece.getSprite().getWidth(null);
-//        int spriteHeight = this.espece.getSprite().getHeight(null);
-//        
-//        // Centre du sprite
-//        double centerX = X + spriteWidth / 2.0;
-//        double centerY = Y + spriteHeight / 2.0;
-//        
-//        AffineTransform sauvegardeTransform = contexte.getTransform();
-//        
-//        //translation au centre + rotation + décalage inverse
-//        contexte.translate(centerX, centerY);
-//        contexte.rotate(angle);
-//        contexte.translate(-spriteWidth / 2.0, -spriteHeight / 2.0);
-//        
-//        contexte.drawImage(this.espece.getSprite(), 0, 0, null);
-//
-//        contexte.setTransform(sauvegardeTransform);
+//        if (this.espece != null){
+//        contexte.drawImage(this.espece.getSprite(), (int) position.getx(), (int) position.gety(), null);
+//        }
 //    }
-//}
+
+    public void rendu(Graphics2D contexte) {
+        if (this.espece == null || this.espece.getSprite() == null || this.direction == null) {
+            return;
+        }
+
+        BufferedImage sprite = this.espece.getSprite();
+
+        double x = this.position.getx();
+        double y = this.position.gety();
+
+        double dx = this.direction.getx();
+        double dy = this.direction.gety();
+
+        double angle = Math.atan2(dy, dx) + Math.PI / 2.0; //A adapter
+
+        int largeur = sprite.getWidth();
+        int hauteur = sprite.getHeight();
+
+        double centreX = x + largeur / 2.0;
+        double centreY = y + hauteur / 2.0;
+
+        AffineTransform ancienneTransformation = contexte.getTransform();
+
+        contexte.translate(centreX, centreY);
+        contexte.rotate(angle);
+        contexte.translate(-largeur / 2.0, -hauteur / 2.0);
+
+        contexte.drawImage(sprite, 0, 0, null);
+
+        contexte.setTransform(ancienneTransformation);
+    }
+
     
     public void renduProjectile(Graphics2D contexte) {
         contexte.drawImage(this.projectileTire.getSprite(), (int) this.projectileTire.getPosition().getx(), (int) this.projectileTire.getPosition().gety(), null);
