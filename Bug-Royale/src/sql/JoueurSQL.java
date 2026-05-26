@@ -47,15 +47,8 @@ public class JoueurSQL {
         try {
             PreparedStatement requete = connexion.prepareStatement(
                     "INSERT INTO Joueur (Name, X, Y, Dx, Dy, HP, Espece) "
-                            + "VALUES (?, ?, ?, ?, ?, ?, ?) "
-                            + "ON DUPLICATE KEY UPDATE "
-                            + "X = VALUES(X), "
-                            + "Y = VALUES(Y), "
-                            + "Dx = VALUES(Dx), "
-                            + "Dy = VALUES(Dy), "
-                            + "HP = VALUES(HP), "
-                            + "Espece = VALUES(Espece)"
-            ); //Si le joueur existe déja, actualise les valeurs de l'éxistant plutot que d'en creer un nouveau
+                            + "VALUES (?, ?, ?, ?, ?, ?, ?)"
+            );
 
             requete.setString(1, J.getNom());
             requete.setDouble(2, J.getX());
