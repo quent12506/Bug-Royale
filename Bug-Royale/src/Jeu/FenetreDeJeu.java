@@ -112,23 +112,7 @@ public FenetreDeJeu(String pseudo, String insecte) {
             this.dispose();
         }
     }
-//    public static void main(String[] args) {
-//<<<<<<< HEAD
-//    FenetreDeJeu fenetre =
-//            new FenetreDeJeu("Test", "Abeille");
-//
-//    fenetre.setVisible(true);
-//=======
-//        java.awt.EventQueue.invokeLater(() -> {
-//            FenetreDeJeu fenetre = new FenetreDeJeu(
-//                    "TestSolo",
-//                    "Abeille"
-//            );
-//>>>>>>> fd278bfd94a538a1f24fed0bd37e5af42fb76931
-//
-//            fenetre.setVisible(true);
-//        });
-//    }
+
 public static void main(String[] args) {
     java.awt.EventQueue.invokeLater(() -> {
         FenetreDeJeu fenetre =
