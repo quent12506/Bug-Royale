@@ -54,17 +54,14 @@ public class Jeu {
             Logger.getLogger(Jeu.class.getName()).log(Level.SEVERE, null, ex);
         }
         Espece especeJoueurLocal = Espece.depuisNom(insecte);
-        this.n=0;
+        this.n = 0;
 
         this.lienSQL = new JoueurSQL();
-        this.projectileSQL = new ProjectileSQL();
+        this.projectileSQL = new ProjectileSQL(this.lienSQL);
 
         Coordonnee spawn = choisirSpawn(pseudo);
 
-    this.joueurLocal = new Joueur(pseudo, especeJoueurLocal, spawn.getx(), spawn.gety(), HP);
-        this.n = 0; //Fin de jeu avec un compteur, solution temporaire
-        this.lienSQL = new JoueurSQL(); //initialisation lien joueur-BDD
-        this.projectileSQL = new ProjectileSQL(); //initialisation lien projectile-BDD
+        this.joueurLocal = new Joueur(pseudo, especeJoueurLocal, spawn.getx(), spawn.gety(), HP);
         this.lienSQL.creerJoueur(this.joueurLocal); //Crétion du joueur local dans la BDD -> entrée en multi
     }
     //Getter et setter
@@ -134,32 +131,32 @@ public class Jeu {
         }
     }
     
-//    public void testCollisionsJoueurs() {
-//        ArrayList<String> listeNom = this.lienSQL.listeNom();
-//        
-//        // Vérifie les collisions du joueur local avec tous les autres joueurs
-//        for (int i = 0; i < listeNom.size(); i++) {
-//            Joueur joueurATester = this.lienSQL.voirJoueurNom(listeNom.get(i));
-//            
-//            // Ne vérifie pas la collision du joueur avec lui-même
-//            if (this.joueurLocal.getNom().equals(joueurATester.getNom())) {
-//                continue;
-//            }
-//            
-//            // Vérifie s'il y a collision
-//            if (this.joueurLocal.estEnCollisionAvec(joueurATester)) {
-//                // Les deux joueurs perdent 5 HP en cas de collision
-//                int currentHP = this.joueurLocal.getHP();
-//                this.joueurLocal.setHP(Math.max(0, currentHP - 5));
-//                
-//                int otherHP = joueurATester.getHP();
-//                joueurATester.setHP(Math.max(0, otherHP - 5));
-//                
-//                // Met à jour la base de données
-//                this.lienSQL.modifierJoueur(joueurATester);
-//            }
-//        }
-//    }
+    public void testCollisionsJoueurs() {
+        ArrayList<String> listeNom = this.lienSQL.listeNom();
+
+        // Vérifie les collisions du joueur local avec tous les autres joueurs
+        for (int i = 0; i < listeNom.size(); i++) {
+            Joueur joueurATester = this.lienSQL.voirJoueurNom(listeNom.get(i));
+
+            // Ne vérifie pas la collision du joueur avec lui-même
+            if (this.joueurLocal.getNom().equals(joueurATester.getNom())) {
+                continue;
+            }
+
+            // Vérifie s'il y a collision
+            if (this.joueurLocal.estEnCollisionAvec(joueurATester)) {
+                // Les deux joueurs perdent 5 HP en cas de collision
+                int currentHP = this.joueurLocal.getHP();
+                this.joueurLocal.setHP(Math.max(0, currentHP - 5));
+
+                int otherHP = joueurATester.getHP();
+                joueurATester.setHP(Math.max(0, otherHP - 5));
+
+                // Met à jour la base de données
+                this.lienSQL.modifierJoueur(joueurATester);
+            }
+        }
+    }
 
     public void miseAJour (){ //synchronisation avec la DDD, mise à jour du joueur local, localement et dans la BDD
         this.n +=1;

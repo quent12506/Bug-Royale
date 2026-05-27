@@ -308,7 +308,9 @@ public class JoueurSQL {
     */
     public void closeTable() {
         try {
-            this.connexion.close();
+            if (this.connexion != null && !this.connexion.isClosed()) {
+                this.connexion.close();
+            }
         } catch (SQLException ex) {
             ex.printStackTrace();
         }

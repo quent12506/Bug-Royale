@@ -89,23 +89,37 @@ public FenetreDeJeu(String pseudo, String insecte) {
         this.timer = new Timer(40, this);
         this.timer.start();
     }
-    
+
     @Override
     public void actionPerformed(ActionEvent e){ //"tour de jeu" -> tout les 40 ms on actualise le jeu et on l'affiche
         actionListened();
         this.jeu.miseAJour();
         this.jeu.rendu(contexte);
         if (this.ecouteurClavier.isFermeConnection()){
+            if (timer != null) {
+                timer.stop();
+            }
+
             this.jeu.kill();
             this.ecouteurClavier.setFermeConnection(false);
+            this.dispose();
+            return;
         }
         this.jLabel1.repaint();
-        
+
         if (this.jeu.estTermine() && !fermetureEnCours) {
             fermetureEnCours = true;
 
             this.jeu.getJoueurLocal().joueurMort(this.jeu.getLienSQL());
             this.timer.stop();
+
+            if (this.jeu.getProjectileSQL() != null) {
+                this.jeu.getProjectileSQL().closeTable();
+            }
+
+            if (this.jeu.getLienSQL() != null) {
+                this.jeu.getLienSQL().closeTable();
+            }
 
             FinPartie fin = new FinPartie();
             fin.setVisible(true);

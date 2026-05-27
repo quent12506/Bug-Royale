@@ -128,17 +128,27 @@ public class SalleAttenteSQL {
 
         return false;
     }
-public void viderSalle() {
-    try {
-        PreparedStatement requete = connexion.prepareStatement(
-                "DELETE FROM Salle_Attente"
-        );
+    public void viderSalle() {
+        try {
+            PreparedStatement requete = connexion.prepareStatement(
+                    "DELETE FROM Salle_Attente"
+            );
 
-        requete.executeUpdate();
-        requete.close();
+            requete.executeUpdate();
+            requete.close();
 
-    } catch (SQLException ex) {
-        ex.printStackTrace();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
     }
-}
+
+    public void closeTable() {
+        try {
+            if (this.connexion != null && !this.connexion.isClosed()) {
+                this.connexion.close();
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
 }

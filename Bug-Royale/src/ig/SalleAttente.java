@@ -233,6 +233,7 @@ public class SalleAttente extends javax.swing.JFrame {
             timerActualisation.stop();
         }
 
+
       Jeu.FenetreDeJeu fenetre =
         new Jeu.FenetreDeJeu(
                 this.pseudoLocal,

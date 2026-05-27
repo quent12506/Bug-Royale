@@ -24,11 +24,13 @@ public class ProjectileSQL {
     private String user;
     private String motdepasse;
     private Connection connexion;
+    private JoueurSQL lienJoueurSQL;
 
-    public ProjectileSQL() { //Methode pour connecter le jeu à la BDD
+    public ProjectileSQL(JoueurSQL lienJoueurSQL) {
         this.adresseBase = "jdbc:mariadb://nemrod.ens2m.fr:3306/2025-2026_s2_vs1_bug_royale";
         this.user = "etudiant";
         this.motdepasse = "YTDTvj9TR3CDYCmP";
+        this.lienJoueurSQL = lienJoueurSQL;
 
         try {
             this.connexion = DriverManager.getConnection(this.adresseBase, this.user, this.motdepasse);
@@ -36,7 +38,10 @@ public class ProjectileSQL {
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
+    }
 
+    public ProjectileSQL() {
+        this(new JoueurSQL());
     }
 
     ///////////////////////////////////////////////////////////////////////////////
@@ -132,11 +137,10 @@ public class ProjectileSQL {
             requete.setDouble(3, P.getPosition().gety());
 
             ResultSet resultat = requete.executeQuery();
-            JoueurSQL lienSQL = new JoueurSQL();
 
             if (resultat.next()) {
 
-                POut.setProprietaire(lienSQL.voirJoueurNom(resultat.getString("Proprietaire")));
+                POut.setProprietaire(this.lienJoueurSQL.voirJoueurNom(resultat.getString("Proprietaire")));
                 Coordonnee pos = new Coordonnee();
                 pos.setX(resultat.getDouble("X"));
                 pos.setY(resultat.getDouble("Y"));
@@ -168,13 +172,12 @@ public class ProjectileSQL {
             requete.setString(1, proprietaire);
 
             ResultSet resultat = requete.executeQuery();
-            JoueurSQL lienSQL = new JoueurSQL();
 
             while (resultat.next()) {
 
                 Projectile P = new Projectile();
 
-                P.setProprietaire(lienSQL.voirJoueurNom(resultat.getString("Proprietaire")));
+                P.setProprietaire(this.lienJoueurSQL.voirJoueurNom(resultat.getString("Proprietaire")));
                 Coordonnee pos = new Coordonnee();
                 pos.setX(resultat.getDouble("X"));
                 pos.setY(resultat.getDouble("Y"));
@@ -205,13 +208,12 @@ public class ProjectileSQL {
             PreparedStatement requete = connexion.prepareStatement("SELECT * FROM Projectiles");
 
             ResultSet resultat = requete.executeQuery();
-            JoueurSQL lienSQL = new JoueurSQL();
 
             while (resultat.next()) {
 
                 Projectile P = new Projectile();
 
-                P.setProprietaire(lienSQL.voirJoueurNom(resultat.getString("Proprietaire")));
+                P.setProprietaire(this.lienJoueurSQL.voirJoueurNom(resultat.getString("Proprietaire")));
                 Coordonnee pos = new Coordonnee();
                 pos.setX(resultat.getDouble("X"));
                 pos.setY(resultat.getDouble("Y"));
@@ -227,6 +229,7 @@ public class ProjectileSQL {
         }
         return listeProjectiles;
     }
+
 
     ///////////////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////////
@@ -297,7 +300,9 @@ public class ProjectileSQL {
     */
     public void closeTable() {
         try {
-            this.connexion.close();
+            if (this.connexion != null && !this.connexion.isClosed()) {
+                this.connexion.close();
+            }
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
