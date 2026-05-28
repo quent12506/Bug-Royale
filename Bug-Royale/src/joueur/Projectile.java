@@ -40,6 +40,7 @@ public class Projectile {
         }
     }
 
+    
     public Projectile() {
         this.actif = true;
         this.temps = 0;
@@ -58,7 +59,7 @@ public class Projectile {
                     + this.proprietaire.getEspece().getStringEspece());
         }
     }
-
+    
     public void setPosition(Coordonnee position) {
         this.position = position;
     }
