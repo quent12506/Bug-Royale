@@ -10,7 +10,6 @@ import outils.Coordonnee;
 import sql.ProjectileSQL;
 
 /**
- * Classe représentant un projectile avec physique 2D (vitesse constante)
  * @author mlopez1
  */
 public class Projectile {
@@ -32,15 +31,31 @@ public class Projectile {
         this.actif = true;
         this.temps = 0;
         this.proprietaire = proprietaire;
-        this.vitesse = this.proprietaire.getEspece().getVitesseProjectile();
-        this.sprite = this.proprietaire.getEspece().getSpriteProjectile();
+        chargerProjectileDepuisEspece();
+
+        if (this.proprietaire != null && this.proprietaire.getEspece() != null) {
+            this.vitesse = this.proprietaire.getEspece().getVitesseProjectile();
+        } else {
+            this.vitesse = 5;
+        }
     }
 
     public Projectile() {
-        try {
-            this.sprite = ImageIO.read(getClass().getResource("../resources/bdf.png"));
-        } catch (IOException ex) {
-            Logger.getLogger(Joueur.class.getName()).log(Level.SEVERE, null, ex);
+        this.actif = true;
+        this.temps = 0;
+        this.vitesse = 5;
+    }
+
+    private void chargerProjectileDepuisEspece() {
+        if (this.proprietaire == null || this.proprietaire.getEspece() == null) {
+            return;
+        }
+
+        this.sprite = this.proprietaire.getEspece().getSpriteProjectile();
+
+        if (this.sprite == null) {
+            System.err.println("Sprite projectile manquant pour l'espèce : "
+                    + this.proprietaire.getEspece().getStringEspece());
         }
     }
 
@@ -62,6 +77,11 @@ public class Projectile {
 
     public void setProprietaire(Joueur proprietaire) {
         this.proprietaire = proprietaire;
+        chargerProjectileDepuisEspece();
+
+        if (this.proprietaire != null && this.proprietaire.getEspece() != null) {
+            this.vitesse = this.proprietaire.getEspece().getVitesseProjectile();
+        }
     }
     
 
@@ -127,6 +147,10 @@ public class Projectile {
     }
 
     public boolean joueurTouche(Joueur JoueurATester){ //Joueur touche si le centre du projectile est dans la hitbox de l'insecte (taille du sprite)
+        if (this.sprite == null || this.position == null || JoueurATester == null || JoueurATester.getEspece() == null) {
+            return false;
+        }
+
         double xMin=JoueurATester.getPosition().getx();
         double xMax=JoueurATester.getPosition().getx()+JoueurATester.getEspece().getSprite().getWidth();
         double yMin=JoueurATester.getPosition().gety();
@@ -166,8 +190,12 @@ public class Projectile {
         this.actif = false;
         this.vitesse = 0;
     }
-    
-    public void rendu(Graphics2D contexte) { //affichage d'un joueur
+
+    public void rendu(Graphics2D contexte) {
+        if (this.sprite == null || this.position == null) {
+            return;
+        }
+
         contexte.drawImage(sprite, (int) position.getx(), (int) position.gety(), null);
     }
 
