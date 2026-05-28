@@ -31,8 +31,8 @@ public class Projectile {
         this.rayon = rayon;
         this.actif = true;
         this.temps = 0;
-        this.vitesse = this.proprietaire.getEspece().getVitesseProjectile();
         this.proprietaire = proprietaire;
+        this.vitesse = this.proprietaire.getEspece().getVitesseProjectile();
         try {
             this.sprite = ImageIO.read(getClass().getResource("../resources/bdf.png"));
         } catch (IOException ex) {
@@ -67,7 +67,6 @@ public class Projectile {
     public void setProprietaire(Joueur proprietaire) {
         this.proprietaire = proprietaire;
     }
-    
     
 
     public Coordonnee getPosition() {

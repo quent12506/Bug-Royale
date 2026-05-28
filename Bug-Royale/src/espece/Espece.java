@@ -22,6 +22,7 @@ public class Espece {
         this.vitesseDeplacement = vitesseDeplacement;
         this.HPParDefaut = HPParDefaut;
         this.sprite = sprite;
+        this.vitesseProjectile = vitesseProjectile;
     }
 
     public BufferedImage getSprite() {
