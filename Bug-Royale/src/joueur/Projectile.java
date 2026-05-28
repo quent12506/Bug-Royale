@@ -31,7 +31,7 @@ public class Projectile {
         this.rayon = rayon;
         this.actif = true;
         this.temps = 0;
-        this.vitesse = 5;
+        this.vitesse = this.proprietaire.getEspece().getVitesseProjectile();
         this.proprietaire = proprietaire;
         try {
             this.sprite = ImageIO.read(getClass().getResource("../resources/bdf.png"));

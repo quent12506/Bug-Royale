@@ -134,6 +134,8 @@ public class Joueur {
     public void setHP(int HP) {
         this.HP = HP;
     }
+    
+    
 
     @Override
     public String toString() {

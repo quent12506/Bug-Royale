@@ -66,6 +66,12 @@ public class Espece {
     public void setVitesseProjectile(double vitesseProjectile) {
         this.vitesseProjectile = vitesseProjectile;
     }
+
+    public double getVitesseProjectile() {
+        return vitesseProjectile;
+    }
+    
+    
     
 
     public static Espece depuisNom(String nomEspece) {
