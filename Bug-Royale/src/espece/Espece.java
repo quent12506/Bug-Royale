@@ -15,8 +15,9 @@ public class Espece {
     private double vitesseDeplacement;
     private int HPParDefaut;
     protected BufferedImage sprite;
+    private double vitesseProjectile;
     
-    public Espece(String stringEspece, double vitesseDeplacement, int HPParDefaut, BufferedImage sprite) {
+    public Espece(String stringEspece, double vitesseDeplacement, int HPParDefaut, BufferedImage sprite, double vitesseProjectile) {
         this.stringEspece=stringEspece;
         this.vitesseDeplacement = vitesseDeplacement;
         this.HPParDefaut = HPParDefaut;
@@ -61,6 +62,11 @@ public class Espece {
     public double getHauteur() { 
         return sprite.getHeight(); 
     }
+
+    public void setVitesseProjectile(double vitesseProjectile) {
+        this.vitesseProjectile = vitesseProjectile;
+    }
+    
 
     public static Espece depuisNom(String nomEspece) {
         return switch (nomEspece) {

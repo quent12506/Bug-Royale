@@ -185,4 +185,10 @@ public class Projectile {
                 
                 vitesse, actif);
     }
+
+    public void setVitesse(double vitesse) {
+        this.vitesse = vitesse;
+    }
+    
+    
 }
