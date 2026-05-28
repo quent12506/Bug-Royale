@@ -18,10 +18,11 @@ import joueur.Joueur;
 public class Scarabee extends Espece{
 
     public Scarabee() {
-        super("scarabee", 3.2, 180, null,10);
+        super("scarabee", 3.2, 180, null, 10, null);
         try {
             this.sprite = ImageIO.read(getClass().getResource("../resources/scarabee.png"));
-        } catch (IOException ex) {
+            this.spriteProjectile = ImageIO.read(getClass().getResource("../resources/scarabee_proj.png"));
+            } catch (IOException ex) {
             Logger.getLogger(Joueur.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

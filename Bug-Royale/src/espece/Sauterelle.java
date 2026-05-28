@@ -18,9 +18,10 @@ import joueur.Joueur;
 public class Sauterelle extends Espece{
     
     public Sauterelle() {
-        super("sauterelle", 5.2, 80, null,75);
+        super("sauterelle", 5.2, 80, null, 75, null);
         try {
             this.sprite = ImageIO.read(getClass().getResource("../resources/sauterelle.png"));
+            this.spriteProjectile = ImageIO.read(getClass().getResource("../resources/sauterelle_proj.png"));
         } catch (IOException ex) {
             Logger.getLogger(Joueur.class.getName()).log(Level.SEVERE, null, ex);
         }

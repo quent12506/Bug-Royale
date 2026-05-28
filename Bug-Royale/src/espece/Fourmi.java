@@ -18,9 +18,10 @@ import joueur.Joueur;
 public class Fourmi extends Espece{
 
     public Fourmi() {
-        super("fourmi", 7.5, 75, null,75);
+        super("fourmi", 7.5, 75, null, 75, null);
         try {
-            this.sprite = ImageIO.read(getClass().getResource("../resources/fourmis.png"));
+            this.sprite = ImageIO.read(getClass().getResource("../resources/fourmi.png"));
+            this.spriteProjectile = ImageIO.read(getClass().getResource("../resources/fourmi_proj.png"));
         } catch (IOException ex) {
             Logger.getLogger(Joueur.class.getName()).log(Level.SEVERE, null, ex);
         }
