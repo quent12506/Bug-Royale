@@ -90,14 +90,12 @@ public class Espece {
                     new Fourmi();
             case "Abeille", "abeille" ->
                     new Abeille();
-            case "Sauterelle", "sauterelle" ->
-                    new Sauterelle();
             case "Scarabée", "Scarabee", "scarabée", "scarabee" ->
                     new Scarabee();
-            case "Araignée", "Araignee", "araignée", "araignee" ->
-                    new Araignee();
+            case "Coccinelle", "coccinelle" ->
+                    new Coccinelle();
             default ->
-                    new Araignee();
+                    new Abeille();
         };
     }
     

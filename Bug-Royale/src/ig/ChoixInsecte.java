@@ -134,7 +134,7 @@ public class ChoixInsecte extends javax.swing.JFrame {
     }
     if (firstSelection) {
         firstSelection = false;
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Scarabée", "Abeille", "Sauterelle", "Fourmi" }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Scarabée", "Abeille", "Coccinelle", "Fourmi" }));
         jComboBox1.setSelectedItem(insecte);
     }
 
@@ -162,8 +162,8 @@ if (insecte.equals("Abeille")) {
             + "Capacité spéciale : dash");
 }
 
-if (insecte.equals("Sauterelle")) {
-    jTextArea1.setText("SAUTERELLE\n\n"
+if (insecte.equals("Coccinelle")) {
+    jTextArea1.setText("COCCINELLE\n\n"
             + "Vie : bonne\n"
             + "Vitesse : moyenne\n"
             + "Attaque : grande portee melee\n"

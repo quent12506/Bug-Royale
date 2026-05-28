@@ -147,12 +147,10 @@ public class JoueurSQL {
                 switch (resultat.getString("Espece")) {
                     case "Scarabée", "Scarabee", "scarabée", "scarabee" ->
                             JOut.setEspece(new Scarabee());
-                    case "Araignée", "Araignee", "araignée", "araignee" ->
-                            JOut.setEspece(new Araignee());
                     case "Abeille", "abeille" ->
                             JOut.setEspece(new Abeille());
                     case "Coccinelle", "coccinelle" ->
-                            JOut.setEspece(new Sauterelle());
+                            JOut.setEspece(new Coccinelle());
                     case "Fourmi", "fourmi" ->
                             JOut.setEspece(new Fourmi());
                     default -> throw new IllegalArgumentException("Espèce inconnue : " + resultat.getString("Espece"));
@@ -197,12 +195,10 @@ public class JoueurSQL {
                 switch (resultat.getString("Espece")) {
                     case "Scarabée", "Scarabee", "scarabée", "scarabee" ->
                             JOut.setEspece(new Scarabee());
-                    case "Araignée", "Araignee", "araignée", "araignee" ->
-                            JOut.setEspece(new Araignee());
                     case "Abeille", "abeille" ->
                             JOut.setEspece(new Abeille());
-                    case "Sauterelle", "sauterelle" ->
-                            JOut.setEspece(new Sauterelle());
+                    case "Coccinelle", "coccinelle" ->
+                            JOut.setEspece(new Coccinelle());
                     case "Fourmi", "fourmi" ->
                             JOut.setEspece(new Fourmi());
                     default -> throw new IllegalArgumentException("Espèce inconnue : " + resultat.getString("Espece"));
