@@ -33,11 +33,7 @@ public class Projectile {
         this.temps = 0;
         this.proprietaire = proprietaire;
         this.vitesse = this.proprietaire.getEspece().getVitesseProjectile();
-        try {
-            this.sprite = ImageIO.read(getClass().getResource("../resources/bdf.png"));
-        } catch (IOException ex) {
-            Logger.getLogger(Joueur.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        this.sprite = this.proprietaire.getEspece().getSpriteProjectile();
     }
 
     public Projectile() {
