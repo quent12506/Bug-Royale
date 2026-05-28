@@ -151,7 +151,7 @@ public class JoueurSQL {
                             JOut.setEspece(new Araignee());
                     case "Abeille", "abeille" ->
                             JOut.setEspece(new Abeille());
-                    case "Sauterelle", "sauterelle" ->
+                    case "Coccinelle", "coccinelle" ->
                             JOut.setEspece(new Sauterelle());
                     case "Fourmi", "fourmi" ->
                             JOut.setEspece(new Fourmi());

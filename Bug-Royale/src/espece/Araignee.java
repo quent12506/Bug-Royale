@@ -17,9 +17,10 @@ import joueur.Joueur;
 public class Araignee extends Espece{
     
     public Araignee() {
-        super("araignee", 5, 110, null,75);
+        super("araignee", 5, 110, null, 75, null);
         try {
-            this.sprite = ImageIO.read(getClass().getResource("../resources/araignee.png"));
+            this.sprite = ImageIO.read(getClass().getResource("/resources/abeille.png"));
+            this.sprite = ImageIO.read(getClass().getResource("/resources/abeille.png"));
         } catch (IOException ex) {
             Logger.getLogger(Joueur.class.getName()).log(Level.SEVERE, null, ex);
         }

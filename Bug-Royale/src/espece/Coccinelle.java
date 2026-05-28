@@ -15,13 +15,13 @@ import joueur.Joueur;
  *
  * @author hugom
  */
-public class Abeille extends Espece{
+public class Coccinelle extends Espece{
 
-    public Abeille() {
-        super("abeille", 7.5, 75, null, 75, null);
+    public Coccinelle() {
+        super("coccinelle", 7.5, 75, null, 75, null);
         try {
-            this.sprite = ImageIO.read(getClass().getResource("/resources/abeille.png"));
-            this.spriteProjectile = ImageIO.read(getClass().getResource("/resources/abeille_proj.png"));
+            this.sprite = ImageIO.read(getClass().getResource("/resources/coccinelle.png"));
+            this.spriteProjectile = ImageIO.read(getClass().getResource("/resources/coccinelle_proj.png"));
         } catch (IOException ex) {
             Logger.getLogger(Joueur.class.getName()).log(Level.SEVERE, null, ex);
         }

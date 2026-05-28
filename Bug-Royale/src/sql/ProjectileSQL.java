@@ -14,6 +14,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import joueur.Joueur;
 import outils.OutilsJDBC;
 import joueur.Projectile;
 import outils.Coordonnee;
@@ -210,16 +211,17 @@ public class ProjectileSQL {
             ResultSet resultat = requete.executeQuery();
 
             while (resultat.next()) {
-
                 Projectile P = new Projectile();
-
-                P.setProprietaire(this.lienJoueurSQL.voirJoueurNom(resultat.getString("Proprietaire")));
+                Joueur proprietaire = this.lienJoueurSQL.voirJoueurNom(resultat.getString("Proprietaire"));
+                if (proprietaire == null || proprietaire.getEspece() == null) {
+                    continue; // on ignore ce projectile orphelin
+                }
+                P.setProprietaire(proprietaire);
                 Coordonnee pos = new Coordonnee();
                 pos.setX(resultat.getDouble("X"));
                 pos.setY(resultat.getDouble("Y"));
                 P.setPosition(pos);
                 listeProjectiles.add(P);
-
             }
 
             requete.close();

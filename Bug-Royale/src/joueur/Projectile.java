@@ -36,14 +36,10 @@ public class Projectile {
         this.sprite = this.proprietaire.getEspece().getSpriteProjectile();
     }
 
+    
     public Projectile() {
-        try {
-            this.sprite = ImageIO.read(getClass().getResource("../resources/bdf.png"));
-        } catch (IOException ex) {
-            Logger.getLogger(Joueur.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }
-
+    
     public void setPosition(Coordonnee position) {
         this.position = position;
     }
@@ -62,6 +58,7 @@ public class Projectile {
 
     public void setProprietaire(Joueur proprietaire) {
         this.proprietaire = proprietaire;
+        this.sprite = this.proprietaire.getEspece().getSpriteProjectile();
     }
     
 
