@@ -61,7 +61,7 @@ public FenetreDeJeu(String pseudo, String insecte) {
 
 
         this.jLabel1 = new JLabel();
-        this.jLabel1.setPreferredSize(new java.awt.Dimension(689, 700)); 
+        this.jLabel1.setPreferredSize(new java.awt.Dimension(1080, 1075)); 
         this.setContentPane(this.jLabel1);
         this.pack();
         
@@ -86,7 +86,7 @@ public FenetreDeJeu(String pseudo, String insecte) {
         });
 
         // Creation du timer
-        this.timer = new Timer(40, this);
+        this.timer = new Timer(16, this); //16=60fps - 40=25fps
         this.timer.start();
     }
 

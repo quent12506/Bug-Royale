@@ -26,6 +26,8 @@ public class Joueur {
     private Coordonnee direction;
     private int HP;
     private Projectile projectileTire;
+    private long mouvementBloqueJusqua = 0;
+    private Coordonnee vitesseActuelle = new Coordonnee(0, 0);
 
     public Joueur(String nom, Espece espece, double x, double y, int HP) { //Création manuelle d'un joueur, tout les attributs de la BDD à rentrer
         
@@ -56,6 +58,96 @@ public class Joueur {
     //Ensembles de getter, setter et toString
     public void setPosition(double x, double y) {
         this.position = new Coordonnee(x,y);
+    }
+
+    public boolean estMouvementBloque() {
+        return System.currentTimeMillis() < this.mouvementBloqueJusqua;
+    }
+
+    public void bloquerMouvementPendant(long dureeMs) {
+        this.mouvementBloqueJusqua = System.currentTimeMillis() + dureeMs;
+
+        this.toucheO = false;
+        this.toucheE = false;
+        this.toucheN = false;
+        this.toucheS = false;
+    }
+
+    public void reculerDepuis(Joueur autre, double distanceRecul) {
+        if (autre == null) {
+            return;
+        }
+
+        double centreX = this.position.getx() + this.espece.getLargeur() / 2.0;
+        double centreY = this.position.gety() + this.espece.getHauteur() / 2.0;
+
+        double autreCentreX = autre.getPosition().getx() + autre.getEspece().getLargeur() / 2.0;
+        double autreCentreY = autre.getPosition().gety() + autre.getEspece().getHauteur() / 2.0;
+
+        Coordonnee directionRecul = new Coordonnee(
+                centreX - autreCentreX,
+                centreY - autreCentreY
+        );
+
+        if (directionRecul.norm() == 0) {
+            directionRecul = new Coordonnee(1, 0);
+        }
+
+        directionRecul = directionRecul.normalize();
+
+        this.position = this.position.add(directionRecul.mult(distanceRecul));
+        this.direction = directionRecul;
+    }
+
+    public void separerDe(Joueur autre) {
+        if (autre == null || autre.getEspece() == null || this.espece == null) {
+            return;
+        }
+
+        double thisLeft = this.position.getx();
+        double thisRight = this.position.getx() + this.espece.getLargeur();
+        double thisTop = this.position.gety();
+        double thisBottom = this.position.gety() + this.espece.getHauteur();
+
+        double autreLeft = autre.getPosition().getx();
+        double autreRight = autre.getPosition().getx() + autre.getEspece().getLargeur();
+        double autreTop = autre.getPosition().gety();
+        double autreBottom = autre.getPosition().gety() + autre.getEspece().getHauteur();
+
+        double chevauchementX = Math.min(thisRight, autreRight) - Math.max(thisLeft, autreLeft);
+        double chevauchementY = Math.min(thisBottom, autreBottom) - Math.max(thisTop, autreTop);
+
+        if (chevauchementX <= 0 || chevauchementY <= 0) {
+            return;
+        }
+
+        double centreX = this.position.getx() + this.espece.getLargeur() / 2;
+        double centreY = this.position.gety() + this.espece.getHauteur() / 2;
+
+        double autreCentreX = autre.getPosition().getx() + autre.getEspece().getLargeur() / 2;
+        double autreCentreY = autre.getPosition().gety() + autre.getEspece().getHauteur() / 2;
+
+        if (chevauchementX < chevauchementY) {
+            double correction = chevauchementX / 2 + 1;
+
+            if (centreX < autreCentreX) {
+                this.position = this.position.add(new Coordonnee(-correction, 0));
+                autre.setPosition(autre.getX() + correction, autre.getY());
+            } else {
+                this.position = this.position.add(new Coordonnee(correction, 0));
+                autre.setPosition(autre.getX() - correction, autre.getY());
+            }
+        } else {
+            double correction = chevauchementY / 2.0 + 1.0;
+
+            if (centreY < autreCentreY) {
+                this.position = this.position.add(new Coordonnee(0, -correction));
+                autre.setPosition(autre.getX(), autre.getY() + correction);
+            } else {
+                this.position = this.position.add(new Coordonnee(0, correction));
+                autre.setPosition(autre.getX(), autre.getY() - correction);
+            }
+        }
     }
 
     public boolean isTirJoueur() {
@@ -149,15 +241,32 @@ public class Joueur {
                 (toucheS ? 1 : 0) - (toucheN ? 1 : 0)
         );
 
+        double acceleration = 0.20;
+        double ralentissement = 0.80;
+        double facteurVitesse = 0.40;
 
-        if (deplacement.norm() > 0) {
-            this.direction = deplacement.normalize();
-            this.position = this.position.add(this.direction.mult(this.vitesse));
+        if (estMouvementBloque()) {
+            this.vitesseActuelle = this.vitesseActuelle.mult(ralentissement);
+        } else if (deplacement.norm() > 0) {
+            Coordonnee directionVoulue = deplacement.normalize();
+            Coordonnee vitesseVoulue = directionVoulue.mult(this.vitesse * facteurVitesse);
+
+            this.vitesseActuelle = this.vitesseActuelle.mult(1.0 - acceleration)
+                    .add(vitesseVoulue.mult(acceleration));
+
+            this.direction = directionVoulue;
+        } else {
+            this.vitesseActuelle = this.vitesseActuelle.mult(ralentissement);
         }
 
+        if (this.vitesseActuelle.norm() > 0.05) {
+            this.position = this.position.add(this.vitesseActuelle);
+        } else {
+            this.vitesseActuelle = new Coordonnee(0, 0);
+        }
 
-        if (this.projectileTire!=null){
-            this.projectileTire.MAJ(1,projectileSQL);
+        if (this.projectileTire != null) {
+            this.projectileTire.MAJ(1, projectileSQL);
         }
         
 //        if (this.tirJoueur){
@@ -228,8 +337,7 @@ public class Joueur {
         double autre_right = autre.getPosition().getx() + autre.getEspece().getLargeur();
         double autre_top = autre.getPosition().gety();
         double autre_bottom = autre.getPosition().gety() + autre.getEspece().getHauteur();
-        
-        // Vérifie si les rectangles se chevauchent
+
         return !(this_right < autre_left || this_left > autre_right || 
                  this_bottom < autre_top || this_top > autre_bottom);
     }
