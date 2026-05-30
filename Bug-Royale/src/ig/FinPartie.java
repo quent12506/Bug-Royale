@@ -100,7 +100,10 @@ public class FinPartie extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
     System.exit(0);        // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
-
+        public FinPartie(String message) {
+        initComponents();
+        jLabel1.setText(message);
+}
     /**
      * @param args the command line arguments
      */
