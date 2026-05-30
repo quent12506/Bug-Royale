@@ -52,7 +52,7 @@ public class ChoixInsecte extends javax.swing.JFrame {
 
         jLabel3.setText("Choisir un insecte :");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "", "Scarabée", "Abeille", "Sauterelle", "Fourmi" }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "", "Scarabée", "Abeille", "Coccinelle", "Fourmi" }));
         jComboBox1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBox1ActionPerformed(evt);
