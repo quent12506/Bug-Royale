@@ -336,6 +336,18 @@ public class JoueurSQL {
 
     return nb;
 }
-  
+  public void viderTableJoueur() {
+    try {
+        PreparedStatement requete = connexion.prepareStatement(
+                "DELETE FROM Joueur"
+        );
+
+        requete.executeUpdate();
+        requete.close();
+
+    } catch (SQLException ex) {
+        ex.printStackTrace();
+    }
+}
     
 }

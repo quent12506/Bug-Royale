@@ -113,7 +113,10 @@ public FenetreDeJeu(String pseudo, String insecte) {
     this.timer.stop();
 
     this.jeu.getJoueurLocal().joueurMort(this.jeu.getLienSQL());
-
+    
+    JoueurSQL joueurs = new JoueurSQL();
+    joueurs.viderTableJoueur();
+    
     SalleAttenteSQL salle = new SalleAttenteSQL();
     salle.viderSalle();
 

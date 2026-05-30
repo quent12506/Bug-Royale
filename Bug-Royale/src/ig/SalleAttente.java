@@ -32,8 +32,8 @@ public class SalleAttente extends javax.swing.JFrame {
         this.insecteLocal = insecte;
         this.HPlocal = Espece.depuisNom(insecte).getHPParDefaut();
 
-        this.salleSQL = new SalleAttenteSQL();
-        this.salleSQL.ajouterJoueur(Joueur, insecte);
+this.salleSQL = new SalleAttenteSQL();
+this.salleSQL.ajouterJoueur(Joueur, insecte);
 
         jLabel5.setText(Joueur);
         jLabel6.setText(insecte);

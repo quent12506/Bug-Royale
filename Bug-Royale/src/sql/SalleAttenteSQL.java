@@ -27,6 +27,9 @@ public class SalleAttenteSQL {
         stmt = connexion.createStatement();
 
         creerTableSiBesoin();
+        if (partieTerminee()) {
+            viderSalle();
+        }
 
     } catch (SQLException ex) {
         ex.printStackTrace();
@@ -48,9 +51,42 @@ public class SalleAttenteSQL {
     }
 
     public void ajouterJoueur(String pseudo, String insecte) {
-    try {
+//    try {
+//        PreparedStatement requete = connexion.prepareStatement(
+//                "INSERT INTO Salle_Attente (pseudo, insecte, pret) VALUES (?, ?, false)"
+//        );
+//
+//        requete.setString(1, pseudo);
+//        requete.setString(2, insecte);
+//
+//        requete.executeUpdate();
+//        requete.close();
+//
+//    } catch (SQLException ex) {
+//        ex.printStackTrace();
+//    }
+
+try {
+    
+       System.out.println("Vérification salle...");
+PreparedStatement verif = connexion.prepareStatement(
+    "SELECT COUNT(*) AS nb FROM Salle_Attente"
+);
+
+ResultSet rs = verif.executeQuery();
+
+if(rs.next()){
+    System.out.println("Nombre lignes salle = " + rs.getInt("nb"));
+}    
+
+        if (rs.next() && rs.getInt("nb") > 0) {
+            viderSalle();
+        }
+
+        verif.close();
+
         PreparedStatement requete = connexion.prepareStatement(
-                "INSERT INTO Salle_Attente (pseudo, insecte, pret) VALUES (?, ?, false)"
+            "INSERT INTO Salle_Attente (pseudo, insecte, pret) VALUES (?, ?, false)"
         );
 
         requete.setString(1, pseudo);
@@ -62,6 +98,7 @@ public class SalleAttenteSQL {
     } catch (SQLException ex) {
         ex.printStackTrace();
     }
+System.out.println("Partie lancée = " + partieLancee());
 }   
 
     public void mettrePret(String pseudo) {
@@ -135,12 +172,15 @@ public class SalleAttenteSQL {
     }
     public void viderSalle() {
         try {
-            PreparedStatement requete = connexion.prepareStatement(
-                    "DELETE FROM Salle_Attente"
-            );
+            System.out.println("VIDAGE DE LA SALLE");
 
-            requete.executeUpdate();
-            requete.close();
+        PreparedStatement requete = connexion.prepareStatement(
+                "DELETE FROM Salle_Attente"
+        );
+
+        int nb = requete.executeUpdate();
+
+        System.out.println(nb + " ligne(s) supprimée(s)");
 
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -192,6 +232,23 @@ public class SalleAttenteSQL {
 
     return false;
 }
-    
+    public boolean partieTerminee() {
+    try {
+        PreparedStatement requete = connexion.prepareStatement(
+                "SELECT COUNT(*) AS nb FROM Joueur"
+        );
+
+        ResultSet rs = requete.executeQuery();
+
+        if (rs.next()) {
+            return rs.getInt("nb") == 0;
+        }
+
+    } catch (SQLException ex) {
+        ex.printStackTrace();
+    }
+
+    return true;
+}
     
 }
