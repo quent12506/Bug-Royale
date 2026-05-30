@@ -26,7 +26,7 @@ import sql.ProjectileSQL;
 import espece.Espece;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-
+import sql.SalleAttenteSQL;
 
 
 /**
@@ -107,26 +107,22 @@ public FenetreDeJeu(String pseudo, String insecte) {
         }
         this.jLabel1.repaint();
 
-        if (this.jeu.estTermine() && !fermetureEnCours) {
-            fermetureEnCours = true;
+       if (!fermetureEnCours && this.jeu.getJoueurLocal().getHP() <= 0) {
+    fermetureEnCours = true;
 
-            this.jeu.getJoueurLocal().joueurMort(this.jeu.getLienSQL());
-            this.timer.stop();
+    this.timer.stop();
 
-            if (this.jeu.getProjectileSQL() != null) {
-                this.jeu.getProjectileSQL().closeTable();
-            }
+    this.jeu.getJoueurLocal().joueurMort(this.jeu.getLienSQL());
 
-            if (this.jeu.getLienSQL() != null) {
-                this.jeu.getLienSQL().closeTable();
-            }
+    SalleAttenteSQL salle = new SalleAttenteSQL();
+    salle.viderSalle();
 
-            FinPartie fin = new FinPartie();
-            fin.setVisible(true);
-            this.dispose();
-        }
-    }
+    FinPartie fin = new FinPartie("VOUS AVEZ PERDU");
+    fin.setVisible(true);
 
+    this.dispose();
+}
+}
 public static void main(String[] args) {
     java.awt.EventQueue.invokeLater(() -> {
         FenetreDeJeu fenetre =

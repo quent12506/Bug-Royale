@@ -204,8 +204,13 @@ public class Jeu {
     }
     
     public boolean estTermine (){ //Fonctiuon pour mettre fin au jeu
-        return (this.joueurLocal.getHP()<=0);
+    return this.joueurLocal.getHP() <= 0;
     }
+    
+    public boolean aGagne() {
+    return this.joueurLocal.getHP() > 0
+            && this.lienSQL.nombreJoueursVivants() <= 1;
+}
 
     private Coordonnee choisirSpawn(String pseudo) {
         ArrayList<Coordonnee> positionsJoueurs = this.lienSQL.listePositionsJoueursSauf(pseudo);

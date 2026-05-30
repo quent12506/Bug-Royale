@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import espece.Espece;
 
 public class SalleAttente extends javax.swing.JFrame {
-    
+  
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(SalleAttente.class.getName());
     private SalleAttenteSQL salleSQL;
     private String pseudoLocal;
@@ -50,7 +50,13 @@ public class SalleAttente extends javax.swing.JFrame {
         System.out.println("Actualisation salle...");
         System.out.println("Nombre joueurs = " + salleSQL.listeJoueurs().size());
 
-        timerActualisation = new javax.swing.Timer(1000, e -> actualiserTable());
+        timerActualisation = new javax.swing.Timer(1000, e -> {
+        actualiserTable();
+
+        if (salleSQL.partieLancee()) {
+        lancerJeu();
+    }
+});
         timerActualisation.start();
     }
 
@@ -63,7 +69,21 @@ public class SalleAttente extends javax.swing.JFrame {
         modele.addRow(joueur);
     }
 }
-    
+    private void lancerJeu() {
+    if (timerActualisation != null) {
+        timerActualisation.stop();
+    }
+
+    Jeu.FenetreDeJeu fenetre =
+            new Jeu.FenetreDeJeu(
+                    pseudoLocal,
+                    insecteLocal,
+                    HPlocal
+            );
+
+    fenetre.setVisible(true);
+    this.dispose();
+}
     
 
     /**
@@ -228,24 +248,12 @@ public class SalleAttente extends javax.swing.JFrame {
                 this,
                 "Tous les joueurs ne sont pas encore prêts."
         );
-    } else {
-        if (timerActualisation != null) {
-            timerActualisation.stop();
-        }
+        return;
+    }
 
-
-      Jeu.FenetreDeJeu fenetre =
-        new Jeu.FenetreDeJeu(
-                this.pseudoLocal,
-                this.insecteLocal,
-                this.HPlocal
-        );
-
-fenetre.setVisible(true);
-this.dispose();
-}
+        salleSQL.lancerPartie();
     }//GEN-LAST:event_jButton3ActionPerformed
-     
+    
     /**
      * @param args the command line arguments
      */
@@ -269,4 +277,3 @@ this.dispose();
     private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
 }
-

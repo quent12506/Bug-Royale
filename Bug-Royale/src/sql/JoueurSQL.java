@@ -21,6 +21,7 @@ public class JoueurSQL {
     private String user;
     private String motdepasse;
     private Connection connexion;
+    private Statement stmt;
 
     public JoueurSQL() { //Methode pour connecter le jeu à la BDD
         this.adresseBase = "jdbc:mariadb://nemrod.ens2m.fr:3306/2025-2026_s2_vs1_bug_royale";
@@ -29,7 +30,7 @@ public class JoueurSQL {
 
         try {
             this.connexion = DriverManager.getConnection(this.adresseBase, this.user, this.motdepasse);
-
+            this.stmt = this.connexion.createStatement();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -311,4 +312,30 @@ public class JoueurSQL {
             ex.printStackTrace();
         }
     }
+    
+    
+    public int nombreJoueursVivants() {
+    int nb = 0;
+
+    try {
+        PreparedStatement requete = connexion.prepareStatement(
+                "SELECT COUNT(*) AS total FROM Joueur WHERE HP > 0"
+        );
+
+        ResultSet rs = requete.executeQuery();
+
+        if (rs.next()) {
+            nb = rs.getInt("total");
+        }
+
+        requete.close();
+
+    } catch (SQLException ex) {
+        ex.printStackTrace();
+    }
+
+    return nb;
+}
+  
+    
 }

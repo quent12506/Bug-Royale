@@ -14,32 +14,37 @@ import java.util.ArrayList;
 
 public class SalleAttenteSQL {
     private Connection connexion;
+    private Statement stmt;
 
     public SalleAttenteSQL() {
         try {
-            connexion = DriverManager.getConnection(
-                    "jdbc:mariadb://nemrod.ens2m.fr:3306/2025-2026_s2_vs1_bug_royale",
-                    "etudiant",
-                    "YTDTvj9TR3CDYCmP"
-            );
+        connexion = DriverManager.getConnection(
+                "jdbc:mariadb://nemrod.ens2m.fr:3306/2025-2026_s2_vs1_bug_royale",
+                "etudiant",
+                "YTDTvj9TR3CDYCmP"
+        );
 
-            creerTableSiBesoin();
+        stmt = connexion.createStatement();
 
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
+        creerTableSiBesoin();
+
+    } catch (SQLException ex) {
+        ex.printStackTrace();
+    }
     }
 
     private void creerTableSiBesoin() throws SQLException {
-        PreparedStatement requete = connexion.prepareStatement(
-                "CREATE TABLE IF NOT EXISTS Salle_Attente ("
-                        + "id INT AUTO_INCREMENT PRIMARY KEY,"
-                        + "pseudo VARCHAR(50),"
-                        + "insecte VARCHAR(50),"
-                        + "pret BOOLEAN)"
-        );
-        requete.executeUpdate();
-        requete.close();
+          PreparedStatement requete = connexion.prepareStatement(
+            "CREATE TABLE IF NOT EXISTS Salle_Attente ("
+                    + "id INT AUTO_INCREMENT PRIMARY KEY,"
+                    + "pseudo VARCHAR(50),"
+                    + "insecte VARCHAR(50),"
+                    + "pret BOOLEAN DEFAULT false,"
+                    + "partie_lancee BOOLEAN DEFAULT false)"
+    );
+
+    requete.executeUpdate();
+    requete.close();
     }
 
     public void ajouterJoueur(String pseudo, String insecte) {
@@ -107,26 +112,26 @@ public class SalleAttenteSQL {
 
     public boolean tousPrets() {
         try {
-            PreparedStatement requete = connexion.prepareStatement(
-                    "SELECT COUNT(*) AS nb, SUM(pret) AS nbPret FROM Salle_Attente"
-            );
+        PreparedStatement requete = connexion.prepareStatement(
+                "SELECT COUNT(*) AS nb, SUM(CASE WHEN pret = true THEN 1 ELSE 0 END) AS nbPret FROM Salle_Attente"
+        );
 
-            ResultSet resultat = requete.executeQuery();
+        ResultSet resultat = requete.executeQuery();
 
-            if (resultat.next()) {
-                int nb = resultat.getInt("nb");
-                int nbPret = resultat.getInt("nbPret");
+        if (resultat.next()) {
+            int nb = resultat.getInt("nb");
+            int nbPret = resultat.getInt("nbPret");
 
-                return nb >= 2 && nb == nbPret;
-            }
-
-            requete.close();
-
-        } catch (SQLException ex) {
-            ex.printStackTrace();
+            return nb > 0 && nb == nbPret;
         }
 
-        return false;
+        requete.close();
+
+    } catch (SQLException ex) {
+        ex.printStackTrace();
+    }
+
+    return false;
     }
     public void viderSalle() {
         try {
@@ -151,4 +156,42 @@ public class SalleAttenteSQL {
             ex.printStackTrace();
         }
     }
+    
+    public void lancerPartie() {
+    try {
+        PreparedStatement requete = connexion.prepareStatement(
+                "UPDATE Salle_Attente SET partie_lancee = true"
+        );
+
+        requete.executeUpdate();
+        requete.close();
+
+    } catch (SQLException ex) {
+        ex.printStackTrace();
+    }
+}
+    public boolean partieLancee() {
+     try {
+        PreparedStatement requete = connexion.prepareStatement(
+                "SELECT partie_lancee FROM Salle_Attente LIMIT 1"
+        );
+
+        ResultSet rs = requete.executeQuery();
+
+        if (rs.next()) {
+            boolean lancee = rs.getBoolean("partie_lancee");
+            requete.close();
+            return lancee;
+        }
+
+        requete.close();
+
+    } catch (SQLException ex) {
+        ex.printStackTrace();
+    }
+
+    return false;
+}
+    
+    
 }
