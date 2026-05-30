@@ -33,7 +33,6 @@ public class Projectile {
         this.actif = true;
         this.temps = 0;
         this.proprietaire = proprietaire;
-        this.vitesseActuelle = new Coordonnee(0, 0);
         chargerProjectileDepuisEspece();
 
         if (this.proprietaire != null && this.proprietaire.getEspece() != null) {
@@ -52,7 +51,6 @@ public class Projectile {
         this.actif = true;
         this.temps = 0;
         this.vitesse = 5;
-        this.vitesseActuelle = new Coordonnee(0, 0);
 
     }
 
@@ -133,7 +131,6 @@ public class Projectile {
         } else {
             this.direction = nouvelleDirection.normalize();
         }
-        this.vitesseActuelle = new Coordonnee(0, 0);
     }
 
 
@@ -144,7 +141,6 @@ public class Projectile {
         this.cible = cible;
         Coordonnee d = new Coordonnee();
         this.direction = d.vecteurDirection(position, cible);
-        this.vitesseActuelle = new Coordonnee(0, 0);
         this.actif = true;
     }
 
@@ -166,18 +162,8 @@ public class Projectile {
             return;
         }
 
-        double acceleration = 0.20;
-        //double ralentissement = 0.80;
-
-        Coordonnee vitesseVoulue = this.direction.normalize().mult(this.vitesse);
-        this.vitesseActuelle = this.vitesseActuelle.mult(1.0 - acceleration)
-                .add(vitesseVoulue.mult(acceleration));
-
-        if (this.vitesseActuelle.norm() > 0.05) {
-            this.position = this.position.add(this.vitesseActuelle.mult(deltaT));
-        } else {
-            this.vitesseActuelle = new Coordonnee(0, 0);
-        }
+        Coordonnee deplacement = direction.mult(vitesse * deltaT);
+        position = position.add(deplacement);
 
         projectileSQL.modifierProjectile(this, this.getProprietaire().getNom());
     }

@@ -99,7 +99,7 @@ public FenetreDeJeu(String pseudo, String insecte) {
             if (timer != null) {
                 timer.stop();
             }
-
+            this.jeu.clearProjectiles();
             this.jeu.kill();
             this.ecouteurClavier.setFermeConnection(false);
             this.dispose();
@@ -111,6 +111,7 @@ public FenetreDeJeu(String pseudo, String insecte) {
     fermetureEnCours = true;
 
     this.timer.stop();
+    this.jeu.clearProjectiles();
 
     this.jeu.getJoueurLocal().joueurMort(this.jeu.getLienSQL());
     
@@ -168,6 +169,10 @@ public static void main(String[] args) {
             jeu.getJoueurLocal().setHP(0);
             jeu.getLienSQL().modifierJoueur(jeu.getJoueurLocal());
             jeu.getJoueurLocal().joueurMort(jeu.getLienSQL());
+        }
+
+        if (jeu != null){
+            jeu.clearProjectiles();
         }
 
         if (jeu != null && jeu.getProjectileSQL() != null) {
