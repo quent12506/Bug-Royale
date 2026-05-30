@@ -1,6 +1,7 @@
 package joueur;
 
 import java.awt.Graphics2D;
+import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -22,6 +23,7 @@ public class Projectile {
     private double temps;             // Temps écoulé depuis le lancement
     private Joueur proprietaire;
     protected BufferedImage sprite;
+    private Coordonnee vitesseActuelle = new Coordonnee(0, 0);
 
     public Projectile(Joueur proprietaire, Coordonnee position, Coordonnee cible, double rayon) {
         this.position = position;
@@ -31,6 +33,7 @@ public class Projectile {
         this.actif = true;
         this.temps = 0;
         this.proprietaire = proprietaire;
+        this.vitesseActuelle = new Coordonnee(0, 0);
         chargerProjectileDepuisEspece();
 
         if (this.proprietaire != null && this.proprietaire.getEspece() != null) {
@@ -42,9 +45,15 @@ public class Projectile {
 
     
     public Projectile() {
+        this.position = new Coordonnee(0, 0);
+        this.cible = new Coordonnee(1, 0);
+        this.direction = new Coordonnee(1, 0);
+        this.rayon = 5;
         this.actif = true;
         this.temps = 0;
         this.vitesse = 5;
+        this.vitesseActuelle = new Coordonnee(0, 0);
+
     }
 
     private void chargerProjectileDepuisEspece() {
@@ -59,9 +68,13 @@ public class Projectile {
                     + this.proprietaire.getEspece().getStringEspece());
         }
     }
-    
+
     public void setPosition(Coordonnee position) {
         this.position = position;
+
+        if (this.position != null && this.cible != null) {
+            this.direction = this.position.vecteurDirection(this.position, this.cible);
+        }
     }
 
     public BufferedImage getSprite() {
@@ -115,36 +128,58 @@ public class Projectile {
     }
 
     public void setDirection(Coordonnee nouvelleDirection) {
-        this.cible = nouvelleDirection;
-        Coordonnee d = new Coordonnee();
-        this.direction = d.vecteurDirection(position, cible);
+        if (nouvelleDirection == null || nouvelleDirection.norm() == 0) {
+            this.direction = new Coordonnee(1, 0);
+        } else {
+            this.direction = nouvelleDirection.normalize();
+        }
+        this.vitesseActuelle = new Coordonnee(0, 0);
     }
 
 
     public void lancerVersCible(Coordonnee cible) {
+        if (this.position == null || cible == null) {
+            return;
+        }
         this.cible = cible;
         Coordonnee d = new Coordonnee();
         this.direction = d.vecteurDirection(position, cible);
+        this.vitesseActuelle = new Coordonnee(0, 0);
         this.actif = true;
     }
 
     public void MAJ(double deltaT, ProjectileSQL projectileSQL) {
-        if (!actif){ //on met a jour seulement les projectiles actifs
+        if (!actif) {
             return;
         }
-        //Deplacement du projectile
-        Coordonnee deplacement = direction.mult(vitesse*deltaT); // p = p0 + v*dt
-        position = position.add(deplacement);
 
-        //Update BDD
-        projectileSQL.modifierProjectile(this, this.getProprietaire().getNom());
-        
-        temps += deltaT;
-        if (temps>=50){
-            actif=false;
-            projectileSQL.supprimerProjectile(this);
+        if (projectileSQL == null || this.proprietaire == null || this.direction == null || this.position == null) {
+            this.actif = false;
+            return;
         }
-        
+
+        temps += deltaT;
+
+        if (temps >= 50) {
+            actif = false;
+            projectileSQL.supprimerProjectile(this);
+            return;
+        }
+
+        double acceleration = 0.20;
+        //double ralentissement = 0.80;
+
+        Coordonnee vitesseVoulue = this.direction.normalize().mult(this.vitesse);
+        this.vitesseActuelle = this.vitesseActuelle.mult(1.0 - acceleration)
+                .add(vitesseVoulue.mult(acceleration));
+
+        if (this.vitesseActuelle.norm() > 0.05) {
+            this.position = this.position.add(this.vitesseActuelle.mult(deltaT));
+        } else {
+            this.vitesseActuelle = new Coordonnee(0, 0);
+        }
+
+        projectileSQL.modifierProjectile(this, this.getProprietaire().getNom());
     }
 
     public boolean joueurTouche(Joueur JoueurATester){ //Joueur touche si le centre du projectile est dans la hitbox de l'insecte (taille du sprite)
@@ -195,9 +230,36 @@ public class Projectile {
     public void rendu(Graphics2D contexte) {
         if (this.sprite == null || this.position == null) {
             return;
+
         }
 
-        contexte.drawImage(sprite, (int) position.getx(), (int) position.gety(), null);
+        double x = this.position.getx();
+        double y = this.position.gety();
+
+        double dx = this.direction.getx();
+        double dy = this.direction.gety();
+
+        if (dx == 0 && dy == 0) {
+            return;
+        }
+
+        double angle = Math.atan2(dy, dx) + Math.PI / 2.0; //A adapter
+
+        int largeur = sprite.getWidth();
+        int hauteur = sprite.getHeight();
+
+        double centreX = x + largeur / 2.0;
+        double centreY = y + hauteur / 2.0;
+
+        AffineTransform ancienneTransformation = contexte.getTransform();
+
+        contexte.translate(centreX, centreY);
+        contexte.rotate(angle);
+        contexte.translate(-largeur / 2.0, -hauteur / 2.0);
+
+        contexte.drawImage(sprite, 0, 0, null);
+
+        contexte.setTransform(ancienneTransformation);
     }
 
     @Override

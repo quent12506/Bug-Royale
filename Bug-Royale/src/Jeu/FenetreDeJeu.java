@@ -140,10 +140,13 @@ public static void main(String[] args) {
         this.jeu.getJoueurLocal().setToucheOuest(this.ecouteurClavier.isOuest());
         this.jeu.getJoueurLocal().setToucheNord(this.ecouteurClavier.isNord());
         this.jeu.getJoueurLocal().setToucheSud(this.ecouteurClavier.isSud());
-        
+
         if (this.ecouteurSouris.isClick()){
-            Coordonnee cible = new Coordonnee(this.ecouteurSouris.getX(),this.ecouteurSouris.getY());
-            Projectile projectile = new Projectile(this.jeu.getJoueurLocal(), this.jeu.getJoueurLocal().getPosition(),cible,5);
+            Coordonnee positionJoueur = this.jeu.getJoueurLocal().getPosition();
+            Coordonnee depart = new Coordonnee(positionJoueur.getx(), positionJoueur.gety());
+            Coordonnee cible = new Coordonnee(this.ecouteurSouris.getX(), this.ecouteurSouris.getY());
+
+            Projectile projectile = new Projectile(this.jeu.getJoueurLocal(), depart, cible, 5);
             this.jeu.getJoueurLocal().setProjectileTire(projectile);
             this.ecouteurSouris.setClick(false);
             this.jeu.getProjectileSQL().creerProjectile(projectile);

@@ -17,13 +17,15 @@ public class Espece {
     protected BufferedImage sprite;
     private double vitesseProjectile;
     protected BufferedImage spriteProjectile;
+    private int degatsProjectile;
     
-    public Espece(String stringEspece, double vitesseDeplacement, int HPParDefaut, BufferedImage sprite, double vitesseProjectile, BufferedImage spriteProjectile) {
+    public Espece(String stringEspece, double vitesseDeplacement, int HPParDefaut, BufferedImage sprite, double vitesseProjectile,int degatsProjectile, BufferedImage spriteProjectile) {
         this.stringEspece=stringEspece;
         this.vitesseDeplacement = vitesseDeplacement;
         this.HPParDefaut = HPParDefaut;
         this.sprite = sprite;
         this.vitesseProjectile = vitesseProjectile;
+        this.degatsProjectile = degatsProjectile;
         this.spriteProjectile = spriteProjectile;
     }
 
@@ -81,6 +83,14 @@ public class Espece {
     
     public BufferedImage getSpriteProjectile() {
         return spriteProjectile;
+    }
+
+    public int getDegatsProjectile() {
+        return degatsProjectile;
+    }
+
+    public void setDegatsProjectile(int degatsProjectile) {
+        this.degatsProjectile = degatsProjectile;
     }
     
 

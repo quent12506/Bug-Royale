@@ -53,11 +53,15 @@ public class ProjectileSQL {
     */
     public void creerProjectile(Projectile P) {
         try {
-            PreparedStatement requete = connexion.prepareStatement("INSERT INTO Projectiles VALUES (?, ?, ?)");
+            PreparedStatement requete = connexion.prepareStatement(
+                    "INSERT INTO Projectiles (Proprietaire, X, Y, Dx, Dy) VALUES (?, ?, ?, ?, ?)"
+            );
 
             requete.setString(1, P.getProprietaire().getNom());
             requete.setDouble(2, P.getPosition().getx());
             requete.setDouble(3, P.getPosition().gety());
+            requete.setDouble(4, P.getDirection().getx());
+            requete.setDouble(5, P.getDirection().gety());
 
             int nombreDAjouts = requete.executeUpdate();
             requete.close();
@@ -77,12 +81,14 @@ public class ProjectileSQL {
     */
     public void modifierProjectile(Projectile P, String ancienProprietaire) {
         try {
-            PreparedStatement requete = connexion.prepareStatement("UPDATE Projectiles SET Proprietaire = ?, X = ?, Y = ? WHERE Proprietaire = ?");
+            PreparedStatement requete = connexion.prepareStatement("UPDATE Projectiles SET Proprietaire = ?, X = ?, Y = ?, DX = ?, DY = ? WHERE Proprietaire = ?");
 
             requete.setString(1, P.getProprietaire().getNom());
             requete.setDouble(2, P.getPosition().getx());
             requete.setDouble(3, P.getPosition().gety());
-            requete.setString(4, ancienProprietaire);
+            requete.setDouble(4, P.getDirection().getx());
+            requete.setDouble(5, P.getDirection().gety());
+            requete.setString(6, ancienProprietaire);
 
             //System.out.println(requete);
             int nombreDeModifications = requete.executeUpdate();
@@ -102,16 +108,17 @@ public class ProjectileSQL {
     * @param P instance de projectile appartenant au moteur
     */
     public void supprimerProjectile(Projectile P) {
+        if (P == null || P.getProprietaire() == null) {
+            return;
+        }
         try {
-            PreparedStatement requete = connexion.prepareStatement("DELETE FROM Projectiles WHERE Proprietaire = ? AND X = ? AND Y = ?");
+            PreparedStatement requete = connexion.prepareStatement(
+                    "DELETE FROM Projectiles WHERE Proprietaire = ?"
+            );
 
             requete.setString(1, P.getProprietaire().getNom());
-            requete.setDouble(2, P.getPosition().getx());
-            requete.setDouble(3, P.getPosition().gety());
 
             int nombreDeSuppressions = requete.executeUpdate();
-
-            //System.out.println(nombreDeSuppressions);
 
             requete.close();
 
@@ -123,7 +130,7 @@ public class ProjectileSQL {
     ///////////////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////////
     /**
-    * Extraction d'un projectile dans la BDD à partir d'un projectile existant localement, d'attributs : Proprietaire, X, Y.
+    * Extraction d'un projectile dans la BDD à partir d'un projectile existant localement, d'attributs : Proprietaire
     * @param P instance de projectile appartenant au moteur
     * @return Projectile une instance de projectile telle qu'il se trouve dans la BDD
     */
@@ -146,6 +153,12 @@ public class ProjectileSQL {
                 pos.setX(resultat.getDouble("X"));
                 pos.setY(resultat.getDouble("Y"));
                 POut.setPosition(pos);
+
+                Coordonnee dir = new Coordonnee(
+                        resultat.getDouble("DX"),
+                        resultat.getDouble("DY")
+                );
+                POut.setDirection(dir);
 
             }
 
@@ -183,6 +196,12 @@ public class ProjectileSQL {
                 pos.setX(resultat.getDouble("X"));
                 pos.setY(resultat.getDouble("Y"));
                 P.setPosition(pos);
+
+                Coordonnee dir = new Coordonnee(
+                        resultat.getDouble("DX"),
+                        resultat.getDouble("DY")
+                );
+                P.setDirection(dir);
                 listeProjectiles.add(P);
 
             }
@@ -221,6 +240,13 @@ public class ProjectileSQL {
                 pos.setX(resultat.getDouble("X"));
                 pos.setY(resultat.getDouble("Y"));
                 P.setPosition(pos);
+
+                Coordonnee dir = new Coordonnee(
+                        resultat.getDouble("DX"),
+                        resultat.getDouble("DY")
+                );
+                P.setDirection(dir);
+
                 listeProjectiles.add(P);
             }
 

@@ -97,34 +97,49 @@ public class Jeu {
         this.lienSQL.closeTable();
         this.projectileSQL.closeTable();
     }
-    
+
     public void rendu (Graphics2D contexte){ //Rendu du jeu
         contexte.drawImage(this.decor, 0, 0, null); //Background
-        
+
         ArrayList<String> listeNom = this.lienSQL.listeNom(); //affichage de l'ensemble des joueurs présent en multi
         for (int i=0;i<listeNom.size();i++){
             Joueur joueurARendre = this.lienSQL.voirJoueurNom(listeNom.get(i));
             joueurARendre.rendu(contexte);
-        }
-        if ((this.joueurLocal.getProjectileTire()!=null)&&(this.joueurLocal.getProjectileTire().isActif())){
-            this.joueurLocal.renduProjectile(contexte);
+
         }
         ArrayList<Projectile> listeProjectile = this.projectileSQL.voirEnsembleProjectiles(); //affichage de l'ensemble des projectiles présent dans la BDD
         for (int i=0;i<listeProjectile.size();i++){
             listeProjectile.get(i).rendu(contexte);
         }
-     
+
 
     }
-    
+
     public void testProjectileTouche(){
-        ArrayList<String> listeNom = this.lienSQL.listeNom(); //affichage de l'ensemble des joueurs présent en multi
-        for (int i=0;i<listeNom.size();i++){
+        Projectile projectile = this.joueurLocal.getProjectileTire();
+
+        if (projectile == null || !projectile.isActif()) {
+            return;
+        }
+
+        ArrayList<String> listeNom = this.lienSQL.listeNom();
+
+        for (int i = 0; i < listeNom.size(); i++) {
             Joueur joueurATester = this.lienSQL.voirJoueurNom(listeNom.get(i));
-            if((this.joueurLocal.getProjectileTire().joueurTouche(joueurATester))
-                    &&(!(this.joueurLocal.getNom().equals(joueurATester.getNom())))){
-                joueurATester.setHP(0);
+
+            if (joueurATester == null || this.joueurLocal.getNom().equals(joueurATester.getNom())) {
+                continue;
+            }
+
+            if (projectile.joueurTouche(joueurATester)) {
+                joueurATester.setHP(joueurATester.getHP()-projectile.getProprietaire().getEspece().getDegatsProjectile());
                 this.lienSQL.modifierJoueur(joueurATester);
+
+                projectile.setActif(false);
+                this.projectileSQL.supprimerProjectile(projectile);
+                this.joueurLocal.setProjectileTire(null);
+
+                break;
             }
         }
     }
@@ -178,9 +193,9 @@ public class Jeu {
 //        Joueur joueur4 = this.joueurLocal.miseAJourTestMultiJ4(this.lienSQL.voirJoueurNom("joueur4")); // Deplacement pnj pour tester le multi avec 1 pc
 //        this.lienSQL.modifierJoueur(joueur4);
         
-//        if (this.joueurLocal.getProjectileTire()!=null){
-//            testProjectileTouche();
-//        }
+        if (this.joueurLocal.getProjectileTire()!=null){
+            testProjectileTouche();
+        }
         this.lienSQL.modifierJoueur(this.joueurLocal); //on update la table après modification
         
         //this.lienSQL.voirTable();
