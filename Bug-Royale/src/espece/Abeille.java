@@ -18,7 +18,7 @@ import joueur.Joueur;
 public class Abeille extends Espece{
 
     public Abeille() {
-        super("abeille", 20, 75, null, 40,5, null);
+        super("abeille", 8, 60, null, 50, 30, null);
         try {
             this.sprite = ImageIO.read(getClass().getResource("/resources/abeille.png"));
             this.spriteProjectile = ImageIO.read(getClass().getResource("/resources/abeille_proj.png"));

@@ -140,39 +140,35 @@ public class ChoixInsecte extends javax.swing.JFrame {
 
 if (insecte.equals("Fourmi")) {
     jTextArea1.setText("FOURMI\n\n"
-            + "Vie : moyenne\n"
-            + "Vitesse : rapide\n"
-            + "Attaque : corps à corps rapide\n"
-            + "Capacité spéciale : acceleration");
+            + "Vie : +\n"
+            + "Vitesse : -\n"
+            + "Attaque : ++\n");
 }
 
 if (insecte.equals("Scarabée")) {
     jTextArea1.setText("SCARABEE\n\n"
-            + "Vie : tres elevee\n"
-            + "Vitesse : lente\n"
-            + "Attaque : coup puissant\n"
-            + "Capacité spéciale : bouclier");
+            + "Vie : ++\n"
+            + "Vitesse : --\n"
+            + "Attaque : -\n");
 }
 
 if (insecte.equals("Abeille")) {
     jTextArea1.setText("ABEILLE\n\n"
-            + "Vie : faible\n"
-            + "Vitesse : tres rapide\n"
-            + "Attaque : projectile a distance\n"
-            + "Capacité spéciale : dash");
+            + "Vie : --\n"
+            + "Vitesse : ++\n"
+            + "Attaque : +\n");
 }
 
 if (insecte.equals("Coccinelle")) {
     jTextArea1.setText("COCCINELLE\n\n"
-            + "Vie : bonne\n"
-            + "Vitesse : moyenne\n"
-            + "Attaque : grande portee melee\n"
-            + "Capacité spéciale : attaque tranche");
-}    // TODO add your handling code here:
+            + "Vie : -\n"
+            + "Vitesse : +\n"
+            + "Attaque : -\n");
+}    
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_jTextField1ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed

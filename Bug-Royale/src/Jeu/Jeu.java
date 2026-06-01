@@ -98,6 +98,16 @@ public class Jeu {
         this.projectileSQL.closeTable();
     }
 
+    public void clearProjectiles() {
+        if (this.joueurLocal != null) {
+            this.joueurLocal.setProjectileTire(null);
+        }
+
+        if (this.projectileSQL != null) {
+            this.projectileSQL.viderTable();
+        }
+    }
+
     public void rendu (Graphics2D contexte){ //Rendu du jeu
         contexte.drawImage(this.decor, 0, 0, null); //Background
 
@@ -207,10 +217,10 @@ public class Jeu {
     return this.joueurLocal.getHP() <= 0;
     }
     
-    public boolean aGagne() {
-    return this.joueurLocal.getHP() > 0
-            && this.lienSQL.nombreJoueursVivants() <= 1;
-}
+//    public boolean aGagne() {
+//    return this.joueurLocal.getHP() > 0
+//            && this.lienSQL.nombreJoueursVivants() <= 1;
+//}
 
     private Coordonnee choisirSpawn(String pseudo) {
         ArrayList<Coordonnee> positionsJoueurs = this.lienSQL.listePositionsJoueursSauf(pseudo);
