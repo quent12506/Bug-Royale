@@ -67,26 +67,8 @@ public class SalleAttenteSQL {
 //    }
 
 try {
-    
-       System.out.println("Vérification salle...");
-PreparedStatement verif = connexion.prepareStatement(
-    "SELECT COUNT(*) AS nb FROM Salle_Attente"
-);
-
-ResultSet rs = verif.executeQuery();
-
-if(rs.next()){
-    System.out.println("Nombre lignes salle = " + rs.getInt("nb"));
-}    
-
-        if (rs.next() && rs.getInt("nb") > 0) {
-            viderSalle();
-        }
-
-        verif.close();
-
         PreparedStatement requete = connexion.prepareStatement(
-            "INSERT INTO Salle_Attente (pseudo, insecte, pret) VALUES (?, ?, false)"
+                "INSERT INTO Salle_Attente (pseudo, insecte, pret) VALUES (?, ?, false)"
         );
 
         requete.setString(1, pseudo);
@@ -98,7 +80,6 @@ if(rs.next()){
     } catch (SQLException ex) {
         ex.printStackTrace();
     }
-System.out.println("Partie lancée = " + partieLancee());
 }   
 
     public void mettrePret(String pseudo) {

@@ -3,7 +3,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package ig;
-
+import sql.SalleAttenteSQL;
+import sql.JoueurSQL;
 /**
  *
  * @author qperise
@@ -92,7 +93,15 @@ public class FinPartie extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-    Accueil accueil = new Accueil();
+    SalleAttenteSQL salle = new SalleAttenteSQL();
+    salle.viderSalle();
+    salle.closeTable();
+
+    JoueurSQL joueurSQL = new JoueurSQL();
+    joueurSQL.viderTableJoueur();
+    joueurSQL.closeTable();
+
+        Accueil accueil = new Accueil();
     accueil.setVisible(true);
     this.dispose();        // TODO add your handling code here:
     }//GEN-LAST:event_jButton2ActionPerformed

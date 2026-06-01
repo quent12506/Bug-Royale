@@ -95,6 +95,23 @@ public FenetreDeJeu(String pseudo, String insecte) {
         actionListened();
         this.jeu.miseAJour();
         this.jeu.rendu(contexte);
+        
+        if (!fermetureEnCours && this.jeu.aGagne()) {
+        fermetureEnCours = true;
+
+        this.timer.stop();
+
+        SalleAttenteSQL salle = new SalleAttenteSQL();
+        salle.viderSalle();
+
+        this.jeu.kill();
+
+        FinPartie fin = new FinPartie("VOUS AVEZ GAGNÉ");
+        fin.setVisible(true);
+
+        this.dispose();
+        return;
+}
         if (this.ecouteurClavier.isFermeConnection()){
             if (timer != null) {
                 timer.stop();
@@ -117,9 +134,6 @@ public FenetreDeJeu(String pseudo, String insecte) {
     JoueurSQL joueurs = new JoueurSQL();
     joueurs.viderTableJoueur();
     
-    SalleAttenteSQL salle = new SalleAttenteSQL();
-    salle.viderSalle();
-
     FinPartie fin = new FinPartie("VOUS AVEZ PERDU");
     fin.setVisible(true);
 

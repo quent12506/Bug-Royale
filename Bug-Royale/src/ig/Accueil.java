@@ -16,7 +16,7 @@ public class Accueil extends javax.swing.JFrame {
      * Creates new form Accueil
      */
     public Accueil() {
-        initComponents();
+        initComponents();    
     }
 
     /**
