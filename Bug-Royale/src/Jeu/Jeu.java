@@ -217,10 +217,10 @@ public class Jeu {
     return this.joueurLocal.getHP() <= 0;
     }
     
-//    public boolean aGagne() {
-//    return this.joueurLocal.getHP() > 0
-//            && this.lienSQL.nombreJoueursVivants() <= 1;
-//}
+    public boolean aGagne() {
+    return this.joueurLocal.getHP() > 0
+            && this.lienSQL.nombreJoueursVivants() <= 1;
+}
 
     private Coordonnee choisirSpawn(String pseudo) {
         ArrayList<Coordonnee> positionsJoueurs = this.lienSQL.listePositionsJoueursSauf(pseudo);
