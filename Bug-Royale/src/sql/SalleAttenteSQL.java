@@ -27,9 +27,6 @@ public class SalleAttenteSQL {
         stmt = connexion.createStatement();
 
         creerTableSiBesoin();
-        if (partieTerminee()) {
-            viderSalle();
-        }
 
     } catch (SQLException ex) {
         ex.printStackTrace();

@@ -44,6 +44,8 @@ public class FenetreDeJeu extends JFrame implements ActionListener {
     private EcouteurClavier ecouteurClavier;
     private EcouteurSouris ecouteurSouris;
     private boolean fermetureEnCours = false;
+    private long tempsDebutPartie;
+    private static final long DELAI_AVANT_VICTOIRE_MS = 5000;
 
 
 //    public FenetreDeJeu(String pseudo, String insecte) {//mini constructeur pour éviter les erreurs d'oubli
@@ -78,6 +80,7 @@ public FenetreDeJeu(String pseudo, String insecte) {
         
         // Creation du jeu
         this.jeu = new Jeu(pseudo, insecte, HP);
+        this.tempsDebutPartie = System.currentTimeMillis();
         this.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
@@ -95,8 +98,11 @@ public FenetreDeJeu(String pseudo, String insecte) {
         actionListened();
         this.jeu.miseAJour();
         this.jeu.rendu(contexte);
-        
-        if (!fermetureEnCours && this.jeu.aGagne()) {
+
+        boolean victoireAutorisee =
+                System.currentTimeMillis() - tempsDebutPartie >= DELAI_AVANT_VICTOIRE_MS;
+
+        if (!fermetureEnCours && victoireAutorisee && this.jeu.aGagne()) {
         fermetureEnCours = true;
 
         this.timer.stop();
@@ -124,27 +130,24 @@ public FenetreDeJeu(String pseudo, String insecte) {
         }
         this.jLabel1.repaint();
 
-       if (!fermetureEnCours && this.jeu.getJoueurLocal().getHP() <= 0) {
-    fermetureEnCours = true;
+        if (!fermetureEnCours && this.jeu.getJoueurLocal().getHP() <= 0) {
+            fermetureEnCours = true;
 
-    this.timer.stop();
-    this.jeu.clearProjectiles();
+            this.timer.stop();
+            this.jeu.clearProjectiles();
 
-    this.jeu.getJoueurLocal().joueurMort(this.jeu.getLienSQL());
-    
-    JoueurSQL joueurs = new JoueurSQL();
-    joueurs.viderTableJoueur();
-    
-    FinPartie fin = new FinPartie("VOUS AVEZ PERDU");
-    fin.setVisible(true);
+            this.jeu.getJoueurLocal().joueurMort(this.jeu.getLienSQL());
 
-    this.dispose();
-}
+            FinPartie fin = new FinPartie("VOUS AVEZ PERDU");
+            fin.setVisible(true);
+
+            this.dispose();
+        }
 }
 public static void main(String[] args) {
     java.awt.EventQueue.invokeLater(() -> {
         FenetreDeJeu fenetre =
-                new FenetreDeJeu("Test", "Abeille");
+                new FenetreDeJeu("Test2", "Scarabee");
 
         fenetre.setVisible(true);
     });
