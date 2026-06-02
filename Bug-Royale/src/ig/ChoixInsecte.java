@@ -140,30 +140,30 @@ public class ChoixInsecte extends javax.swing.JFrame {
 
 if (insecte.equals("Fourmi")) {
     jTextArea1.setText("FOURMI\n\n"
-            + "Vie : +\n"
-            + "Vitesse : -\n"
-            + "Attaque : ++\n");
+            + "Vie : 120\n"
+            + "Vitesse : 5m/s\n"
+            + "Attaque : 40\n");
 }
 
 if (insecte.equals("Scarabée")) {
     jTextArea1.setText("SCARABEE\n\n"
-            + "Vie : ++\n"
-            + "Vitesse : --\n"
-            + "Attaque : -\n");
+            + "Vie : 200\n"
+            + "Vitesse : 3m/s\n"
+            + "Attaque : 20\n");
 }
 
 if (insecte.equals("Abeille")) {
     jTextArea1.setText("ABEILLE\n\n"
-            + "Vie : --\n"
-            + "Vitesse : ++\n"
-            + "Attaque : +\n");
+            + "Vie : 60\n"
+            + "Vitesse : 8m/s\n"
+            + "Attaque : 30\n");
 }
 
 if (insecte.equals("Coccinelle")) {
     jTextArea1.setText("COCCINELLE\n\n"
-            + "Vie : -\n"
-            + "Vitesse : +\n"
-            + "Attaque : -\n");
+            + "Vie : 90\n"
+            + "Vitesse : 6.5 m/s\n"
+            + "Attaque : 20\n");
 }    
     }//GEN-LAST:event_jComboBox1ActionPerformed
 

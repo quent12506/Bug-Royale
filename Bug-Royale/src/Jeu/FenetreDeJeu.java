@@ -138,7 +138,7 @@ public FenetreDeJeu(String pseudo, String insecte) {
 
             this.jeu.getJoueurLocal().joueurMort(this.jeu.getLienSQL());
 
-            FinPartie fin = new FinPartie("VOUS AVEZ PERDU");
+            FinPartie fin = new FinPartie("VOUS AVEZ ELIMINE");
             fin.setVisible(true);
 
             this.dispose();

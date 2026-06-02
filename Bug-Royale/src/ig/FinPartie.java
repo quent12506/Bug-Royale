@@ -101,7 +101,7 @@ public class FinPartie extends javax.swing.JFrame {
     joueurSQL.viderTableJoueur();
     joueurSQL.closeTable();
 
-        Accueil accueil = new Accueil();
+    Accueil accueil = new Accueil();
     accueil.setVisible(true);
     this.dispose();        // TODO add your handling code here:
     }//GEN-LAST:event_jButton2ActionPerformed

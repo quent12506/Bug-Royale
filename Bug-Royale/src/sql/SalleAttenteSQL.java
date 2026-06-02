@@ -27,7 +27,6 @@ public class SalleAttenteSQL {
         stmt = connexion.createStatement();
 
         creerTableSiBesoin();
-
     } catch (SQLException ex) {
         ex.printStackTrace();
     }
