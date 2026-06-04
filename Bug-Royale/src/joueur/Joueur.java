@@ -329,7 +329,7 @@ public class Joueur {
 
         contexte.setTransform(ancienneTransformation);
 
-
+        renduBarreVie(contexte, x, y, largeur);
     }
 
     

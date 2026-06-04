@@ -39,6 +39,7 @@ public class Jeu {
     private int n;
     private JoueurSQL lienSQL;
     private ProjectileSQL projectileSQL;
+    private boolean partieAvecPlusieurJoueurs = false;
 
     public Jeu(String pseudo, String insecte) {
         this(pseudo, insecte, Espece.depuisNom(insecte).getHPParDefaut());
@@ -187,6 +188,10 @@ public class Jeu {
 
     public void miseAJour (){ //synchronisation avec la DDD, mise à jour du joueur local, localement et dans la BDD
         this.n +=1;
+
+        if (this.lienSQL.nombreJoueursVivants() >= 1){
+            this.partieAvecPlusieurJoueurs = true;
+        }
         Joueur joueurLocalBDD = this.lienSQL.voirJoueur(this.joueurLocal); //on récupère les infos du joueur local stockés sur la bdd
         this.joueurLocal.setPosition(joueurLocalBDD.getX(), joueurLocalBDD.getY()); //On update les infos variables du joueur local à partir des infos de la BDD
         this.joueurLocal.setDirection(joueurLocalBDD.getDirection());
@@ -218,7 +223,8 @@ public class Jeu {
     }
     
     public boolean aGagne() {
-    return this.joueurLocal.getHP() > 0
+    return this.partieAvecPlusieurJoueurs
+            && this.joueurLocal.getHP() > 0
             && this.lienSQL.nombreJoueursVivants() <= 1;
 }
 
