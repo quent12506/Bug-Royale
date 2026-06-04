@@ -156,6 +156,7 @@ public class JoueurSQL {
                             JOut.setEspece(new Fourmi());
                     default -> throw new IllegalArgumentException("Espèce inconnue : " + resultat.getString("Espece"));
                 }
+                JOut.setHPMax(JOut.getEspece().getHPParDefaut()); //redonne un HP max au joueur lu dans la BDD pour éviter les problèmes de cohérence
             }
 
             requete.close();
@@ -204,6 +205,7 @@ public class JoueurSQL {
                             JOut.setEspece(new Fourmi());
                     default -> throw new IllegalArgumentException("Espèce inconnue : " + resultat.getString("Espece"));
                 }
+                JOut.setHPMax(JOut.getEspece().getHPParDefaut());
 
                 requete.close();
             }

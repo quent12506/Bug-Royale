@@ -11,6 +11,7 @@ import outils.Coordonnee;
 import sql.JoueurSQL;
 import sql.ProjectileSQL;
 import java.awt.geom.AffineTransform;
+import java.awt.Color;
 
 /**
  *
@@ -28,6 +29,7 @@ public class Joueur {
     private Projectile projectileTire;
     private long mouvementBloqueJusqua = 0;
     private Coordonnee vitesseActuelle = new Coordonnee(0, 0);
+    private int HPMax;
 
     public Joueur(String nom, Espece espece, double x, double y, int HP) { //Création manuelle d'un joueur, tout les attributs de la BDD à rentrer
         
@@ -41,6 +43,7 @@ public class Joueur {
         this.nom = nom;
         this.espece = espece;
         this.HP = HP;
+        this.HPMax = HP;
         this.vitesse = espece.getVitesseDeplacement();
         
     }
@@ -53,6 +56,7 @@ public class Joueur {
         this.toucheN = false;
         this.toucheS = false;
         this.tirJoueur = false;
+        this.HPMax = 100;
     }
    
     //Ensembles de getter, setter et toString
@@ -226,6 +230,14 @@ public class Joueur {
     public void setHP(int HP) {
         this.HP = HP;
     }
+
+    public int getHPMax() {
+        return HPMax;
+    }
+
+    public void setHPMax(int HPMax) {
+        this.HPMax = Math.max(1, HPMax);
+    }
     
     
 
@@ -316,6 +328,8 @@ public class Joueur {
         contexte.drawImage(sprite, 0, 0, null);
 
         contexte.setTransform(ancienneTransformation);
+
+
     }
 
     
@@ -340,6 +354,34 @@ public class Joueur {
 
         return !(this_right < autre_left || this_left > autre_right || 
                  this_bottom < autre_top || this_top > autre_bottom);
+    }
+
+    private void renduBarreVie(Graphics2D contexte, double x, double y, int largeurSprite) {
+        int largeurBarre = 50;
+        int hauteurBarre = 7;
+        int margeAuDessus = 10;
+
+        int barreX = (int) (x + largeurSprite / 2.0 - largeurBarre / 2.0);
+        int barreY = (int) y - margeAuDessus - hauteurBarre;
+
+        double pourcentageVie = Math.max(0.0, Math.min(1.0, (double) this.HP / this.HPMax));
+        int largeurVie = (int) (largeurBarre * pourcentageVie);
+
+        contexte.setColor(Color.DARK_GRAY);
+        contexte.fillRect(barreX, barreY, largeurBarre, hauteurBarre);
+
+        if (pourcentageVie > 0.5) {
+            contexte.setColor(Color.GREEN);
+        } else if (pourcentageVie > 0.25) {
+            contexte.setColor(Color.ORANGE);
+        } else {
+            contexte.setColor(Color.RED);
+        }
+
+        contexte.fillRect(barreX, barreY, largeurVie, hauteurBarre);
+
+        contexte.setColor(Color.BLACK);
+        contexte.drawRect(barreX, barreY, largeurBarre, hauteurBarre);
     }
 
 }
