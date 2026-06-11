@@ -40,6 +40,7 @@ public class Jeu {
     private JoueurSQL lienSQL;
     private ProjectileSQL projectileSQL;
     private boolean partieAvecPlusieurJoueurs = false;
+    private double[][] matriceCollision;
 
     public Jeu(String pseudo, String insecte) {
         this(pseudo, insecte, Espece.depuisNom(insecte).getHPParDefaut());
@@ -47,20 +48,22 @@ public class Jeu {
 
     public Jeu(String pseudo, String insecte, int HP) { //Initialisation du jeu
         try {
-            this.decor = ImageIO.read(getClass().getResource("/resources/Map.png")); //Remplacer "jungle.png" par notre carte
+            this.decor = ImageIO.read(getClass().getResource("/resources/Map2.png")); //Remplacer "jungle.png" par notre carte
         }
         catch (IOException ex) {
             Logger.getLogger(Jeu.class.getName()).log(Level.SEVERE, null, ex);
         }
         Espece especeJoueurLocal = Espece.depuisNom(insecte);
         this.n = 0;
+        
+        this.preparationDeLaCarteDesDistances();
 
         this.lienSQL = new JoueurSQL();
         this.projectileSQL = new ProjectileSQL(this.lienSQL);
 
         Coordonnee spawn = choisirSpawn(pseudo);
 
-        this.joueurLocal = new Joueur(pseudo, especeJoueurLocal, spawn.getx(), spawn.gety(), HP);
+        this.joueurLocal = new Joueur(pseudo, especeJoueurLocal, spawn.getx(), spawn.gety(), HP, this.matriceCollision);
         this.lienSQL.creerJoueur(this.joueurLocal); //Crétion du joueur local dans la BDD -> entrée en multi
     }
     //Getter et setter
@@ -82,6 +85,20 @@ public class Jeu {
 
     public void setJoueurLocal(Joueur joueurLocal) {
         this.joueurLocal = joueurLocal;
+    }
+    
+    public void preparationDeLaCarteDesDistances() {
+        //Carte map = new Carte("Map2.png");
+        this.matriceCollision = new double[1080][1075];
+        for (int col = 0; col < this.matriceCollision.length; col++) {
+            for (int ligne = 0; ligne < this.matriceCollision[0].length; ligne++) {
+                if (this.decor.getRGB(col, ligne) == this.decor.getRGB(80, 808)) {
+                    this.matriceCollision[col][ligne] = 1.0;
+                } else {
+                    this.matriceCollision[col][ligne] = 0.0;
+                }
+            }
+        }
     }
     
     public void kill(){

@@ -30,8 +30,9 @@ public class Joueur {
     private long mouvementBloqueJusqua = 0;
     private Coordonnee vitesseActuelle = new Coordonnee(0, 0);
     private int HPMax;
+    private double[][] matriceCollision;
 
-    public Joueur(String nom, Espece espece, double x, double y, int HP) { //Création manuelle d'un joueur, tout les attributs de la BDD à rentrer
+    public Joueur(String nom, Espece espece, double x, double y, int HP, double[][] mur) { //Création manuelle d'un joueur, tout les attributs de la BDD à rentrer
         
         this.position = new Coordonnee(x, y); 
         this.direction = new Coordonnee(1,0);
@@ -45,7 +46,7 @@ public class Joueur {
         this.HP = HP;
         this.HPMax = HP;
         this.vitesse = espece.getVitesseDeplacement();
-        
+        this.matriceCollision = mur;
     }
 
     public Joueur() { //Création d'un joueur par défaut
@@ -247,6 +248,8 @@ public class Joueur {
     }
 
     public void miseAJour(ProjectileSQL projectileSQL) {
+        
+        boolean murTouche;
 
         Coordonnee deplacement = new Coordonnee(
                 (toucheE ? 1 : 0) - (toucheO ? 1 : 0),
@@ -272,7 +275,11 @@ public class Joueur {
         }
 
         if (this.vitesseActuelle.norm() > 0.05) {
-            this.position = this.position.add(this.vitesseActuelle);
+            //murTouche = this.position.segmentIntercepteMur(this.matriceCollision,this.position,this.position.add(this.vitesseActuelle));
+            if (!hitboxTouchee(this.position.add(this.vitesseActuelle))){
+                this.position = this.position.add(this.vitesseActuelle);
+            }
+            
         } else {
             this.vitesseActuelle = new Coordonnee(0, 0);
         }
@@ -382,6 +389,24 @@ public class Joueur {
 
         contexte.setColor(Color.BLACK);
         contexte.drawRect(barreX, barreY, largeurBarre, hauteurBarre);
+    }
+    
+    public boolean hitboxTouchee(Coordonnee point){
+        boolean touche=false;
+        int xmin=(int) point.getx();
+        int ymin=(int) point.gety();
+        int xmax=xmin+this.espece.getSprite().getWidth();
+        int ymax=ymin+this.espece.getSprite().getHeight();
+        for (int i = ymin; i<=ymax+1; i++){
+            for (int j = xmin; j<=xmax; j++){
+                if (i >= 0 && i < matriceCollision.length && j >= 0 && j < matriceCollision[0].length){
+                    if (this.matriceCollision[j][i]==1){
+                        touche=true;
+                    }
+                }
+            }
+        }
+        return touche;
     }
 
 }
