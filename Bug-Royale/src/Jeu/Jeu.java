@@ -168,8 +168,10 @@ public class Jeu {
             }
 
             if (projectile.joueurTouche(joueurATester)) {
-                joueurATester.setHP(joueurATester.getHP()-projectile.getProprietaire().getEspece().getDegatsProjectile()*projectile.getProprietaire().getMultiplicateurDegats());
-                this.lienSQL.modifierJoueur(joueurATester);
+                int degats = projectile.getProprietaire().getEspece().getDegatsProjectile()
+                        *projectile.getProprietaire().getMultiplicateurDegats();
+
+                this.lienSQL.appliquerDegats(joueurATester.getNom(), degats);
                 projectile.getProprietaire().consommerBonusDegats();
 
                 projectile.setActif(false);

@@ -153,33 +153,34 @@ public static void main(String[] args) {
     });
 }
     public void actionListened(){ //Lien entre l'écouteur de clavier et le joueur local
-        this.jeu.getJoueurLocal().setToucheEst(this.ecouteurClavier.isEst());
-        this.jeu.getJoueurLocal().setToucheOuest(this.ecouteurClavier.isOuest());
-        this.jeu.getJoueurLocal().setToucheNord(this.ecouteurClavier.isNord());
-        this.jeu.getJoueurLocal().setToucheSud(this.ecouteurClavier.isSud());
+            this.jeu.getJoueurLocal().setToucheEst(this.ecouteurClavier.isEst());
+            this.jeu.getJoueurLocal().setToucheOuest(this.ecouteurClavier.isOuest());
+            this.jeu.getJoueurLocal().setToucheNord(this.ecouteurClavier.isNord());
+            this.jeu.getJoueurLocal().setToucheSud(this.ecouteurClavier.isSud());
         
-        if (this.ecouteurClavier.isCapacite()) {
-            this.jeu.getJoueurLocal().activerCapacite();
-            this.ecouteurClavier.setCapacite(false);
-        }
-
-        if (this.ecouteurSouris.isClick()){
-            Projectile projectileActuel = this.jeu.getJoueurLocal().getProjectileTire();
-
-            if (projectileActuel == null || !projectileActuel.isActif()) {
-                Coordonnee positionJoueur = this.jeu.getJoueurLocal().getPosition();
-                Coordonnee depart = new Coordonnee(positionJoueur.getx(), positionJoueur.gety());
-                Coordonnee cible = new Coordonnee(this.ecouteurSouris.getX(), this.ecouteurSouris.getY());
-
-                Projectile projectile = new Projectile(this.jeu.getJoueurLocal(), depart, cible, 5);
-                this.jeu.getJoueurLocal().setProjectileTire(projectile);
-                this.jeu.getProjectileSQL().creerProjectile(projectile);
+            if (this.ecouteurClavier.isCapacite()) {
+                this.jeu.getJoueurLocal().activerCapacite();
+                this.jeu.getLienSQL().modifierJoueur(this.jeu.getJoueurLocal());
+                this.ecouteurClavier.setCapacite(false);
             }
 
-            this.ecouteurSouris.setClick(false);
-        }
+            if (this.ecouteurSouris.isClick()){
+                Projectile projectileActuel = this.jeu.getJoueurLocal().getProjectileTire();
+
+                if (projectileActuel == null || !projectileActuel.isActif()) {
+                    Coordonnee positionJoueur = this.jeu.getJoueurLocal().getPosition();
+                    Coordonnee depart = new Coordonnee(positionJoueur.getx(), positionJoueur.gety());
+                    Coordonnee cible = new Coordonnee(this.ecouteurSouris.getX(), this.ecouteurSouris.getY());
+
+                    Projectile projectile = new Projectile(this.jeu.getJoueurLocal(), depart, cible, 5);
+                    this.jeu.getJoueurLocal().setProjectileTire(projectile);
+                    this.jeu.getProjectileSQL().creerProjectile(projectile);
+                }
+
+                this.ecouteurSouris.setClick(false);
+            }
         
-    }
+        }
     private void quitterPartie() {
         if (fermetureEnCours) {
             return;

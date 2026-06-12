@@ -338,6 +338,24 @@ public class JoueurSQL {
 
     return nb;
 }
+    
+    public void appliquerDegats(String nomJoueur, int degats) {
+        try {
+            PreparedStatement requete = connexion.prepareStatement(
+                    "UPDATE Joueur SET HP = GREATEST(0, HP - ?) WHERE Name = ?"
+            );
+
+            requete.setInt(1, degats);
+            requete.setString(2, nomJoueur);
+
+            requete.executeUpdate();
+            requete.close();
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
+    
   public void viderTableJoueur() {
     try {
         PreparedStatement requete = connexion.prepareStatement(

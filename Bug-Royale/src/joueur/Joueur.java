@@ -494,7 +494,7 @@ public class Joueur {
 
     private void mettreAJourCapacite() {
         if (System.currentTimeMillis() >= finCapacite) {
-            if (hitboxTouchee(this.position)) {
+            if (!CollisionsActives && hitboxTouchee(this.position)) {
                 this.CollisionsActives = false;
                 this.reculerDepuis(this, vitesse);
                 this.finCapacite = System.currentTimeMillis() + 10;
@@ -502,7 +502,6 @@ public class Joueur {
             }
 
             this.multiplicateurVitesse = 1.0;
-            this.multiplicateurDegats = 1.0;
             this.CollisionsActives = true;
         }
     }
