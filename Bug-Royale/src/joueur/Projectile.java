@@ -143,29 +143,75 @@ public class Projectile {
         this.direction = d.vecteurDirection(position, cible);
         this.actif = true;
     }
-
+    
     public void MAJ(double deltaT, ProjectileSQL projectileSQL) {
+        MAJ(deltaT, projectileSQL, null);
+    }
+
+    public void MAJ(double deltaT, ProjectileSQL projectileSQL, double[][] matriceCollision) {
         if (!actif) {
-            return;
+            return; //si le projectile n'est pas actif, la méthode ne renvoit rien
         }
 
         if (projectileSQL == null || this.proprietaire == null || this.direction == null || this.position == null) {
             this.actif = false;
-            return;
+            return; //permet d'éviter les erreurs si l'un des attributs n'est pas pris en compte lors de la création
         }
 
-        temps += deltaT;
+        temps += deltaT; //implémentation du pas de temps
 
         if (temps >= 50) {
+            actif = false;
+            projectileSQL.supprimerProjectile(this);//si le temps de vie est dépassé, le projectile est supprimé
+            return; 
+        }
+
+        Coordonnee deplacement = direction.mult(vitesse * deltaT);//calcul de la nouvelle position
+        Coordonnee ProchainePosition = position.add(deplacement); //acutalisation locale de la position
+        
+        if (matriceCollision != null && hitboxTouchee(ProchainePosition, matriceCollision)) {
             actif = false;
             projectileSQL.supprimerProjectile(this);
             return;
         }
 
-        Coordonnee deplacement = direction.mult(vitesse * deltaT);
-        position = position.add(deplacement);
+        position = ProchainePosition; //actualisation locale de la position
 
-        projectileSQL.modifierProjectile(this, this.getProprietaire().getNom());
+        projectileSQL.modifierProjectile(this, this.getProprietaire().getNom()); //actualisation de la position dans la BDD
+    }
+    
+    private boolean hitboxTouchee(Coordonnee point, double[][] matriceCollision) {
+        if (point == null || matriceCollision == null || matriceCollision.length == 0) {
+            return false;
+        }
+
+        int largeurProjectile;
+        int hauteurProjectile;
+
+        if (this.sprite != null) {
+            largeurProjectile = this.sprite.getWidth();
+            hauteurProjectile = this.sprite.getHeight();
+        } else {
+            largeurProjectile = (int) (this.rayon * 2);
+            hauteurProjectile = (int) (this.rayon * 2);
+        }
+
+        int xmin = (int) point.getx();
+        int ymin = (int) point.gety();
+        int xmax = xmin + largeurProjectile;
+        int ymax = ymin + hauteurProjectile;
+
+        for (int i = ymin; i <= ymax + 1; i++) {
+            for (int j = xmin; j <= xmax; j++) {
+                if (i >= 0 && i < matriceCollision[0].length && j >= 0 && j < matriceCollision.length) {
+                    if (matriceCollision[j][i] == 1) {
+                        return true;
+                    }
+                }
+            }
+        }
+
+        return false;
     }
 
     public boolean joueurTouche(Joueur JoueurATester){ //Joueur touche si le centre du projectile est dans la hitbox de l'insecte (taille du sprite)
@@ -184,7 +230,7 @@ public class Projectile {
     }
 
     public boolean detecteCollisionCercle(Coordonnee centre, double rayon) {
-        Coordonnee positionSuivante = position.add(direction.mult(vitesse)); // pour l'instant, le deltaT de déplacement vaut 1
+        Coordonnee positionSuivante = position.add(direction.mult(vitesse)); 
         return Coordonnee.segmentIntercepteCercle(position, positionSuivante, centre, rayon + this.rayon);
     }
 

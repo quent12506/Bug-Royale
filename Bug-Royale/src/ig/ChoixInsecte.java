@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package ig;
+import espece.Espece;
 
 /**
  *
@@ -138,33 +139,13 @@ public class ChoixInsecte extends javax.swing.JFrame {
         jComboBox1.setSelectedItem(insecte);
     }
 
-if (insecte.equals("Fourmi")) {
-    jTextArea1.setText("FOURMI\n\n"
-            + "Vie : 120\n"
-            + "Vitesse : 5m/s\n"
-            + "Attaque : 40\n");
-}
+    Espece espece = Espece.depuisNom(insecte);
 
-if (insecte.equals("Scarabée")) {
-    jTextArea1.setText("SCARABEE\n\n"
-            + "Vie : 200\n"
-            + "Vitesse : 3m/s\n"
-            + "Attaque : 20\n");
-}
-
-if (insecte.equals("Abeille")) {
-    jTextArea1.setText("ABEILLE\n\n"
-            + "Vie : 60\n"
-            + "Vitesse : 8m/s\n"
-            + "Attaque : 30\n");
-}
-
-if (insecte.equals("Coccinelle")) {
-    jTextArea1.setText("COCCINELLE\n\n"
-            + "Vie : 90\n"
-            + "Vitesse : 6.5 m/s\n"
-            + "Attaque : 20\n");
-}    
+        jTextArea1.setText(insecte.toUpperCase() + "\n\n"
+                + "Vie : " + espece.getHPParDefaut() + "\n"
+                + "Vitesse : " + espece.getVitesseDeplacement() + "m/s\n"
+                + "Attaque : " + espece.getDegatsProjectile() + "\n");
+    
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed

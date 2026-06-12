@@ -171,7 +171,7 @@ public class Jeu {
             }
         }
     }
-
+   
     public void testCollisionsJoueurs() {
         ArrayList<String> listeNom = this.lienSQL.listeNom();
 

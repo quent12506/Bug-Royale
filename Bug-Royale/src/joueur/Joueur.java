@@ -31,6 +31,9 @@ public class Joueur {
     private Coordonnee vitesseActuelle = new Coordonnee(0, 0);
     private int HPMax;
     private double[][] matriceCollision;
+    private long prochainUsageCapacite = 0;
+    private long finCapacite = 0;
+    private double multiplicateurVitesse = 1.0; 
 
     public Joueur(String nom, Espece espece, double x, double y, int HP, double[][] mur) { //Création manuelle d'un joueur, tout les attributs de la BDD à rentrer
         
@@ -250,6 +253,8 @@ public class Joueur {
     public void miseAJour(ProjectileSQL projectileSQL) {
         
         boolean murTouche;
+        
+        mettreAJourCapacite();
 
         Coordonnee deplacement = new Coordonnee(
                 (toucheE ? 1 : 0) - (toucheO ? 1 : 0),
@@ -264,7 +269,7 @@ public class Joueur {
             this.vitesseActuelle = this.vitesseActuelle.mult(ralentissement);
         } else if (deplacement.norm() > 0) {
             Coordonnee directionVoulue = deplacement.normalize();
-            Coordonnee vitesseVoulue = directionVoulue.mult(this.vitesse * facteurVitesse);
+            Coordonnee vitesseVoulue = directionVoulue.mult(this.vitesse * multiplicateurVitesse * facteurVitesse);
 
             this.vitesseActuelle = this.vitesseActuelle.mult(1.0 - acceleration)
                     .add(vitesseVoulue.mult(acceleration));
@@ -278,15 +283,20 @@ public class Joueur {
             //murTouche = this.position.segmentIntercepteMur(this.matriceCollision,this.position,this.position.add(this.vitesseActuelle));
             if (!hitboxTouchee(this.position.add(this.vitesseActuelle))){
                 this.position = this.position.add(this.vitesseActuelle);
+            }else{
+                repousserDepuisMur();
             }
             
-        } else {
+            } else {
             this.vitesseActuelle = new Coordonnee(0, 0);
-        }
+            }
 
-        if (this.projectileTire != null) {
-            this.projectileTire.MAJ(1, projectileSQL);
-        }
+            if (this.projectileTire != null) {
+            this.projectileTire.MAJ(1, projectileSQL,this.matriceCollision);
+                if (!this.projectileTire.isActif()){
+                    this.projectileTire = null;
+                }
+            }
         
 //        if (this.tirJoueur){
 //            Coordonnee cible = new Coordonnee();
@@ -295,9 +305,9 @@ public class Joueur {
 //        }
     }
     
-    public void joueurMort(JoueurSQL lienSQL){
-        lienSQL.supprimerJoueur(this);
-    }
+        public void joueurMort(JoueurSQL lienSQL){
+            lienSQL.supprimerJoueur(this);
+        }
 
 //    public void rendu(Graphics2D contexte) { //affichage d'un joueur
 //        if (this.espece != null){
@@ -407,6 +417,50 @@ public class Joueur {
             }
         }
         return touche;
+    }
+    
+    private void repousserDepuisMur() {
+        if (this.vitesseActuelle == null || this.vitesseActuelle.norm() == 0) {
+            return;
+        }
+
+        double forceRepulsion = 2.0;
+
+        Coordonnee directionRepulsion = this.vitesseActuelle.normalize().mult(-forceRepulsion);
+        Coordonnee nouvellePosition = this.position.add(directionRepulsion);
+
+        if (!hitboxTouchee(nouvellePosition)) {
+            this.position = nouvellePosition;
+        }
+
+        this.vitesseActuelle = this.vitesseActuelle.mult(-0.25);
+    }
+    
+    public void activerCapacite() {
+        if (this.espece == null) {
+            return;
+        }
+
+        long maintenant = System.currentTimeMillis();
+
+        if (maintenant < prochainUsageCapacite) {
+            return;
+        }
+
+        String nomEspece = this.espece.getStringEspece().toLowerCase();
+
+        if (nomEspece.equals("scarabee")) {
+            multiplicateurVitesse = 20.0;
+            finCapacite = maintenant + 500;
+        }
+
+        prochainUsageCapacite = maintenant + 5000;
+    }
+
+    private void mettreAJourCapacite() {
+        if (System.currentTimeMillis() >= finCapacite) {
+            multiplicateurVitesse = 1.0;
+        }
     }
 
 }

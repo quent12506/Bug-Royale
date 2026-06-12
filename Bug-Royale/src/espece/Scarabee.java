@@ -18,7 +18,7 @@ import joueur.Joueur;
 public class Scarabee extends Espece{
 
     public Scarabee() {
-        super("scarabee", 3, 200, null, 50, 20, null);
+        super("scarabee", 7.5, 200, null, 30, 20, null);
         try {
             this.sprite = ImageIO.read(getClass().getResource("/resources/scarabee.png"));
             this.spriteProjectile = ImageIO.read(getClass().getResource("/resources/scarabee_proj.png"));

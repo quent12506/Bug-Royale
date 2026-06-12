@@ -45,7 +45,7 @@ public class FenetreDeJeu extends JFrame implements ActionListener {
     private EcouteurSouris ecouteurSouris;
     private boolean fermetureEnCours = false;
     private long tempsDebutPartie;
-    private static final long DELAI_AVANT_VICTOIRE_MS = 5000;
+    private static final long DELAI_AVANT_VICTOIRE_MS = 500000000;
 
 
 //    public FenetreDeJeu(String pseudo, String insecte) {//mini constructeur pour éviter les erreurs d'oubli
@@ -138,7 +138,7 @@ public FenetreDeJeu(String pseudo, String insecte) {
 
             this.jeu.getJoueurLocal().joueurMort(this.jeu.getLienSQL());
 
-            FinPartie fin = new FinPartie("VOUS AVEZ ELIMINE");
+            FinPartie fin = new FinPartie("VOUS ETES ELIMINE");
             fin.setVisible(true);
 
             this.dispose();
@@ -157,20 +157,29 @@ public static void main(String[] args) {
         this.jeu.getJoueurLocal().setToucheOuest(this.ecouteurClavier.isOuest());
         this.jeu.getJoueurLocal().setToucheNord(this.ecouteurClavier.isNord());
         this.jeu.getJoueurLocal().setToucheSud(this.ecouteurClavier.isSud());
+        
+        if (this.ecouteurClavier.isCapacite()) {
+            this.jeu.getJoueurLocal().activerCapacite();
+            this.ecouteurClavier.setCapacite(false);
+        }
 
         if (this.ecouteurSouris.isClick()){
-            Coordonnee positionJoueur = this.jeu.getJoueurLocal().getPosition();
-            Coordonnee depart = new Coordonnee(positionJoueur.getx(), positionJoueur.gety());
-            Coordonnee cible = new Coordonnee(this.ecouteurSouris.getX(), this.ecouteurSouris.getY());
+            Projectile projectileActuel = this.jeu.getJoueurLocal().getProjectileTire();
 
-            Projectile projectile = new Projectile(this.jeu.getJoueurLocal(), depart, cible, 5);
-            this.jeu.getJoueurLocal().setProjectileTire(projectile);
+            if (projectileActuel == null || !projectileActuel.isActif()) {
+                Coordonnee positionJoueur = this.jeu.getJoueurLocal().getPosition();
+                Coordonnee depart = new Coordonnee(positionJoueur.getx(), positionJoueur.gety());
+                Coordonnee cible = new Coordonnee(this.ecouteurSouris.getX(), this.ecouteurSouris.getY());
+
+                Projectile projectile = new Projectile(this.jeu.getJoueurLocal(), depart, cible, 5);
+                this.jeu.getJoueurLocal().setProjectileTire(projectile);
+                this.jeu.getProjectileSQL().creerProjectile(projectile);
+            }
+
             this.ecouteurSouris.setClick(false);
-            this.jeu.getProjectileSQL().creerProjectile(projectile);
         }
         
     }
-
     private void quitterPartie() {
         if (fermetureEnCours) {
             return;
