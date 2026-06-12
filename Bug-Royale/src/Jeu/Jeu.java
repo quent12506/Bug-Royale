@@ -132,8 +132,16 @@ public class Jeu {
         ArrayList<String> listeNom = this.lienSQL.listeNom(); //affichage de l'ensemble des joueurs présent en multi
         for (int i=0;i<listeNom.size();i++){
             Joueur joueurARendre = this.lienSQL.voirJoueurNom(listeNom.get(i));
-            joueurARendre.rendu(contexte);
 
+            if (joueurARendre == null) {
+                continue;
+            }
+
+            if (this.joueurLocal != null && this.joueurLocal.getNom().equals(joueurARendre.getNom())) {
+                this.joueurLocal.rendu(contexte);
+            } else {
+                joueurARendre.rendu(contexte);
+            }
         }
         ArrayList<Projectile> listeProjectile = this.projectileSQL.voirEnsembleProjectiles(); //affichage de l'ensemble des projectiles présent dans la BDD
         for (int i=0;i<listeProjectile.size();i++){
@@ -160,8 +168,9 @@ public class Jeu {
             }
 
             if (projectile.joueurTouche(joueurATester)) {
-                joueurATester.setHP(joueurATester.getHP()-projectile.getProprietaire().getEspece().getDegatsProjectile());
+                joueurATester.setHP(joueurATester.getHP()-projectile.getProprietaire().getEspece().getDegatsProjectile()*projectile.getProprietaire().getMultiplicateurDegats());
                 this.lienSQL.modifierJoueur(joueurATester);
+                projectile.getProprietaire().consommerBonusDegats();
 
                 projectile.setActif(false);
                 this.projectileSQL.supprimerProjectile(projectile);

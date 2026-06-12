@@ -34,6 +34,9 @@ public class Joueur {
     private long prochainUsageCapacite = 0;
     private long finCapacite = 0;
     private double multiplicateurVitesse = 1.0; 
+    private boolean CollisionsActives = true;
+    private double multiplicateurDegats = 1.0;
+    private boolean touche=false;
 
     public Joueur(String nom, Espece espece, double x, double y, int HP, double[][] mur) { //Création manuelle d'un joueur, tout les attributs de la BDD à rentrer
         
@@ -399,10 +402,30 @@ public class Joueur {
 
         contexte.setColor(Color.BLACK);
         contexte.drawRect(barreX, barreY, largeurBarre, hauteurBarre);
+        
+        int tailleIndicateur = 10;
+        int espace = 5;
+        int indicateurX = barreX + largeurBarre + espace;
+        int indicateurY = barreY - 2;
+
+        if (capacitePrete()) {
+            contexte.setColor(Color.GREEN);
+        } else {
+            contexte.setColor(Color.GRAY);
+        }
+
+        contexte.fillOval(indicateurX, indicateurY, tailleIndicateur, tailleIndicateur);
+
+        contexte.setColor(Color.BLACK);
+        contexte.drawOval(indicateurX, indicateurY, tailleIndicateur, tailleIndicateur);
     }
     
     public boolean hitboxTouchee(Coordonnee point){
-        boolean touche=false;
+        if (!CollisionsActives){
+            return false;
+        }
+        
+        touche=false;
         int xmin=(int) point.getx();
         int ymin=(int) point.gety();
         int xmax=xmin+this.espece.getSprite().getWidth();
@@ -450,17 +473,49 @@ public class Joueur {
         String nomEspece = this.espece.getStringEspece().toLowerCase();
 
         if (nomEspece.equals("scarabee")) {
-            multiplicateurVitesse = 20.0;
-            finCapacite = maintenant + 500;
+            this.multiplicateurVitesse = 20.0;
+            this.finCapacite = maintenant + 50;
+            this.prochainUsageCapacite = maintenant + 5000;
         }
-
-        prochainUsageCapacite = maintenant + 5000;
+        if (nomEspece.equals("abeille")) {
+            this.CollisionsActives = false;
+            this.finCapacite = maintenant + 500;
+            this.prochainUsageCapacite = maintenant + 5000;
+        }
+        if (nomEspece.equals("fourmi")) {
+            this.multiplicateurDegats = 2.0;
+            this.prochainUsageCapacite = maintenant + 10000;
+        }
+        if (nomEspece.equals("coccinelle")) {
+            this.HP = Math.min(this.HPMax, this.HP + 20);
+            this.prochainUsageCapacite = maintenant + 20000;
+        }
     }
 
     private void mettreAJourCapacite() {
         if (System.currentTimeMillis() >= finCapacite) {
-            multiplicateurVitesse = 1.0;
+            if (hitboxTouchee(this.position)) {
+                this.CollisionsActives = false;
+                this.reculerDepuis(this, vitesse);
+                this.finCapacite = System.currentTimeMillis() + 10;
+                return;
+            }
+
+            this.multiplicateurVitesse = 1.0;
+            this.multiplicateurDegats = 1.0;
+            this.CollisionsActives = true;
         }
     }
+    
+    public boolean capacitePrete() {
+        return System.currentTimeMillis() >= this.prochainUsageCapacite;
+    }
+    
+    public int getMultiplicateurDegats() {
+        return (int)multiplicateurDegats;
+    }
 
+    public void consommerBonusDegats() {
+        this.multiplicateurDegats = 1;
+    }
 }

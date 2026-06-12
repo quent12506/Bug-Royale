@@ -45,7 +45,7 @@ public class FenetreDeJeu extends JFrame implements ActionListener {
     private EcouteurSouris ecouteurSouris;
     private boolean fermetureEnCours = false;
     private long tempsDebutPartie;
-    private static final long DELAI_AVANT_VICTOIRE_MS = 500000000;
+    private static final long DELAI_AVANT_VICTOIRE_MS = 5000;
 
 
 //    public FenetreDeJeu(String pseudo, String insecte) {//mini constructeur pour éviter les erreurs d'oubli
@@ -147,7 +147,7 @@ public FenetreDeJeu(String pseudo, String insecte) {
 public static void main(String[] args) {
     java.awt.EventQueue.invokeLater(() -> {
         FenetreDeJeu fenetre =
-                new FenetreDeJeu("Test2", "Scarabee");
+                new FenetreDeJeu("Test2", "Coccinelle");
 
         fenetre.setVisible(true);
     });
